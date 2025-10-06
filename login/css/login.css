@@ -1,0 +1,163 @@
+@font-face {
+    font-family: 'FontTitle';
+    src: url(../KitComposiçãoLogin/FontesUtilizadas/FonteTitulo/Quache-HeavyExExp_PERSONAL.ttf) format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'FontText';
+    src: url('../KitComposiçãoLogin/FontesUtilizadas/FonteTextoNormal/zh-cn.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html, body {
+    overflow: hidden;
+    height: 100%;
+    margin: 0;
+    font-family: 'FontText';
+    color: #65574e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+.left {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    gap: 5px;
+}
+
+.right {
+    position: fixed;
+    top: 20px;
+    right: 25px;
+    display: flex;
+    gap: 5px;
+}
+
+.left img,
+.right img {
+    width: 55px;
+    height: 55px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.left img:hover,
+.right img:hover {
+    transform: scale(1.1);
+}
+
+.container {
+    position: relative;
+    width: 840px;
+    height: 630px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.img-livro {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.titulo {
+    font-family: 'FontTitle';
+    font-size: 2.5rem;
+    background: radial-gradient(35.93% 154.2% at 50.14% 186.81%, #C9C0A9 0%, #65574E 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: absolute;
+    top: 2rem;
+}
+
+.formulario {
+    position: absolute;
+    top: 11.5rem;
+    left: 5.5rem;
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    z-index: 2;
+}
+
+label {
+    font-size: x-large;
+}
+
+input {
+    width: 95%;
+    border: none;
+    background-color: transparent;
+    padding: 2%;
+    padding-left: 5%;
+}
+
+input:focus {
+    border: none;
+    outline: none;
+}
+
+.caixaTexto {
+    width: 100%;
+    padding: 2.2%;
+    border-radius: 5px;
+    background-image: url(../KitComposiçãoLogin/svg/CampodeTexto.svg);
+    font-family: 'FontText';
+}
+
+.caixa-btn {
+    position: absolute;
+    top: 14rem;
+    left: 2.5rem;
+    width: 215px;
+    height: 52px;
+    background-image: url(../KitComposiçãoLogin/png/Botões/ConfirmButton.png);
+    background-size: cover;
+}
+
+.caixa-btn button {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    color: beige;
+    font-size: larger;
+    font-family: 'FontText';
+}
+
+.links {
+    position: absolute;
+    width: 15rem;
+    top: 11rem;
+    left: 30rem;
+}
+
+.text-cadastro {
+    font-size: 2rem;
+}
+
+.link-cadastro {
+    font-size: 2rem;
+    color: #CF5D33;
+}

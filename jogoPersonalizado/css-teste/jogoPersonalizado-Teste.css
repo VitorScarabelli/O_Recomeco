@@ -1,0 +1,80 @@
+body{
+    background-color: #E1B55B;
+}
+.titulo{
+    color: #FFF2D6;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-align: center;
+    margin-top: 10vh;
+}
+.Container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.formuEvento{
+    display: flex;
+    min-width: 40vh;
+    color: #C19334;
+    font-family:'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    padding: 2vh;
+    text-align: center;
+    align-items: center;
+    background-color:#FFD98B;
+    flex-direction: column;  
+    box-shadow: 0 0 2vh rgba(0, 0, 0, 0.327);
+}
+.texto{
+    margin: 0.5vh;
+    font-size: 2.5vh;
+}
+.inputTxt{
+    margin: 0.2vh;
+    border: none;
+    border-radius: 1vh;
+    min-width: 30vh;
+    min-height: 4vh;
+    background-color:   #fcebc8;
+    color: #C19334  ;
+    font-size: 2vh;
+    transition: all 0.5s;
+    padding: 1vh;
+}
+.inputTxt:hover{
+    background-color: #ffffff;
+}
+.botaoLogin{
+    margin: 2vh;
+    min-width: 25vh;
+    min-height: 5vh;
+    background-color: transparent;
+    border: solid 0.4vh #C19334;
+    color: #C19334;
+    font-size: 2.5vh;  
+    border-radius: 1vh;
+    box-shadow: 0 0.5vh 1vh rgba(0, 0, 0, 0.081);
+    transition: all 0.5s;
+}
+.botaoLogin:hover{
+    background-color: #C19334;
+    border: none;
+    color: #FFF2D6;
+
+}
+.linkCad{
+    text-decoration: none;
+    color: #926a19;
+    transition: all 0.2s;
+}
+.linkCad:hover{
+    color: #ffffff;
+}
+.rad{
+    display: flex;
+    flex-direction: row;
+}
+.linha{
+    background-color: #C19334;
+    width: 90%;
+    height: 0.1vh;
+}
