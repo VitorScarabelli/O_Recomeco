@@ -545,6 +545,11 @@
         
         const jsonData = JSON.stringify(personagensData);
         document.getElementById("hidden-personagens").value = jsonData;
+        
+        // Log para debug
+        console.log("Personagens selecionados:", personagensData);
+        console.log("JSON enviado:", jsonData);
+        console.log("Quantidade de personagens:", selecionados.length);
       }
     });
   </script>

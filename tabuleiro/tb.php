@@ -3,20 +3,37 @@
 
     // --- Jogadores escolhidos ---
     $personagensSelecionados = isset($_POST['personagens']) ? json_decode($_POST['personagens'], true) : [];
+    
+    // Log para debug
+    error_log("Personagens recebidos via POST: " . print_r($personagensSelecionados, true));
 
-    // 🔹 TESTE: Sempre usar personagens de fallback (ignorar banco)
-    $personagensCompletos = [
-        [
-            'idPersonagem' => 6,
-            'nome' => 'Umbandista',
-            'emoji' => '👳🏽‍♂️'
-        ],
-        [
-            'idPersonagem' => 3,
-            'nome' => 'Mulher Negra', 
-            'emoji' => '👩🏽‍🦱'
-        ]
-    ];
+    // Verifica se há personagens selecionados, senão usa fallback
+    if (!empty($personagensSelecionados) && is_array($personagensSelecionados)) {
+        $personagensCompletos = array_map(function($p) {
+            return [
+                'idPersonagem' => intval($p['idPersonagem']),
+                'nome' => $p['nomePersonagem'],
+                'emoji' => $p['emoji']
+            ];
+        }, $personagensSelecionados);
+        
+        error_log("Personagens processados: " . print_r($personagensCompletos, true));
+    } else {
+        // Fallback apenas se não houver seleção
+        error_log("Usando personagens de fallback");
+        $personagensCompletos = [
+            [
+                'idPersonagem' => 6,
+                'nome' => 'Umbandista',
+                'emoji' => '👳🏽‍♂️'
+            ],
+            [
+                'idPersonagem' => 3,
+                'nome' => 'Mulher Negra', 
+                'emoji' => '👩🏽‍🦱'
+            ]
+        ];
+    }
 
 
     // --- Modos de eventos ---
@@ -153,6 +170,10 @@
 
             const eventos = <?php echo json_encode($eventos); ?>;
             const personagensSelecionados = <?php echo json_encode($personagensCompletos); ?>;
+            
+            // Log para debug no console
+            console.log("Personagens recebidos no JavaScript:", personagensSelecionados);
+            console.log("Quantidade de personagens:", personagensSelecionados.length);
 
             // Define os jogadores (máximo 4)
             const jogadores = personagensSelecionados.slice(0, 4).map((p, index) => ({
