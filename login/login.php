@@ -44,12 +44,11 @@
         </form>
 
         <div class="links">
-            <p class="text-cadastro">Não possui uma conta ainda?</p>
-            <a href="../cadastro/index/index.php" class="link-cadastro">Criar uma</a>
+            <!-- <p class="text-cadastro">Não possui uma conta ainda?</p>
+             <a href="../cadastro/index/index.php" class="link-cadastro">Criar uma</a> -->
 
-            <p class="text-cadastro" style="font-size: 25px;">
-                Quer deslogar?
-                <a href="./logoff.php" class="link-cadastro" style="font-size: 25px;">Deslogar</a>
+            <p class="text-cadastro" style="font-size: 25px; text-transform: uppercase;">
+                Você necessita se logar pra ter acesso ao painel administrativo
             </p>
         </div>
     </div>

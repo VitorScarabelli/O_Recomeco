@@ -1,103 +1,197 @@
     <?php
     include('../banco/conexao.php');
+    session_start();
 
-    // --- Jogadores escolhidos ---
-    $personagensSelecionados = isset($_POST['personagens']) ? json_decode($_POST['personagens'], true) : [];
-    
-    // Log para debug
-    error_log("Personagens recebidos via POST: " . print_r($personagensSelecionados, true));
+    // Verificar se há configuração salva na sessão
+    if (isset($_SESSION['configuracao_partida'])) {
+        $configuracao = $_SESSION['configuracao_partida'];
+        $personagensSelecionados = $configuracao['personagens'];
+        $eventosCasas = $configuracao['eventosCasas'];
+        
+        // Usar configuração salva
+        $personagensCompletos = array_map(function ($p) {
+            $imagensPersonagens = [
+                1 => 'idosoicone.jpg',
+                2 => 'cegoicone.jpg',
+                3 => 'negraicone.png',
+                4 => 'retiranteicone.png',
+                5 => 'transicone.png',
+                6 => 'umbandaicone.png'
+            ];
 
-    // Verifica se há personagens selecionados, senão usa fallback
-    if (!empty($personagensSelecionados) && is_array($personagensSelecionados)) {
-        $personagensCompletos = array_map(function($p) {
             return [
-                'idPersonagem' => intval($p['idPersonagem']),
-                'nome' => $p['nomePersonagem'],
-                'emoji' => $p['emoji']
+                'idPersonagem' => intval($p['idPersonagem'] ?? $p['id'] ?? 0),
+                'nome' => $p['nomePersonagem'] ?? $p['nome'] ?? 'Personagem',
+                'emoji' => $p['emoji'] ?? '👤',
+                'imagem' => $imagensPersonagens[intval($p['idPersonagem'] ?? $p['id'] ?? 0)] ?? 'miniidoso.png'
             ];
         }, $personagensSelecionados);
         
-        error_log("Personagens processados: " . print_r($personagensCompletos, true));
+        error_log("Usando configuração salva: " . print_r($personagensCompletos, true));
     } else {
-        // Fallback apenas se não houver seleção
-        error_log("Usando personagens de fallback");
-        $personagensCompletos = [
-            [
-                'idPersonagem' => 6,
-                'nome' => 'Umbandista',
-                'emoji' => '👳🏽‍♂️'
-            ],
-            [
-                'idPersonagem' => 3,
-                'nome' => 'Mulher Negra', 
-                'emoji' => '👩🏽‍🦱'
-            ]
-        ];
-    }
+        // Fallback para método antigo
+        $personagensSelecionados = isset($_POST['personagens']) ? json_decode($_POST['personagens'], true) : [];
+        $eventosCasas = null;
 
+        // Log para debug
+        error_log("Personagens recebidos via POST: " . print_r($personagensSelecionados, true));
 
-    // --- Modos de eventos ---
-    $modoAleatorio = isset($_POST['modoAleatorio']);
-    $filtros = $_POST['filtros'] ?? [];
-    $eventosSelecionados = $_POST['eventos'] ?? [];
-    $eventos = [];
+        // Verifica se há personagens selecionados, senão usa fallback
+        if (!empty($personagensSelecionados) && is_array($personagensSelecionados)) {
+            $personagensCompletos = array_map(function ($p) {
+                // Mapeia ID do personagem para imagem
+                $imagensPersonagens = [
+                    1 => 'idosoicone.jpg',      // Idoso
+                    2 => 'cegoicone.jpg',       // Cego
+                    3 => 'negraicone.png',      // Mulher Negra
+                    4 => 'retiranteicone.png',  // Retirante
+                    5 => 'transicone.png',      // Mulher Trans
+                    6 => 'umbandaicone.png'     // Umbandista
+                ];
 
-    // --- Casas válidas no tabuleiro (1 até 47) ---
-    $casasDisponiveis = range(1, 46);
-    shuffle($casasDisponiveis);
+                return [
+                    'idPersonagem' => intval($p['idPersonagem']),
+                    'nome' => $p['nomePersonagem'],
+                    'emoji' => $p['emoji'],
+                    'imagem' => $imagensPersonagens[intval($p['idPersonagem'])] ?? 'miniidoso.png'
+                ];
+            }, $personagensSelecionados);
 
-    // Função para pegar a próxima casa válida
-    function pegarCasaDisponivel(&$casas)
-    {
-        while (!empty($casas)) {
-            $casa = array_shift($casas);
-            if ($casa < 48) return $casa;
+            error_log("Personagens processados: " . print_r($personagensCompletos, true));
+        } else {
+            // Fallback apenas se não houver seleção
+            error_log("Usando personagens de fallback");
+            $personagensCompletos = [
+                [
+                    'idPersonagem' => 6,
+                    'nome' => 'Umbandista',
+                    'emoji' => '👳🏽‍♂️',
+                    'imagem' => 'miniumbanda.png'
+                ],
+                [
+                    'idPersonagem' => 3,
+                    'nome' => 'Mulher Negra',
+                    'emoji' => '👩🏽‍🦱',
+                    'imagem' => 'mininegra.png'
+                ]
+            ];
         }
-        return null; // se não houver casa válida
     }
 
 
-    // --- Eventos Aleatórios ---
-    if ($modoAleatorio) {
-        if (!empty($filtros)) {
-            foreach ($filtros as $filtro) {
-                $stmt = $pdo->prepare("SELECT * FROM tbevento WHERE dificuldadeEvento = ?");
-                $stmt->execute([$filtro]);
-                $eventosFiltrados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                foreach ($eventosFiltrados as $row) {
-                    $casa = pegarCasaDisponivel($casasDisponiveis);
-                    if ($casa === null) break;
+    // --- Eventos ---
+    $eventos = [];
+    
+    if ($eventosCasas) {
+        // Usar eventos com casas pré-atribuídas da configuração salva
+        foreach ($eventosCasas as $eventoCasa) {
+            if ($eventoCasa['tipo'] === 'geral') {
+                // Buscar evento geral
+                $stmt = $pdo->prepare("SELECT * FROM tbevento WHERE idEvento = ?");
+                $stmt->execute([$eventoCasa['id']]);
+                $evento = $stmt->fetch(PDO::FETCH_ASSOC);
+                
+                if ($evento) {
                     $eventos[] = [
-                        'nome' => $row['nomeEvento'],
-                        'descricao' => $row['descricaoEvento'],
-                        'casas' => intval($row['casaEvento']),
-                        'casa' => $casa
+                        'nome' => $evento['nomeEvento'],
+                        'descricao' => $evento['descricaoEvento'],
+                        'casas' => intval($evento['casaEvento']),
+                        'casa' => $eventoCasa['casa']
                     ];
+                }
+            } else if ($eventoCasa['tipo'] === 'personagem') {
+                // Buscar evento do personagem
+                $stmt = $pdo->prepare("SELECT * FROM tbeventopersonagem WHERE idEvento = ?");
+                $stmt->execute([$eventoCasa['id']]);
+                $evento = $stmt->fetch(PDO::FETCH_ASSOC);
+                
+                if ($evento) {
+                    // Encontrar o personagem correspondente
+                    $personagem = null;
+                    foreach ($personagensCompletos as $p) {
+                        if ($p['idPersonagem'] == $eventoCasa['personagem']) {
+                            $personagem = $p;
+                            break;
+                        }
+                    }
+                    
+                    if ($personagem) {
+                        $eventos[] = [
+                            'nome' => $evento['nomeEvento'],
+                            'descricao' => $evento['descricaoEvento'],
+                            'casas' => intval($evento['casas']),
+                            'casa' => $eventoCasa['casa'],
+                            'idDono' => $personagem['idPersonagem'],
+                            'emojiDono' => $personagem['emoji'],
+                            'imagemDono' => $personagem['imagem']
+                        ];
+                    }
                 }
             }
         }
-    }
+    } else {
+        // Método antigo (fallback)
+        $modoAleatorio = isset($_POST['modoAleatorio']);
+        $filtros = $_POST['filtros'] ?? [];
+        $eventosSelecionados = $_POST['eventos'] ?? [];
+        
+        // --- Casas válidas no tabuleiro (1 até 47) ---
+        $casasDisponiveis = range(1, 46);
+        shuffle($casasDisponiveis);
 
+        // Função para pegar a próxima casa válida
+        function pegarCasaDisponivel(&$casas)
+        {
+            while (!empty($casas)) {
+                $casa = array_shift($casas);
+                if ($casa < 48) return $casa;
+            }
+            return null; // se não houver casa válida
+        }
 
-    // --- Eventos extras dos personagens ---
-    foreach ($personagensCompletos as $p) {
-        if (!empty($p['idPersonagem'])) {
-            $stmt = $pdo->prepare("SELECT * FROM tbEventoPersonagem WHERE idPersonagem = ?");
-            $stmt->execute([$p['idPersonagem']]);
-            $eventosPersonagem = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        // --- Eventos Aleatórios ---
+        if ($modoAleatorio) {
+            if (!empty($filtros)) {
+                foreach ($filtros as $filtro) {
+                    $stmt = $pdo->prepare("SELECT * FROM tbevento WHERE dificuldadeEvento = ?");
+                    $stmt->execute([$filtro]);
+                    $eventosFiltrados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            foreach ($eventosPersonagem as $ev) {
-                $casa = pegarCasaDisponivel($casasDisponiveis);
-                if ($casa === null) break;
+                    foreach ($eventosFiltrados as $row) {
+                        $casa = pegarCasaDisponivel($casasDisponiveis);
+                        if ($casa === null) break;
+                        $eventos[] = [
+                            'nome' => $row['nomeEvento'],
+                            'descricao' => $row['descricaoEvento'],
+                            'casas' => intval($row['casaEvento']),
+                            'casa' => $casa
+                        ];
+                    }
+                }
+            }
+        }
 
-                $eventos[] = [
-                    'nome' => $ev['nomeEvento'],
-                    'descricao' => $ev['descricaoEvento'],
-                    'casas' => intval($ev['casas']),
-                    'casa' => $casa,
-                    'idDono' => $p['idPersonagem']
-                ];
+        // --- Eventos extras dos personagens ---
+        foreach ($personagensCompletos as $p) {
+            if (!empty($p['idPersonagem'])) {
+                $stmt = $pdo->prepare("SELECT * FROM tbeventopersonagem WHERE idPersonagem = ?");
+                $stmt->execute([$p['idPersonagem']]);
+                $eventosPersonagem = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                foreach ($eventosPersonagem as $ev) {
+                    $casa = pegarCasaDisponivel($casasDisponiveis);
+                    if ($casa === null) break;
+
+                    $eventos[] = [
+                        'nome' => $ev['nomeEvento'],
+                        'descricao' => $ev['descricaoEvento'],
+                        'casas' => intval($ev['casas']),
+                        'casa' => $casa,
+                        'idDono' => $p['idPersonagem'],
+                        'emojiDono' => $p['emoji'], // Mantém o emoji para referência
+                        'imagemDono' => $p['imagem'] // Adiciona a imagem do personagem
+                    ];
+                }
             }
         }
     }
@@ -111,6 +205,7 @@
         <title>Jogo do Dado com Eventos</title>
         <link rel="stylesheet" href="style.css">
     </head>
+
     <body>
         <div id="dice-container">
             <div id="dice">
@@ -170,7 +265,7 @@
 
             const eventos = <?php echo json_encode($eventos); ?>;
             const personagensSelecionados = <?php echo json_encode($personagensCompletos); ?>;
-            
+
             // Log para debug no console
             console.log("Personagens recebidos no JavaScript:", personagensSelecionados);
             console.log("Quantidade de personagens:", personagensSelecionados.length);
@@ -221,33 +316,44 @@
             // Desenha bonecos
             function desenharBonecos() {
                 document.querySelectorAll(".casa").forEach(c => {
-                    // Salva o emoji da casa inicial/final se existir
+                    // Salva fundo e emoji
+                    const fundoOriginal = c.style.backgroundImage;
                     const emojiOriginal = c.classList.contains("casa-inicio") ? "🏁" :
                         c.classList.contains("casa-final") ? "🎓" : "";
 
-                    // Remove bonecos antigos
+                    // Remove apenas bonecos antigos
                     c.querySelectorAll(".boneco").forEach(b => b.remove());
-                    // Remove a classe ativo
-                    c.classList.remove("ativo");
 
-                    // Restaura emoji inicial/final
+                    // Restaura classes e fundo
+                    c.classList.remove("ativo");
                     if (emojiOriginal) {
                         c.innerHTML = emojiOriginal;
                     }
+
+                    // 🔹 Mantém o fundo da casa (para eventos com imagem)
+                    if (fundoOriginal) {
+                        c.style.backgroundImage = fundoOriginal;
+                        c.style.backgroundSize = "60%";
+                        c.style.backgroundRepeat = "no-repeat";
+                        c.style.backgroundPosition = "center";
+                        c.style.zindex = "1";
+                    }
                 });
+
+
 
                 // Desenha os bonecos
                 jogadores.forEach((j, index) => {
                     if (j.posicao >= caminho.length) {
                         return;
                     }
-                    
+
                     const idCasa = caminho[j.posicao];
                     const casaAtual = document.getElementById("casa-" + idCasa);
                     if (!casaAtual) {
                         return;
                     }
-                    
+
                     casaAtual.classList.add("ativo");
 
                     const span = document.createElement("span");
@@ -289,7 +395,7 @@
                     await new Promise(resolve => {
                         setTimeout(() => {
                             jogador.posicao += direcao;
-                            
+
                             if (jogador.posicao >= caminho.length - 1) {
                                 jogador.posicao = caminho.length - 1;
                                 jogador.terminou = true;
@@ -308,18 +414,18 @@
 
             // Função do dado
             let rolling = false;
-            
+
             document.getElementById("dice-container").addEventListener("click", async () => {
                 if (rolling) return;
-                
+
                 if (!jogadores || jogadores.length === 0) {
                     return;
                 }
-                
+
                 if (jogadores[turno] === undefined) {
                     return;
                 }
-                
+
                 rolling = true;
                 const dado = Math.floor(Math.random() * 6) + 1;
 
@@ -372,22 +478,37 @@
                 else if (e.casas < 0) casaEl.classList.add("evento-ruim");
                 else casaEl.classList.add("evento");
 
+                // Adiciona imagem do personagem como fundo sutil se for evento específico
+                if (e.imagemDono) {
+                    casaEl.style.backgroundImage = `url('./imageTabuleiro/${e.imagemDono}')`;
+                    casaEl.style.backgroundSize = '60%';
+                    casaEl.style.backgroundRepeat = 'no-repeat';
+                    casaEl.style.backgroundPosition = 'center';
+
+                }
+
                 const tooltip = document.createElement("span");
                 tooltip.classList.add("tooltip");
                 const linha = Math.floor(idCasa / colunas);
                 tooltip.classList.add(linha > linhas / 2 ? "cima" : "baixo");
-                tooltip.innerText = `${e.nome}\n${e.descricao}\nCasas: ${e.casas>0?'+':''}${e.casas}`;
+
+                // Adiciona informação do personagem no tooltip se for evento específico
+                let tooltipText = `${e.nome}\n${e.descricao}\nCasas: ${e.casas>0?'+':''}${e.casas}`;
+                if (e.emojiDono) {
+                    tooltipText += `\n\n👤 Evento específico do personagem: ${e.emojiDono}`;
+                }
+                tooltip.innerText = tooltipText;
                 casaEl.appendChild(tooltip);
             });
 
             // Função principal após rolar o dado
             async function jogarDadoAnimado(dado) {
                 const jogadorAtual = jogadores[turno];
-                
+
                 if (!jogadorAtual) {
                     return;
                 }
-                
+
                 if (jogadorAtual.terminou) {
                     proximoTurno();
                     return;

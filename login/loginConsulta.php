@@ -7,8 +7,8 @@
     $senha = $_REQUEST['senha'];
 
     //variaveis que serão usadas na verificação no banco 
-    $emailBanco = '';
-    $senhaBanco = '';
+    $emailBanco = 'adm@gmail.com';
+    $senhaBanco = '12345';
 
 
 
@@ -29,6 +29,7 @@
     //validação do login
     if($email == $emailBanco && $senha == $senhaBanco){
         $_SESSION['autorizacao'] = true;
+        $_SESSION['autorizacaoAdm'] = true;
         header("Location: ../index/index.php");
     } else {
         $_SESSION['autorizacao'] = false;

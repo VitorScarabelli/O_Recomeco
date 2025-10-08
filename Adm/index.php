@@ -1,0 +1,254 @@
+<?php 
+include('../banco/conexao.php'); 
+include('../includes/verificar_login.php');
+?>
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - O Recomeço</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .admin-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        
+        .admin-title {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .admin-subtitle {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+        }
+        
+        .admin-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .admin-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .admin-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .admin-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .card-description {
+            color: #7f8c8d;
+            text-align: center;
+            line-height: 1.6;
+        }
+        
+        .stats-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .stats-title {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .logout-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(231, 76, 60, 0.9);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(231, 76, 60, 1);
+            color: white;
+            text-decoration: none;
+        }
+
+        .sair-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(231, 76, 60, 1);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <a href="../index/index.php" class="sair-btn">Voltar</a>
+    <br>
+    <a href="./logoff.php" class="logout-btn">Deslogar</a>
+    
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1 class="admin-title">🎮 Painel Administrativo</h1>
+            <p class="admin-subtitle">Gerencie eventos, personagens e configure partidas</p>
+        </div>
+        
+        <div class="admin-cards">
+            <a href="gerenciarEventos.php" class="admin-card">
+                <div class="card-icon">📝</div>
+                <h3 class="card-title">Gerenciar Eventos</h3>
+                <p class="card-description">Visualize, edite e exclua eventos do jogo. Gerencie todos os eventos disponíveis para as partidas.</p>
+            </a>
+            
+            <a href="cadastrarEvento.php" class="admin-card">
+                <div class="card-icon">➕</div>
+                <h3 class="card-title">Cadastrar Evento</h3>
+                <p class="card-description">Crie novos eventos para o jogo. Adicione eventos positivos e negativos com diferentes dificuldades.</p>
+            </a>
+            
+            <a href="configurarPartida.php" class="admin-card">
+                <div class="card-icon">⚙️</div>
+                <h3 class="card-title">Configurar Partida</h3>
+                <p class="card-description">Selecione personagens e eventos para a próxima partida. Configure os parâmetros do jogo.</p>
+            </a>
+            
+            <a href="visualizarPartida.php" class="admin-card">
+                <div class="card-icon">🎯</div>
+                <h3 class="card-title">Iniciar Partida</h3>
+                <p class="card-description">Visualize e inicie a partida configurada. Acesse o tabuleiro do jogo.</p>
+            </a>
+        </div>
+        
+        <div class="stats-section">
+            <h2 class="stats-title">📊 Estatísticas do Sistema</h2>
+            <div class="stats-grid">
+                <?php
+                // Contar eventos por dificuldade
+                $stmt = $pdo->query("SELECT dificuldadeEvento, COUNT(*) as total FROM tbevento GROUP BY dificuldadeEvento");
+                $eventosPorDificuldade = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                
+                // Contar total de eventos
+                $stmt = $pdo->query("SELECT COUNT(*) as total FROM tbevento");
+                $totalEventos = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+                
+                // Contar eventos por tipo
+                $stmt = $pdo->query("SELECT COUNT(*) as total FROM tbevento WHERE casaEvento > 0");
+                $eventosPositivos = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+                
+                $stmt = $pdo->query("SELECT COUNT(*) as total FROM tbevento WHERE casaEvento < 0");
+                $eventosNegativos = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+                ?>
+                
+                <div class="stat-item">
+                    <div class="stat-number"><?php echo $totalEventos; ?></div>
+                    <div class="stat-label">Total de Eventos</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-number"><?php echo $eventosPositivos; ?></div>
+                    <div class="stat-label">Eventos Positivos</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-number"><?php echo $eventosNegativos; ?></div>
+                    <div class="stat-label">Eventos Negativos</div>
+                </div>
+                
+                <div class="stat-item">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Personagens Disponíveis</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

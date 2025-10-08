@@ -34,6 +34,29 @@ body {
   cursor: pointer;
 }
 
+.botao-negrito {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid #5B4E45;
+  border-radius: 10px;
+  padding: 8px 15px;
+  font-family: 'Quache', sans-serif;
+  font-size: 1rem;
+  font-weight: 900;
+  color: #5B4E45;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.botao-negrito:hover {
+  background: #5B4E45;
+  color: white;
+}
+
+/* Modo negrito */
+.bold-mode * {
+  font-weight: bold !important;
+}
+
 /* LOGO */
 .logo {
   position: absolute;

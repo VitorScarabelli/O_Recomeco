@@ -96,6 +96,71 @@
       margin-right: auto;
     }
 
+    .personagem.selecionado {
+      background-color: #4CAF50;
+      /* verde */
+      color: white;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+    }
+
+
+    /* ===== ESTILO DOS RADIO BUTTONS ===== */
+    .bloco-filtros {
+      background-color: rgba(25, 173, 219, 1);
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      color: white;
+      max-width: 600px;
+      margin: 40px auto;
+      text-align: center;
+      font-family: 'Arial', sans-serif;
+      user-select: none;
+
+      transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+    }
+
+    .filtros-titulo {
+      display: none;
+    }
+
+
+    .filtros-eventos {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .filtros-eventos label {
+      font-size: 16px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .filtros-eventos input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: white;
+      border-radius: 4px;
+      border: 2px solid white;
+      background-color: transparent;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .filtros-eventos input[type="checkbox"]:checked {
+      background-color: white;
+      border-color: rgba(25, 173, 219, 1);
+      ;
+    }
+
+
     /* ===== ESTILO DOS BOTÕES ===== */
     button[type="submit"],
     #ver-eventos {
@@ -107,18 +172,35 @@
       cursor: pointer;
       border: none;
       border-radius: 8px;
-      background-color: #056cd2;
+      background-color: rgba(25, 173, 219, 1);
+      ;
       color: white;
       transition: background-color 0.3s, transform 0.2s;
     }
 
-    button[type="submit"]:hover,
-    #ver-eventos:hover {
-      background-color: #0d6efd;
-      transform: scale(1.05);
-    }
 
     button[type="submit"]:active {
+      transform: scale(0.97);
+    }
+
+    a.botao-simples {
+      display: block;
+      width: fit-content;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      border: none;
+      border-radius: 8px;
+      background-color: rgba(25, 173, 219, 1);
+      ;
+      color: white;
+      transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+    }
+
+    a.botao-simples:active {
       transform: scale(0.97);
     }
 
@@ -304,10 +386,250 @@
       /* tira o fundo vermelho */
     }
 
+    /* ==================== SEÇÃO DE JOGADORES ==================== */
+    .players-section {
+      background: linear-gradient(135deg, var(--white), var(--cream));
+      border: 2px solid var(--yellow);
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 40px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .scroll-notice {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 25px;
+      padding: 12px 20px;
+      background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+      color: var(--cream);
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 76, 117, 0.3);
+      font-weight: 600;
+      font-size: 1.2em;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+      user-select: none;
+    }
+
+    .scroll-icon {
+      font-size: 2em;
+      animation: bounce 2s ease-in-out infinite;
+      color: var(--yellow);
+    }
+
+    @keyframes bounce {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-6px);
+      }
+    }
+
+    .players-title {
+      color: white;
+      text-align: center;
+      font-weight: 900;
+      font-size: 1.6rem;
+      margin-top: 50px;
+      /* desce mais o título */
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .counter-labels {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      max-width: 300px;
+      margin: -5px auto 0 auto;
+      /* 🔼 sobe os números */
+    }
+
+    .counter-labels span {
+      color: #1e3a8a;
+      font-weight: bold;
+      font-size: 1.1rem;
+      line-height: 1;
+      /* evita espaçamento vertical extra */
+    }
+
+
+
+    /* Container geral com fundo branco pastel, borda dourada, sombra e espaçamento */
+    .players-section {
+      width: calc(100% - 30px);
+      /* ou outro valor baseado no pai */
+      max-width: 1015px;
+      /* por exemplo, se o anterior era 1000px */
+      padding: 30px;
+      background-color: #fdfdfd;
+      border: 1px solid gold;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      margin: 60px auto 30px auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .players-intro-text {
+      color: #1e3a8a;
+      /* azul forte */
+      font-weight: 500;
+      /* menos grosso */
+      font-size: 1.2rem;
+      /* menor que antes */
+      text-align: center;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Frase principal sem container extra, texto azul */
+    .players-section>.scroll-notice {
+      color: #1e3a8a;
+      /* azul forte */
+      font-weight: 600;
+      /* ⬅️ ficou um pouco mais leve que 900 */
+      font-size: 1.2rem;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+
+    /* Container dos botões e contador */
+    .players-counter {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 15px;
+      margin-top: 20px !important;
+    }
+
+    /* Botões com círculo branco e borda azul */
+    .counter-btn {
+      width: 54px;
+      height: 54px;
+      border: 2px solid #1e3a8a;
+      /* mesma cor azul do texto */
+      background: white;
+      color: #1e3a8a;
+      font-size: 1.8em;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      box-shadow: 0 0 0 6px white;
+      /* círculo branco extra em volta */
+    }
+
+    /* Hover: aumenta, inverte cores, sombra */
+    .counter-btn:hover:not(:disabled) {
+      background: #1e3a8a;
+      color: white;
+      transform: scale(1.15);
+      box-shadow: 0 0 15px #1e3a8a;
+    }
+
+    /* Disabled */
+    .counter-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    /* Número do contador */
+    .counter-display {
+      text-align: center;
+      min-width: 120px;
+      font-size: 2.5rem;
+      font-weight: bold;
+      position: relative;
+      top: 4px;
+      /* desce o número um pouco */
+      color: #1e3a8a;
+    }
+
+    /* Textos menores e labels */
+    .counter-label-text {
+      font-size: 0.8rem;
+      color: #1e3a8a;
+      margin-top: 2px;
+      text-align: center;
+    }
+
+    .scroll-notice {
+      margin-top: 30px;
+      background-color: white;
+      color: #1e3a8a;
+      font-weight: 400;
+      /* menos grosso */
+      font-size: 1.2rem;
+      /* menor que antes */
+      padding: 8px 15px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(30, 58, 138, 0.15);
+      max-width: 1015px;
+      /* igual ao container de cima */
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .selected-container {
+      background-color: #1e3a8a;
+      color: white;
+      padding: 5px 15px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      font-weight: 400;
+      white-space: nowrap;
+      box-shadow: 0 0 10px rgba(30, 58, 138, 0.4);
+    }
+
+
     @font-face {
       font-family: 'Quache';
       src: url('./assets/Quache-HeavyExExp_PERSONAL.ttf') format('truetype');
       font-weight: 900;
+    }
+    
+    .back-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: rgba(52, 73, 94, 0.9);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s ease;
+      z-index: 1000;
+    }
+    
+    .back-btn:hover {
+      background: rgba(52, 73, 94, 1);
+      color: white;
+      text-decoration: none;
     }
   </style>
 </head>
@@ -361,7 +683,9 @@
   ?>
 
 
-  <form method="POST" action="./tb.php">
+    <a href="../Adm/index.php" class="back-btn">← Voltar ao Admin</a>
+    
+    <form method="POST" action="./tb.php">
     <div class="nuvens">
       <img src="./imageTabuleiro/nuvens.png" alt="Nuvem">
       <h2 class="titulo">SELECIONE DE 2 ATÉ 4 PERSONAGENS</h2>
@@ -488,7 +812,7 @@
 
     <!-- Botões gerais -->
     <button type="submit" name="modoAleatorio" value="1">Atribuir Casas Aleatórias</button>
-    <a href="../cadEvento/cadastroEvento.php">CADASTRAR NOVO EVENTO</a>
+    <a href="../Adm/cadastrarEvento.php">CADASTRAR NOVO EVENTO</a>
   </form>
   <script>
     const minJogadores = 2; // mínimo
@@ -525,7 +849,7 @@
       });
     });
 
-    
+
 
     // Antes de enviar o form, atualizar os hidden fields
     form.addEventListener("submit", e => {
@@ -542,10 +866,10 @@
           eventosPos: [p.dataset.eventopos1, p.dataset.eventopos2],
           eventosNeg: [p.dataset.eventoneg1, p.dataset.eventoneg2]
         }));
-        
+
         const jsonData = JSON.stringify(personagensData);
         document.getElementById("hidden-personagens").value = jsonData;
-        
+
         // Log para debug
         console.log("Personagens selecionados:", personagensData);
         console.log("JSON enviado:", jsonData);

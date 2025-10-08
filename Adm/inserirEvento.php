@@ -1,6 +1,6 @@
 <?php
-
-    include("conexao.php"); 
+include('../includes/verificar_login.php');
+include("../banco/conexao.php"); 
 
     $nome = $_POST['txNome'];
     $email = $_POST['txEmail'];
