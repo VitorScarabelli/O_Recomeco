@@ -44,14 +44,14 @@
           <a href="../Adm/index.php">
             <div class="conteinerBotoesPequenos" >
               <img src="assets/caderno.png" alt="JOGAR">
-              <span>Painel Admin</span>
+              <span>PAINEL ADM</span>
             </div>
           </a>
         <?php else: ?>
           <a href="../login/login.php">
             <div class="conteinerBotoesPequenos">
               <img src="assets/caderno.png" alt="JOGAR">
-              <span>Login ADM</span>
+              <span>ENTRAR ADM</span>
             </div>
           </a>
         <?php endif; ?>

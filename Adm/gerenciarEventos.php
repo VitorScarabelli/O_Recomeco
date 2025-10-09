@@ -277,30 +277,30 @@ include('../includes/verificar_login.php'); ?>
 
     <div class="admin-container">
         <div class="admin-header">
-            <h1 class="admin-title">📝 Gerenciar Eventos</h1>
-            <p class="admin-subtitle">Visualize, edite e exclua eventos do jogo</p>
+            <h1 class="admin-title">📝 GERENCIAR EVENTOS</h1>
+            <p class="admin-subtitle">VISUALIZE, EDITE E EXCLUA EVENTOS DO JOGO</p>
         </div>
-
+        
         <div class="search-section">
             <form method="GET" class="search-form">
                 <div class="form-group">
                     <label for="search" class="form-label">BUSCAR POR NOME:</label>
-                    <input type="text" class="form-control" id="search" name="search"
-                        value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>"
-                        placeholder="Digite o nome do evento..." autocomplete="off">
+                    <input type="text" class="form-control" id="search" name="search" 
+                           value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>" 
+                           placeholder="DIGITE O NOME DO EVENTO..." autocomplete="off">
                     <div id="search-suggestions" class="search-suggestions"></div>
                 </div>
-
+                
                 <div class="form-group">
                     <label for="tema" class="form-label">FILTRAR POR TEMA DA AULA:</label>
-                    <input type="text" class="form-control" id="tema" name="tema"
-                        value="<?php echo isset($_GET['tema']) ? htmlspecialchars($_GET['tema']) : ''; ?>"
-                        placeholder="Digite o tema da aula..." autocomplete="off">
+                    <input type="text" class="form-control" id="tema" name="tema" 
+                           value="<?php echo isset($_GET['tema']) ? htmlspecialchars($_GET['tema']) : ''; ?>" 
+                           placeholder="DIGITE O TEMA DA AULA..." autocomplete="off">
                     <div id="tema-suggestions" class="search-suggestions"></div>
                 </div>
-
-                <button type="submit" class="btn search-btn">🔍 Buscar</button>
-                <a href="gerenciarEventos.php" class="btn clear-btn">🗑️ Limpar</a>
+                
+                <button type="submit" class="btn search-btn">🔍 BUSCAR</button>
+                <a href="gerenciarEventos.php" class="btn clear-btn">🗑️ LIMPAR</a>
             </form>
         </div>
 
@@ -351,9 +351,9 @@ include('../includes/verificar_login.php'); ?>
                         $stmt->execute($params);
 
                         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                            $tipo = $row['casaEvento'] > 0 ? 'positivo' : 'negativo';
+                            $tipo = $row['casaEvento'] > 0 ? 'POSITIVO' : 'NEGATIVO';
                             $casas = $row['casaEvento'];
-                            $temaAula = $row['temaAula'] ?? 'Não definido';
+                            $temaAula = $row['temaAula'] ?? 'NÃO DEFINIDO';
 
                             echo "<tr>";
                             echo "<td>{$row['idEvento']}</td>";
@@ -363,8 +363,8 @@ include('../includes/verificar_login.php'); ?>
                             echo "<td><span class='badge-tema'>" . htmlspecialchars($temaAula) . "</span></td>";
                             echo "<td><strong>" . ($casas > 0 ? '+' : '') . $casas . "</strong></td>";
                             echo "<td>";
-                            echo "<a href='editarEvento.php?id={$row['idEvento']}' class='btn btn-action btn-edit'>✏️ Editar</a>";
-                            echo "<a href='excluirEvento.php?id={$row['idEvento']}' class='btn btn-action btn-delete' onclick='return confirm(\"Tem certeza que deseja excluir este evento?\")'>🗑️ Excluir</a>";
+                            echo "<a href='editarEvento.php?id={$row['idEvento']}' class='btn btn-action btn-edit'>✏️ EDITAR</a>";
+                            echo "<a href='excluirEvento.php?id={$row['idEvento']}' class='btn btn-action btn-delete' onclick='return confirm(\"Tem certeza que deseja excluir este evento?\")'>🗑️ EXCLUIR</a>";
                             echo "</td>";
                             echo "</tr>";
                         }

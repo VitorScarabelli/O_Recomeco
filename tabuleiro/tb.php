@@ -243,7 +243,7 @@
                     <span class="dot bottom-right"></span>
                 </div>
             </div>
-            <p id="infoTurno">É a vez do(a) Jogador(a) 1</p>
+            <p id="infoTurno">É A VEZ DO(A) JOGADOR(A) 1</p>
             <p id="resultado"></p>
         </div>
 
@@ -251,10 +251,10 @@
 
         <div id="popupEvento" class="popup">
             <div class="popup-conteudo">
-                <h2 id="popupNome">Nome do Evento</h2>
-                <p id="popupDescricao">Descrição do evento</p>
-                <p id="popupModificador">Casas: </p>
-                <button>Fechar</button>
+                <h2 id="popupNome">NOME DO EVENTO</h2>
+                <p id="popupDescricao">DESCRIÇÃO DO EVENTO</p>
+                <p id="popupModificador">CASAS: </p>
+                <button>FECHAR</button>
             </div>
         </div>
 
@@ -575,12 +575,12 @@
 
         <!-- Históricos de eventos -->
         <div id="historico-negativo" class="historico">
-            <h3 class="titulo-historico">Eventos Negativos</h3>
+            <h3 class="titulo-historico">EVENTOS NEGATIVOS</h3>
             <ul id="lista-negativa"></ul>
         </div>
 
         <div id="historico-positivo" class="historico">
-            <h3 class="titulo-historico">Eventos Positivos</h3>
+            <h3 class="titulo-historico">EVENTOS POSITIVOS</h3>
             <ul id="lista-positiva"></ul>
         </div>
 
@@ -612,7 +612,7 @@
                 const mensagem = document.getElementById("vitoriaMensagem");
                 const lista = document.getElementById("vitoriaHistorico");
 
-                titulo.innerText = `🏆 ${jogador.emoji} ${jogador.nome} se formou!`;
+                titulo.innerText = `🏆 ${jogador.emoji} ${jogador.nome} SE FORMOU!`;
 
                 lista.innerHTML = "";
 
@@ -620,15 +620,15 @@
 
                 if (dificuldades.length === 0) {
                     // 🟢 Caso não tenha passado por dificuldades
-                    mensagem.innerText = "Parabéns! Você se formou com uma jornada tranquila e sem obstáculos!";
-                    const item = document.createElement("li");
-                    item.innerText = "Nenhuma dificuldade enfrentada.";
+                    mensagem.innerText = "PARABÉNS! VOCÊ SE FORMOU COM UMA JORNADA TRANQUILA E SEM OBSTÁCULOS!";
+                    const item = document.createElement("LI");
+                    item.innerText = "NENHUMA DIFICULDADE ENFRENTADA.";
                     lista.appendChild(item);
                 } else {
                     // 🔴 Caso tenha passado por dificuldades
-                    mensagem.innerText = "Parabéns, você conseguiu se formar mesmo passando por dificuldades!";
+                    mensagem.innerText = "PARABÉNS! VOCÊ SE FORMOU MESMO PASSANDO POR DIFICULDADES!";
                     dificuldades.forEach(ev => {
-                        const item = document.createElement("li");
+                        const item = document.createElement("LI");
                         item.innerText = `${ev.nome}`;
                         lista.appendChild(item);
                     });
@@ -647,10 +647,10 @@
         <!-- Popup de vitória -->
         <div id="popupVitoria" class="popup">
             <div class="popup-conteudo">
-                <h2 id="vitoriaTitulo">🎓 Parabéns!</h2>
+                <h2 id="vitoriaTitulo">🎓 PARABÉNS!</h2>
                 <p id="vitoriaMensagem"></p>
                 <ul id="vitoriaHistorico"></ul>
-                <button onclick="fecharPopupVitoria()">Fechar</button>
+                <button onclick="fecharPopupVitoria()">FECHAR</button>
             </div>
         </div>
 

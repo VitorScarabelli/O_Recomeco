@@ -335,8 +335,8 @@ $eventosPersonagem = $configuracao['eventosPersonagem'] ?? 2;
     
     <div class="admin-container">
         <div class="admin-header">
-            <h1 class="admin-title">🎯 Visualizar Partida</h1>
-            <p class="admin-subtitle">Confira a configuração antes de iniciar a partida</p>
+            <h1 class="admin-title">🎯 VISUALIZAR PARTIDA</h1>
+            <p class="admin-subtitle">CONFIRA A CONFIGURAÇÃO ANTES DE INICIAR A PARTIDA</p>
         </div>
         
         <div class="config-info">
@@ -347,31 +347,31 @@ $eventosPersonagem = $configuracao['eventosPersonagem'] ?? 2;
         <strong>🎯 EVENTOS DOS PERSONAGENS:</strong> <?php echo count($eventosPersonagem); ?> EVENTOS SELECIONADOS
         </div>
         
-        <div class="stats-grid">
+        <!-- <div class="stats-grid">
             <div class="stat-item">
-                <div class="stat-number"><?php echo count($personagens); ?></div>
+                <div class="stat-number">< ?php echo count($personagens); ?></div>
                 <div class="stat-label">Personagens</div>
             </div>
             <div class="stat-item">
-                <div class="stat-number"><?php echo count($eventos); ?></div>
+                <div class="stat-number">< ?php echo count($eventos); ?></div>
                 <div class="stat-label">Eventos Selecionados</div>
             </div>
             <div class="stat-item">
-                <div class="stat-number"><?php echo count($temas); ?></div>
+                <div class="stat-number">< ?php echo count($temas); ?></div>
                 <div class="stat-label">TEMAS SELECIONADOS</div>
             </div>
             <div class="stat-item">
-                <div class="stat-number"><?php echo count($eventosPersonagem); ?></div>
+                <div class="stat-number">< ?php echo count($eventosPersonagem); ?></div>
                 <div class="stat-label">EVENTOS DOS PERSONAGENS</div>
             </div>
             <div class="stat-item">
                 <div class="stat-number">2-4</div>
                 <div class="stat-label">Jogadores</div>
             </div>
-        </div>
+        </div> -->
         
         <div class="config-section">
-            <h2 class="section-title">👥 Personagens Selecionados</h2>
+            <h2 class="section-title">👥 PERSONAGENS SELECIONADOS</h2>
             <div class="personagens-grid">
                 <?php foreach ($personagens as $personagem): ?>
                 <div class="personagem-card">
@@ -380,12 +380,12 @@ $eventosPersonagem = $configuracao['eventosPersonagem'] ?? 2;
                     <div class="personagem-desc">
                         <?php
                         $descricoes = [
-                            'Idoso' => 'Uma pessoa com muita experiência de vida, mas com limitações físicas.',
-                            'Cego' => 'A vida te deu um desafio a mais, mas você não abaixou sua cabeça.',
-                            'Mulher Negra' => 'Uma mulher que tem orgulho da sua cor, alguém que quer derrubar o preconceito.',
-                            'Retirante' => 'Um viajante humilde que deixou sua terra natal em busca de novas oportunidades.',
-                            'Mulher Trans' => 'Uma mulher que teve a coragem de ser quem realmente é.',
-                            'Umbandista' => 'Alguém que segue a religião de Umbanda, buscando sempre o equilíbrio e a paz.'
+                            'IDOSO' => 'UMA PESSOA COM MUITA EXPERIÊNCIA DE VIDA, MAS COM LIMITAÇÕES FÍSICAS.',
+                            'CEGO' => 'A VIDA TE DEU UM DESAFIO A MAIS, MAS VOCÊ NÃO ABAIXOU SUA CABEÇA.',
+                            'MULHER NEGRA' => 'UMA MULHER QUE TEM ORGULHO DA SUA COR, ALGUÉM QUE QUER DERRUBAR O PRECONCEITO.',
+                            'RETIRANTE' => 'UM VIAJANTE HUMILDE QUE DEIXOU SUA TERRA NATAL EM BUSCA DE NOVAS OPORTUNIDADES.',
+                            'MULHER TRANS' => 'UMA MULHER QUE TEVE A CORAGEM DE SER QUEM REALMENTE É.',
+                            'UMBANDISTA' => 'ALGUÉM QUE SEGUE A RELIGIÃO DE UMBANDA, BUSCANDO SEMPRE O EQUILÍBRIO E A PAZ.'
                         ];
                         echo $descricoes[$personagem['nome']] ?? 'Personagem selecionado';
                         ?>
@@ -396,7 +396,7 @@ $eventosPersonagem = $configuracao['eventosPersonagem'] ?? 2;
         </div>
         
         <div class="eventos-section">
-            <h2 class="section-title">🎲 Eventos Selecionados</h2>
+            <h2 class="section-title">🎲 EVENTOS SELECIONADOS</h2>
             <div class="eventos-grid">
                 <?php
                 if (!empty($eventos)) {

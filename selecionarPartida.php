@@ -240,7 +240,7 @@ session_start();
 </head>
 
 <body>
-    <a href="./index/index.php" class="back-btn">← Voltar</a>
+    <a href="./index/index.php" class="back-btn">← VOLTAR</a>
 
     <div class="container">
         <div class="header">
@@ -280,7 +280,7 @@ session_start();
                 echo "</div>";
 
                 echo "<div style='text-align: center; margin-top: 20px;'>
-                        <button id='toggleBtn'>🔽 Ver todas as partidas</button>
+                        <button id='toggleBtn'>🔽 VER TODAS AS PARTIDAS</button>
                       </div>";
             }
         }
@@ -333,10 +333,10 @@ session_start();
             toggleBtn.addEventListener('click', () => {
                 if (outras.style.display === 'none' || outras.style.display === '') {
                     outras.style.display = 'grid';
-                    toggleBtn.textContent = '🔼 Ocultar outras partidas';
+                    toggleBtn.textContent = '🔼 OCULTAR OUTRAS PARTIDAS';
                 } else {
                     outras.style.display = 'none';
-                    toggleBtn.textContent = '🔽 Ver todas as partidas';
+                    toggleBtn.textContent = '🔽 VER TODAS AS PARTIDAS';
                 }
             });
         }

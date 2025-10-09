@@ -183,8 +183,8 @@ include('../includes/verificar_login.php');
     
     <div class="admin-container">
         <div class="admin-header">
-            <h1 class="admin-title">🎮 Painel Administrativo</h1>
-            <p class="admin-subtitle">Gerencie eventos, personagens e configure partidas</p>
+            <h1 class="admin-title">📝 GERENCIAR EVENTOS</h1>
+            <p class="admin-subtitle">VISUALIZE, EDITE E EXCLUA EVENTOS DO JOGO</p>
             <br>
             <h1>PASSO A PASSO PARA CONFIGURAR A PARTIDA</h1>
             <p>1. VÁ PARA O CARD <a href="cadastrarEvento.php"> "CADASTRAR EVENTO" </a></p>
@@ -201,34 +201,34 @@ include('../includes/verificar_login.php');
         </div>
         
         <div class="admin-cards">
-            
+
             <a href="cadastrarEvento.php" class="admin-card">
                 <div class="card-icon">➕</div>
-                <h3 class="card-title">Cadastrar Evento</h3>
-                <p class="card-description">Crie novos eventos para o jogo. Adicione eventos positivos e negativos com diferentes dificuldades.</p>
+                <h3 class="card-title" style="text-transform:uppercase;">CADASTRAR EVENTO</h3>
+                <p class="card-description" style="text-transform:uppercase;">CRIE NOVOS EVENTOS PARA O JOGO. ADICIONE EVENTOS POSITIVOS E NEGATIVOS COM DIFERENTES DIFICULDADES.</p>
             </a>
             
             <a href="gerenciarEventos.php" class="admin-card">
                 <div class="card-icon">📝</div>
-                <h3 class="card-title">Gerenciar Eventos</h3>
-                <p class="card-description">Visualize, edite e exclua eventos do jogo. Gerencie todos os eventos disponíveis para as partidas.</p>
+                <h3 class="card-title" style="text-transform:uppercase;">GERENCIAR EVENTOS</h3>
+                <p class="card-description" style="text-transform:uppercase;">VISUALIZE, EDITE E EXCLUA EVENTOS DO JOGO. GERENCIE TODOS OS EVENTOS DISPONÍVEIS PARA AS PARTIDAS.</p>
             </a>
             
             <a href="configurarPartida.php" class="admin-card">
                 <div class="card-icon">⚙️</div>
-                <h3 class="card-title">Configurar Partida</h3>
-                <p class="card-description">Selecione personagens e eventos para a próxima partida. Configure os parâmetros do jogo.</p>
+                <h3 class="card-title" style="text-transform:uppercase;">CONFIGURAR PARTIDA</h3>
+                <p class="card-description" style="text-transform:uppercase;">SELECIONE PERSONAGENS E EVENTOS PARA A PRÓXIMA PARTIDA. CONFIGURE OS PARÂMETROS DO JOGO.</p>
             </a>
             
             <a href="visualizarPartida.php" class="admin-card">
                 <div class="card-icon">🎯</div>
-                <h3 class="card-title">Iniciar Partida</h3>
-                <p class="card-description">Visualize e inicie a partida configurada. Acesse o tabuleiro do jogo.</p>
+                <h3 class="card-title" style="text-transform:uppercase;">INICIAR PARTIDA</h3>
+                <p class="card-description" style="text-transform:uppercase;">VISUALIZE E INICIE A PARTIDA CONFIGURADA. ACESSE O TABULEIRO DO JOGO.</p>
             </a>
         </div>
         
         <div class="stats-section">
-            <h2 class="stats-title">📊 Estatísticas do Sistema</h2>
+            <h2 class="stats-title">📊 ESTATÍSTICAS DO SISTEMA</h2>
             <div class="stats-grid">
                 <?php
                 // Contar eventos por dificuldade
@@ -248,23 +248,24 @@ include('../includes/verificar_login.php');
                 ?>
                 
                 <div class="stat-item">
-                    <div class="stat-number"><?php echo $totalEventos; ?></div>
-                    <div class="stat-label">Total de Eventos</div>
+                    <div class="stat-number"><?php echo strtoupper($totalEventos); ?></div>
+                    <div class="stat-label"><?php echo strtoupper('Total de Eventos'); ?></div>
                 </div>
                 
                 <div class="stat-item">
-                    <div class="stat-number"><?php echo $eventosPositivos; ?></div>
-                    <div class="stat-label">Eventos Positivos</div>
+                    <div class="stat-number"><?php echo strtoupper($eventosPositivos); ?></div>
+                    <div class="stat-label"><?php echo strtoupper('Eventos Positivos'); ?></div>
                 </div>
                 
                 <div class="stat-item">
-                    <div class="stat-number"><?php echo $eventosNegativos; ?></div>
-                    <div class="stat-label">Eventos Negativos</div>
+                    <div class="stat-number"><?php echo strtoupper($eventosNegativos); ?></div>
+                    <div class="stat-label"><?php echo strtoupper('Eventos Negativos'); ?></div>
                 </div>
                 
                 <div class="stat-item">
-                    <div class="stat-number">6</div>
-                    <div class="stat-label">Personagens Disponíveis</div>
+                    <div class="stat-number"><?php echo strtoupper('6'); ?></div>
+                    <div class="stat-label"><?php echo strtoupper('Personagens Disponíveis'); ?></div>
+                </div>
                 </div>
             </div>
         </div>
