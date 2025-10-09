@@ -49,3 +49,4 @@ foreach ($personagensIds as $id) {
     echo "</div>";
 }
 ?>
+

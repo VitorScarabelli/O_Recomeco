@@ -63,6 +63,7 @@ $eventosPersonagem = $configuracao['eventosPersonagem'] ?? 2;
             padding: 30px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             margin-bottom: 30px;
+            margin-top: 30px;
         }
         
         .section-title {
@@ -216,7 +217,7 @@ $eventosPersonagem = $configuracao['eventosPersonagem'] ?? 2;
             width: 100%;
             margin-top: 20px;
         }
-        
+
         .btn-iniciar:hover {
             transform: translateY(-2px);
         }
@@ -272,10 +273,65 @@ $eventosPersonagem = $configuracao['eventosPersonagem'] ?? 2;
             font-size: 1rem;
             opacity: 0.9;
         }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: row;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-save{
+            background: linear-gradient(135deg, #007bff 0%, #6610f2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: transform 0.3s ease;
+            width: 33.3%;
+            margin-top: 20px;
+        }
+        .btn-play{
+            background: linear-gradient(135deg, #007bff 0%, #6610f2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: transform 0.3s ease;
+            width: 33.3%;
+            margin-top: 20px;
+        }
+
+        .btn-play {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+        }
+
+        .btn-play:hover {
+            background: linear-gradient(135deg, #218838, #1ea085);
+            color: white;
+            text-decoration: none;
+        }
+        .btn-edit{
+            background: linear-gradient(135deg, #ffb618ff 0%, #c9972bff 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: transform 0.3s ease;
+            width: 33.3%;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
-    <a href="index.php" class="back-btn">← Voltar</a>
+    <a href="index.php" class="back-btn">← VOLTAR</a>
     
     <div class="admin-container">
         <div class="admin-header">

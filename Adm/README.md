@@ -148,3 +148,4 @@ Para dúvidas ou problemas:
 2. Confirme a configuração do banco de dados
 3. Teste em ambiente limpo
 4. Consulte a documentação do sistema principal
+

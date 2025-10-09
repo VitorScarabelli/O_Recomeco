@@ -165,7 +165,7 @@
     </style>
 </head>
 <body>
-    <a href="index.php" class="back-btn">← Voltar</a>
+    <a href="index.php" class="back-btn">← VOLTAR</a>
     
     <div class="admin-container">
         <div class="admin-header">

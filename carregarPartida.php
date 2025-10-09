@@ -34,3 +34,4 @@ $_SESSION['configuracao_partida'] = [
 header('Location: tabuleiro/tb.php');
 exit;
 ?>
+

@@ -24,16 +24,16 @@
         <h1 class="titulo">LOGIN</h1>
 
         <form action="loginConsulta.php" method="post" class="formulario">
-            <label for="email" class="email">Email:</label>
+            <label for="usuario" class="email">NOME DE USUARIO:</label>
             <div class="caixaTexto">
-                <input type="email" name="email" id="email" placeholder="@gmail.com" required>
+                <input type="text" name="usuario" id="usuario" placeholder="NOME DE USUÁRIO" required>
             </div>
 
             <br />
 
-            <label for="senha" class="senha">Senha:</label>
+            <label for="senha" class="senha">SENHA:</label>
             <div class="caixaTexto">
-                <input type="password" name="senha" id="senha" placeholder="password" required>
+                <input type="password" name="senha" id="senha" placeholder="SENHA" required>
             </div>
 
             <br />

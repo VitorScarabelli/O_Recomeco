@@ -1,5 +1,6 @@
 <?php
 include('./banco/conexao.php');
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -161,17 +162,6 @@ include('./banco/conexao.php');
             text-decoration: none;
         }
 
-        .btn-excluir {
-            background: linear-gradient(135deg, #dc3545, #e74c3c);
-            color: white;
-        }
-
-        .btn-excluir:hover {
-            background: linear-gradient(135deg, #c82333, #c0392b);
-            color: white;
-            text-decoration: none;
-        }
-
         .no-partidas {
             text-align: center;
             color: white;
@@ -226,6 +216,26 @@ include('./banco/conexao.php');
             color: white;
             text-decoration: none;
         }
+
+        #outrasPartidas {
+            display: none;
+        }
+
+        #toggleBtn {
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            font-weight: bold;
+            border-radius: 10px;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #toggleBtn:hover {
+            background: #667eea;
+            color: white;
+        }
     </style>
 </head>
 
@@ -239,7 +249,6 @@ include('./banco/conexao.php');
         </div>
 
         <?php
-        // Buscar configurações salvas
         $stmt = $pdo->query("SELECT * FROM tbConfiguracaoPartida WHERE ativo = 1 ORDER BY dataCriacao DESC");
         $partidas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -248,70 +257,90 @@ include('./banco/conexao.php');
             echo "<h3>🎯 NENHUMA PARTIDA CONFIGURADA</h3>";
             echo "<p>VOCÊ AINDA NÃO TEM NENHUMA CONFIGURAÇÃO DE PARTIDA SALVA.</p>";
 
-            // Verificar se está logado como admin
             if (isset($_SESSION['admin_logado']) && $_SESSION['admin_logado'] === true) {
                 echo "<a href='Adm/configurarPartida.php' class='btn-criar-partida'>⚙️ CRIAR NOVA PARTIDA</a>";
             } else {
                 echo "<a href='login/login.php' class='btn-criar-partida'>🔐 FAZER LOGIN COMO ADMIN</a>";
             }
+
             echo "</div>";
         } else {
+            // Última partida
+            $ultima = $partidas[0];
             echo "<div class='partidas-grid'>";
-
-            foreach ($partidas as $partida) {
-                $personagens = json_decode($partida['personagens'], true);
-                $temas = json_decode($partida['temasSelecionados'], true);
-                $eventos = json_decode($partida['eventosSelecionados'], true);
-                $eventosPersonagem = json_decode($partida['eventosPersonagem'], true);
-
-                echo "<div class='partida-card'>";
-                echo "<div class='partida-header'>";
-                echo "<div class='partida-nome'>{$partida['nomeConfiguracao']}</div>";
-                echo "<div class='partida-data'>" . date('d/m/Y H:i', strtotime($partida['dataCriacao'])) . "</div>";
-                echo "</div>";
-
-                echo "<div class='partida-stats'>";
-                echo "<div class='stat-item'>";
-                echo "<div class='stat-number'>" . count($personagens) . "</div>";
-                echo "<div class='stat-label'>PERSONAGENS</div>";
-                echo "</div>";
-                echo "<div class='stat-item'>";
-                echo "<div class='stat-number'>" . count($eventos) . "</div>";
-                echo "<div class='stat-label'>EVENTOS</div>";
-                echo "</div>";
-                echo "<div class='stat-item'>";
-                echo "<div class='stat-number'>" . count($temas) . "</div>";
-                echo "<div class='stat-label'>TEMAS</div>";
-                echo "</div>";
-                echo "<div class='stat-item'>";
-                echo "<div class='stat-number'>" . count($eventosPersonagem) . "</div>";
-                echo "<div class='stat-label'>EVENTOS PERSONAGENS</div>";
-                echo "</div>";
-                echo "</div>";
-
-                if (!empty($temas)) {
-                    echo "<div class='partida-temas'>";
-                    echo "<div class='temas-title'>TEMAS SELECIONADOS:</div>";
-                    echo "<div class='temas-list'>";
-                    foreach ($temas as $tema) {
-                        echo "<span class='tema-badge'>" . htmlspecialchars($tema) . "</span>";
-                    }
-                    echo "</div>";
-                    echo "</div>";
-                }
-
-                echo "<div class='partida-actions'>";
-                echo "<a href='carregarPartida.php?id={$partida['idConfiguracao']}' class='btn-partida btn-jogar'>🎮 JOGAR</a>";
-                echo "</div>";
-                echo "</div>";
-            }
-
+            echo gerarCard($ultima);
             echo "</div>";
 
-            echo "<div style='text-align: center; margin-top: 30px;'>";
+            // Outras partidas (ocultas)
+            if (count($partidas) > 1) {
+                echo "<div id='outrasPartidas' class='partidas-grid'>";
+                for ($i = 1; $i < count($partidas); $i++) {
+                    echo gerarCard($partidas[$i]);
+                }
+                echo "</div>";
+
+                echo "<div style='text-align: center; margin-top: 20px;'>
+                        <button id='toggleBtn'>🔽 Ver todas as partidas</button>
+                      </div>";
+            }
+        }
+
+        function gerarCard($partida)
+        {
+            $personagens = json_decode($partida['personagens'], true);
+            $temas = json_decode($partida['temasSelecionados'], true);
+            $eventos = json_decode($partida['eventosSelecionados'], true);
+            $eventosPersonagem = json_decode($partida['eventosPersonagem'], true);
+
+            ob_start();
+            echo "<div class='partida-card'>";
+            echo "<div class='partida-header'>";
+            echo "<div class='partida-nome'>{$partida['nomeConfiguracao']}</div>";
+            echo "<div class='partida-data'>" . date('d/m/Y H:i', strtotime($partida['dataCriacao'])) . "</div>";
+            echo "</div>";
+
+            echo "<div class='partida-stats'>";
+            echo "<div class='stat-item'><div class='stat-number'>" . count($personagens) . "</div><div class='stat-label'>PERSONAGENS</div></div>";
+            echo "<div class='stat-item'><div class='stat-number'>" . count($eventos) . "</div><div class='stat-label'>EVENTOS</div></div>";
+            echo "<div class='stat-item'><div class='stat-number'>" . count($temas) . "</div><div class='stat-label'>TEMAS</div></div>";
+            echo "<div class='stat-item'><div class='stat-number'>" . count($eventosPersonagem) . "</div><div class='stat-label'>EVENTOS PERSONAGENS</div></div>";
+            echo "</div>";
+
+            if (!empty($temas)) {
+                echo "<div class='partida-temas'>";
+                echo "<div class='temas-title'>TEMAS SELECIONADOS:</div>";
+                echo "<div class='temas-list'>";
+                foreach ($temas as $tema) {
+                    echo "<span class='tema-badge'>" . htmlspecialchars($tema) . "</span>";
+                }
+                echo "</div></div>";
+            }
+
+            echo "<div class='partida-actions'>";
+            echo "<a href='carregarPartida.php?id={$partida['idConfiguracao']}' class='btn-partida btn-jogar'>🎮 JOGAR</a>";
+            echo "</div>";
+            echo "</div>";
+
+            return ob_get_clean();
         }
         ?>
     </div>
+
+    <script>
+        const toggleBtn = document.getElementById('toggleBtn');
+        const outras = document.getElementById('outrasPartidas');
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
+                if (outras.style.display === 'none' || outras.style.display === '') {
+                    outras.style.display = 'grid';
+                    toggleBtn.textContent = '🔼 Ocultar outras partidas';
+                } else {
+                    outras.style.display = 'none';
+                    toggleBtn.textContent = '🔽 Ver todas as partidas';
+                }
+            });
+        }
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 </body>

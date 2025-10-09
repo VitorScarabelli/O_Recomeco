@@ -13,3 +13,4 @@ UPDATE tbevento SET temaAula = 'transporte' WHERE nomeEvento LIKE '%transporte%'
 
 -- Definir tema padrão para eventos sem tema
 UPDATE tbevento SET temaAula = 'sus' WHERE temaAula IS NULL;
+

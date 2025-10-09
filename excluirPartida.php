@@ -16,3 +16,4 @@ $stmt->execute([$id]);
 header('Location: selecionarPartida.php?excluido=1');
 exit;
 ?>
+

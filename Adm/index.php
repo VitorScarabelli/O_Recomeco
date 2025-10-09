@@ -158,7 +158,7 @@ include('../includes/verificar_login.php');
             position: fixed;
             top: 20px;
             left: 20px;
-            background: rgba(231, 76, 60, 1);
+            background: rgba(52, 73, 94, 0.9);
             color: white;
             border: none;
             padding: 10px 20px;
@@ -166,31 +166,52 @@ include('../includes/verificar_login.php');
             text-decoration: none;
             font-weight: bold;
             transition: background 0.3s ease;
+            z-index: 9999;
+        }   
+
+        .sair-btn:hover {
+            background: rgba(52, 73, 94, 1);
+            color: white;
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
-    <a href="../index/index.php" class="sair-btn">Voltar</a>
+    <a href="../index/index.php" class="sair-btn">← VOLTAR</a>
     <br>
-    <a href="./logoff.php" class="logout-btn">Deslogar</a>
+    <a href="./logoff.php" class="logout-btn">DESCONECTAR</a>
     
     <div class="admin-container">
         <div class="admin-header">
             <h1 class="admin-title">🎮 Painel Administrativo</h1>
             <p class="admin-subtitle">Gerencie eventos, personagens e configure partidas</p>
+            <br>
+            <h1>PASSO A PASSO PARA CONFIGURAR A PARTIDA</h1>
+            <p>1. VÁ PARA O CARD <a href="cadastrarEvento.php"> "CADASTRAR EVENTO" </a></p>
+            <p>2. CRIE UM EVENTO POSITIVO OU NEGATIVO</p>
+            <p>3. VÁ PARA O CARD <a href="configurarPartida.php"> "CONFIGURAR PARTIDA" </a></p>
+            <p>4. SELECIONE OS PERSONAGENS</p>
+            <p>5. SELECIONE OS EVENTOS DO PERSONAGEM</p>
+            <p>6. SELECIONE OS TEMAS</p>
+            <p>7. SELECIONE OS EVENTOS</p>
+            <p>8. SELECIONE OS TEMAS DA PARTIDA</p>
+            <p>9. SALVE A CONFIGURAÇÃO</p>
+            <p>10. VÁ PARA O CARD <a href="visualizarPartida.php"> "VISUALIZAR PARTIDA" </a></p>
+            <p>11. INICIE A PARTIDA</p>
         </div>
         
         <div class="admin-cards">
-            <a href="gerenciarEventos.php" class="admin-card">
-                <div class="card-icon">📝</div>
-                <h3 class="card-title">Gerenciar Eventos</h3>
-                <p class="card-description">Visualize, edite e exclua eventos do jogo. Gerencie todos os eventos disponíveis para as partidas.</p>
-            </a>
             
             <a href="cadastrarEvento.php" class="admin-card">
                 <div class="card-icon">➕</div>
                 <h3 class="card-title">Cadastrar Evento</h3>
                 <p class="card-description">Crie novos eventos para o jogo. Adicione eventos positivos e negativos com diferentes dificuldades.</p>
+            </a>
+            
+            <a href="gerenciarEventos.php" class="admin-card">
+                <div class="card-icon">📝</div>
+                <h3 class="card-title">Gerenciar Eventos</h3>
+                <p class="card-description">Visualize, edite e exclua eventos do jogo. Gerencie todos os eventos disponíveis para as partidas.</p>
             </a>
             
             <a href="configurarPartida.php" class="admin-card">

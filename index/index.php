@@ -10,9 +10,9 @@
 
 <body>
 
-  <div class="botoesAcima">
+  <!-- <div class="botoesAcima">
     <a href="../Adm/index.php"><img class="botaoPequeno" src="assets/Usuario.png" alt="Configurações"></a>
-  </div>
+  </div> -->
 
   <div class="logo">
     <img src="assets/RecomecoLogo.png" alt="Logo">
@@ -59,35 +59,6 @@
       </div>
     </a>
   </div>
-
-  <script>
-    function toggleBold() {
-      const body = document.body;
-      const button = document.getElementById('toggle-bold');
-
-      if (body.classList.contains('bold-mode')) {
-        body.classList.remove('bold-mode');
-        button.textContent = '📝 NEGRITO';
-        localStorage.setItem('boldMode', 'false');
-      } else {
-        body.classList.add('bold-mode');
-        button.textContent = '📝 NORMAL';
-        localStorage.setItem('boldMode', 'true');
-      }
-    }
-
-    // Aplicar modo salvo ao carregar a página
-    window.addEventListener('load', function() {
-      const boldMode = localStorage.getItem('boldMode') === 'true';
-      const button = document.getElementById('toggle-bold');
-
-      if (boldMode) {
-        document.body.classList.add('bold-mode');
-        button.textContent = '📝 NORMAL';
-      }
-    });
-  </script>
-
 </body>
 
 </html>
