@@ -13,7 +13,7 @@ $configuracao = $_SESSION['configuracao_partida'];
 $personagens = $configuracao['personagens'];
 $temas = $configuracao['temas'];
 $eventos = $configuracao['eventos'];
-$eventosPersonagem = $configuracao['eventosPersonagem'] ?? 2;
+$eventosPersonagem = $configuracao['eventosPersonagem'] ?? [];
 ?>
 
 <!DOCTYPE html>
@@ -392,6 +392,66 @@ $eventosPersonagem = $configuracao['eventosPersonagem'] ?? 2;
                     </div>
                 </div>
                 <?php endforeach; ?>
+            </div>
+        </div>
+        
+        <div class="eventos-section">
+            <h2 class="section-title">🎭 EVENTOS DOS PERSONAGENS</h2>
+            <div class="eventos-grid">
+                <?php
+                // Mapa rápido de personagens selecionados por id para mostrar nome/emoji
+                $mapPersonagens = [];
+                foreach ($personagens as $p) {
+                    $idPers = intval($p['id'] ?? $p['idPersonagem'] ?? 0);
+                    if ($idPers > 0) {
+                        $mapPersonagens[$idPers] = $p;
+                    }
+                }
+
+                if (!empty($eventosPersonagem) && is_array($eventosPersonagem)) {
+                    // Extrai apenas os IDs dos eventos e mapeia para o personagem dono
+                    $idsEventosPersonagem = [];
+                    $eventoParaPersonagem = [];
+                    foreach ($eventosPersonagem as $ep) {
+                        if (!isset($ep['id'])) continue;
+                        $idEvento = intval($ep['id']);
+                        $idsEventosPersonagem[] = $idEvento;
+                        if (isset($ep['personagem'])) {
+                            $eventoParaPersonagem[$idEvento] = intval($ep['personagem']);
+                        }
+                    }
+
+                    if (!empty($idsEventosPersonagem)) {
+                        $placeholdersEP = implode(',', array_fill(0, count($idsEventosPersonagem), '?'));
+                        $stmtEP = $pdo->prepare("SELECT * FROM tbeventopersonagem WHERE idEvento IN ($placeholdersEP) ORDER BY idPersonagem, nomeEvento");
+                        $stmtEP->execute($idsEventosPersonagem);
+
+                        while ($row = $stmtEP->fetch(PDO::FETCH_ASSOC)) {
+                            $casas = intval($row['casas'] ?? 0);
+                            $tipo = $casas > 0 ? 'positivo' : 'negativo';
+                            $idEv = intval($row['idEvento']);
+                            $idDono = $eventoParaPersonagem[$idEv] ?? intval($row['idPersonagem'] ?? 0);
+                            $emojiDono = $mapPersonagens[$idDono]['emoji'] ?? '';
+                            $nomeDono = $mapPersonagens[$idDono]['nome'] ?? '';
+
+                            echo "<div class='evento-card'>";
+                            echo "<div class='evento-header'>";
+                            echo "<div class='evento-nome'>" . strtoupper($row['nomeEvento']) . "</div>";
+                            echo "<div class='evento-casas {$tipo}'>" . ($casas > 0 ? '+' : '') . $casas . "</div>";
+                            echo "</div>";
+                            echo "<div class='evento-descricao'>" . substr($row['descricaoEvento'], 0, 100) . (strlen($row['descricaoEvento']) > 100 ? '...' : '') . "</div>";
+                            if ($emojiDono || $nomeDono) {
+                                echo "<div class='evento-dificuldade'>Específico: $emojiDono " . strtoupper($nomeDono) . "</div>";
+                            }
+                            echo "</div>";
+                        }
+                    } else {
+                        echo "<div class='alert alert-info'>Nenhum evento de personagem selecionado.</div>";
+                    }
+                } else {
+                    echo "<div class='alert alert-info'>Nenhum evento dos personagens selecionado.</div>";
+                }
+                ?>
             </div>
         </div>
         
