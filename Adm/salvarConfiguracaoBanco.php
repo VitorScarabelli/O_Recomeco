@@ -8,11 +8,18 @@ if (!isset($_SESSION['configuracao_partida'])) {
     exit;
 }
 
-$configuracao = $_SESSION['configuracao_partida'];
-$personagens = $configuracao['personagens'];
-$temas = $configuracao['temas'];
-$eventos = $configuracao['eventos'];
-$eventosPersonagem = $configuracao['eventosPersonagem'];
+$personagens = json_decode($_POST['personagens'], true);
+$temas = json_decode($_POST['temas'], true);
+$eventos = json_decode($_POST['eventos'], true);
+$eventosPersonagem = json_decode($_POST['eventosPersonagem'], true);
+
+$configuracao = [
+    'titulo' => $_POST['tituloConfiguracao'] ?? "Partida_" . date('d-m-Y_H-i'),
+    'personagens' => $personagens,
+    'temas' => $temas,
+    'eventos' => $eventos,
+    'eventosPersonagem' => $eventosPersonagem
+];
 
 // Gerar atribuição aleatória de casas
 function atribuirCasasAleatorias($eventos, $eventosPersonagem) {

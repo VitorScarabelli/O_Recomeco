@@ -1,5 +1,40 @@
-<?php include('../banco/conexao.php');
-include('../includes/verificar_login.php'); ?>
+<?php
+include('../banco/conexao.php');
+include('../includes/verificar_login.php');
+
+
+// Inicializar arrays
+$personagens = [];
+$temasSelecionados = [];
+$eventosSelecionados = [];
+$eventosPersonagem = [];
+$idConfiguracao = null;
+
+// Se veio um ID pela URL (ex: configurarPartida.php?id=123), carregar configuração existente
+if (isset($_GET['id'])) {
+    $idConfiguracao = intval($_GET['id']);
+    $stmt = $pdo->prepare("SELECT * FROM tbConfiguracaoPartida WHERE idConfiguracao = ?");
+    $stmt->execute([$idConfiguracao]);
+    $config = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($config) {
+        $personagens = json_decode($config['personagens'], true) ?? [];
+        $temasSelecionados = json_decode($config['temasSelecionados'], true) ?? [];
+        $eventosSelecionados = json_decode($config['eventosSelecionados'], true) ?? [];
+        $eventosPersonagem = json_decode($config['eventosPersonagem'], true) ?? [];
+    }
+}
+
+// Caso queira, pode armazenar na sessão também
+$_SESSION['configuracao_partida'] = [
+    'id' => $idConfiguracao,
+    'personagens' => $personagens,
+    'temasSelecionados' => $temasSelecionados,
+    'eventosSelecionados' => $eventosSelecionados,
+    'eventosPersonagem' => $eventosPersonagem
+];
+?>
+
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -658,11 +693,12 @@ include('../includes/verificar_login.php'); ?>
                 </div>
             </div>
 
+            <input type="hidden" name="personagens" id="hidden-personagens" value='<?php echo json_encode($personagens); ?>'>
+            <input type="hidden" name="temas" id="hidden-temas" value='<?php echo json_encode($temasSelecionados); ?>'>
+            <input type="hidden" name="eventos" id="hidden-eventos" value='<?php echo json_encode($eventosSelecionados); ?>'>
+            <input type="hidden" name="eventosPersonagem" id="hidden-eventos-personagem" value='<?php echo json_encode($eventosPersonagem); ?>'>
+            <input type="hidden" name="idConfiguracao" value="<?php echo htmlspecialchars($idConfiguracao); ?>">
 
-            <input type="hidden" name="personagens" id="hidden-personagens" value="">
-            <input type="hidden" name="temas" id="hidden-temas" value="">
-            <input type="hidden" name="eventos" id="hidden-eventos" value="">
-            <input type="hidden" name="eventosPersonagem" id="hidden-eventos-personagem" value="">
 
             <button type="submit" class="btn-configurar" id="btn-configurar" disabled>
                 💾 SALVAR CONFIGURAÇÃO DA PARTIDA
