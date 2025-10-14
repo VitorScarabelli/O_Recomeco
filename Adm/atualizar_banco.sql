@@ -14,3 +14,9 @@ UPDATE tbevento SET temaAula = 'transporte' WHERE nomeEvento LIKE '%transporte%'
 -- Definir tema padrão para eventos sem tema
 UPDATE tbevento SET temaAula = 'sus' WHERE temaAula IS NULL;
 
+-- Adicionar coluna para nomes de jogadores na configuração de partidas (JSON)
+-- Estrutura: [{"idPersonagem": 1, "nomeUsuario": "Alice"}, ...]
+ALTER TABLE tbConfiguracaoPartida
+    ADD COLUMN nomesJogadores LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL
+    CHECK (JSON_VALID(`nomesJogadores`));
+

@@ -204,9 +204,19 @@
         <meta charset="UTF-8">
         <title>Jogo do Dado com Eventos</title>
         <link rel="stylesheet" href="style.css">
+        <style>
+            /* Ajustes específicos da legenda */
+            #popupLegenda .popup-conteudo { width: 560px; max-width: 95%; }
+            #lista-legenda { list-style: none; padding: 0; margin: 0; }
+            #lista-legenda li { display: flex; align-items: center; gap: 10px; padding: 8px 6px; font-size: 1.05rem; }
+            #lista-legenda .emoji { font-size: 1.6rem; width: 32px; text-align: center; }
+            #lista-legenda .icon { width: 28px; height: 28px; border-radius: 6px; object-fit: contain; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
+        </style>
     </head>
 
     <body>
+
+        <p class="clickParaJogar">CLIQUE NO DADO PARA JOGAR</p>
         <div id="dice-container">
             <div id="dice">
                 <div class="face front">
@@ -243,7 +253,7 @@
                     <span class="dot bottom-right"></span>
                 </div>
             </div>
-            <p id="infoTurno">É A VEZ DO(A) JOGADOR(A) 1</p>
+            <p id="infoTurno">É A VEZ DO(A) <?php echo isset($personagensCompletos[0]['nome']) ? $personagensCompletos[0]['nome'] : 'JOGADOR(A) 1'; ?></p>
             <p id="resultado"></p>
         </div>
 
@@ -258,6 +268,18 @@
             </div>
         </div>
 
+        <!-- Botão Legenda (❓) -->
+        <button id="btn-legenda" title="Abrir legenda" aria-label="Abrir legenda">❓</button>
+
+        <!-- Modal/Popup da Legenda -->
+        <div id="popupLegenda" class="popup" aria-hidden="true" role="dialog" aria-labelledby="tituloLegenda">
+            <div class="popup-conteudo">
+                <h2 id="tituloLegenda">LEGENDA</h2>
+                <ul id="lista-legenda"></ul>
+                <button id="fecharLegenda">FECHAR</button>
+            </div>
+        </div>
+
         <script>
             const linhas = 10;
             const colunas = 16;
@@ -265,6 +287,8 @@
 
             const eventos = <?php echo json_encode($eventos); ?>;
             const personagensSelecionados = <?php echo json_encode($personagensCompletos); ?>;
+            // Expor também para uso em outras rotinas (ex.: legenda)
+            window.personagensSelecionados = personagensSelecionados;
 
             // Log para debug no console
             console.log("Personagens recebidos no JavaScript:", personagensSelecionados);
@@ -280,6 +304,36 @@
                 terminou: false,
                 historicoPessoal: [] // ✅ guarda eventos do jogador
             }));
+
+            // Expor para outras rotinas (ex.: legenda)
+            window.jogadores = jogadores;
+
+            // Sobrescrever nome do jogador escolhido (se houver em sessão)
+            (function() {
+                const jogadorEscolhidoId = <?php echo isset($_SESSION['jogador_personagem']) ? intval($_SESSION['jogador_personagem']) : 'null'; ?>;
+                const jogadorEscolhidoNome = <?php echo isset($_SESSION['jogador_nome']) ? json_encode($_SESSION['jogador_nome']) : 'null'; ?>;
+                if (jogadorEscolhidoId && jogadorEscolhidoNome) {
+                    const alvo = jogadores.find(j => j.idPersonagem === jogadorEscolhidoId);
+                    if (alvo) {
+                        alvo.nome = jogadorEscolhidoNome;
+                    }
+                }
+                // Sobrescrever nomes por mapa de sessão (nomes_alunos: { idPersonagem: nomeAluno })
+                <?php
+                    $nomesMapa = isset($_SESSION['nomes_alunos']) && is_array($_SESSION['nomes_alunos']) ? $_SESSION['nomes_alunos'] : [];
+                    echo 'const nomesAlunos = ' . json_encode($nomesMapa, JSON_UNESCAPED_UNICODE) . ';';
+                ?>
+                if (nomesAlunos && typeof nomesAlunos === 'object') {
+                    for (const key in nomesAlunos) {
+                        const pid = parseInt(key, 10);
+                        const nome = nomesAlunos[key];
+                        const j = jogadores.find(x => x.idPersonagem === pid);
+                        if (j && typeof nome === 'string' && nome.trim().length > 0) {
+                            j.nome = nome.trim();
+                        }
+                    }
+                }
+            })();
 
 
             let turno = 0;
@@ -374,7 +428,7 @@
 
             // Popup de eventos
             function mostrarPopup(evento, callback) {
-                document.getElementById("popupNome").innerText = evento.nome;
+                document.getElementById("popupNome").innerText = "EVENTO: " + (evento.nome) + ":";
                 document.getElementById("popupDescricao").innerText = evento.descricao;
                 document.getElementById("popupModificador").innerText = "Casas: " + (evento.casas > 0 ? '+' + evento.casas : evento.casas);
                 const popup = document.getElementById("popupEvento");
@@ -399,7 +453,18 @@
                             if (jogador.posicao >= caminho.length - 1) {
                                 jogador.posicao = caminho.length - 1;
                                 jogador.terminou = true;
+                                if (!jogador.ordemChegada) {
+                                    jogador.ordemChegada = jogadores.filter(j => j.terminou).length;
+                                }
                                 mostrarPopupVitoria(jogador); // 🏆 mostra a vitória
+                                
+                                // Verificar se todos terminaram
+                                setTimeout(() => {
+                                    const todosTerminaram = jogadores.every(j => j.terminou);
+                                    if (todosTerminaram) {
+                                        mostrarPopupFinal();
+                                    }
+                                }, 2000);
                             }
                             if (jogador.posicao < 0) {
                                 jogador.posicao = 0;
@@ -501,6 +566,24 @@
                 casaEl.appendChild(tooltip);
             });
 
+            // Adicionar EVENTO RELÂMPAGO na penúltima casa
+            const penultimaCasa = caminho[caminho.length - 2];
+            const casaRelampago = document.getElementById("casa-" + penultimaCasa);
+            casaRelampago.classList.add("evento-ruim");
+            casaRelampago.style.backgroundColor = "#ff6b6b";
+            // Adiciona ícone de bomba ao evento relâmpago (similar aos ícones de personagens)
+            casaRelampago.style.backgroundImage = `url('./imageTabuleiro/bombaicone.png')`;
+            casaRelampago.style.backgroundSize = '60%';
+            casaRelampago.style.backgroundRepeat = 'no-repeat';
+            casaRelampago.style.backgroundPosition = 'center';
+            
+            const tooltipRelampago = document.createElement("span");
+            tooltipRelampago.classList.add("tooltip");
+            const linhaRelampago = Math.floor(penultimaCasa / colunas);
+            tooltipRelampago.classList.add(linhaRelampago > linhas / 2 ? "cima" : "baixo");
+            tooltipRelampago.innerText = "EVENTO RELÂMPAGO\n⚡ VOCÊ TEVE QUE LARGAR A ESCOLA POR UM TEMPO. VOLTE AO INÍCIO!\nCasas: -" + (caminho.length - 1);
+            casaRelampago.appendChild(tooltipRelampago);
+
             // Função principal após rolar o dado
             async function jogarDadoAnimado(dado) {
                 const jogadorAtual = jogadores[turno];
@@ -514,7 +597,7 @@
                     return;
                 }
 
-                document.getElementById("infoTurno").innerText = "É a vez de " + jogadorAtual.nome;
+                document.getElementById("infoTurno").innerText = "É A VEZ DO(A)	 " + jogadorAtual.nome + "!";
 
                 // Move jogador
                 await moverJogador(jogadorAtual, dado);
@@ -528,6 +611,25 @@
                         caminho[e.casa] === caminho[jogadorAtual.posicao] &&
                         (!e.idDono || e.idDono === jogadorAtual.idPersonagem)
                     );
+
+                    // Verificar se está na penúltima casa (EVENTO RELÂMPAGO)
+                    const penultimaCasa = caminho[caminho.length - 2];
+                    if (caminho[jogadorAtual.posicao] === penultimaCasa) {
+                        const eventoRelampago = {
+                            nome: "EVENTO RELÂMPAGO",
+                            descricao: "⚡ VOLTE AO INÍCIO!",
+                            casas: -(caminho.length - 1)
+                        };
+                        
+                        await new Promise(resolve => {
+                            mostrarPopup(eventoRelampago, resolve);
+                        });
+                        
+                        await moverJogador(jogadorAtual, eventoRelampago.casas);
+                        adicionarHistorico(jogadorAtual, eventoRelampago, jogadorAtual.posicao, 0);
+                        eventosAtivados++;
+                        break;
+                    }
 
                     if (!eventoNaCasa) break; // se não tem evento, sai do loop
 
@@ -568,7 +670,7 @@
                     return;
                 }
 
-                document.getElementById("infoTurno").innerText = "É a vez de " + jogadores[turno].nome;
+                document.getElementById("infoTurno").innerText = "É A VEZ DO(A) " + jogadores[turno].nome + "!";
                 desenharBonecos();
             }
         </script>
@@ -642,6 +744,35 @@
             function fecharPopupVitoria() {
                 document.getElementById("popupVitoria").style.display = "none";
             }
+
+            function mostrarPopupFinal() {
+                const popup = document.getElementById("popupFinal");
+                const titulo = document.getElementById("finalTitulo");
+                const mensagem = document.getElementById("finalMensagem");
+                const lista = document.getElementById("finalOrdem");
+
+                titulo.innerText = "🎓 PARABÉNS TODOS VOCÊS CONSEGUIRAM SE FORMAR!";
+                mensagem.innerText = "TODOS OS JOGADORES COMPLETARAM SUA JORNADA ACADÊMICA!";
+
+                lista.innerHTML = "";
+                
+                // Ordenar jogadores por ordem de chegada
+                const jogadoresOrdenados = [...jogadores].sort((a, b) => (a.ordemChegada || 999) - (b.ordemChegada || 999));
+                
+                jogadoresOrdenados.forEach((j, index) => {
+                    const item = document.createElement("LI");
+                    const posicao = index + 1;
+                    const medalha = posicao === 1 ? "🥇" : posicao === 2 ? "🥈" : posicao === 3 ? "🥉" : "🏅";
+                    item.innerText = `${medalha} ${posicao}º LUGAR: ${j.emoji} ${j.nome}`;
+                    lista.appendChild(item);
+                });
+
+                popup.style.display = "flex";
+            }
+
+            function fecharPopupFinal() {
+                window.location.href = "../selecionarPartida.php";
+            }
         </script>
 
         <!-- Popup de vitória -->
@@ -654,6 +785,159 @@
             </div>
         </div>
 
+        <!-- Popup final (todos terminaram) -->
+        <div id="popupFinal" class="popup">
+            <div class="popup-conteudo" style="width: 500px; max-width: 95%;">
+                <h2 id="finalTitulo">🎓 PARABÉNS TODOS VOCÊS CONSEGUIRAM SE FORMAR!</h2>
+                <p id="finalMensagem">TODOS OS JOGADORES COMPLETARAM SUA JORNADA ACADÊMICA!</p>
+                <h3 style="margin: 20px 0 10px 0; color: #2c3e50;">🏆 ORDEM DE CHEGADA:</h3>
+                <ul id="finalOrdem" style="text-align: left; margin: 0; padding: 0; list-style: none;">
+                    <!-- Será preenchido pelo JavaScript -->
+                </ul>
+                <button onclick="fecharPopupFinal()" style="margin-top: 20px; background: linear-gradient(135deg, #28a745, #20c997); color: white; border: none; padding: 12px 24px; border-radius: 25px; font-weight: bold; cursor: pointer;">
+                    🏠 VOLTAR À SELEÇÃO DE PARTIDA
+                </button>
+            </div>
+        </div>
+
+        <!-- Botão Voltar -->
+        <a href="../index.php" id="btn-voltar">
+            ← VOLTAR
+        </a>
+
+        <!-- Popup confirmação de saída -->
+        <div id="popupSair" class="popup" aria-hidden="true" role="dialog" aria-labelledby="tituloSair">
+            <div class="popup-conteudo">
+                <h2 id="tituloSair">TEM CERTEZA QUE DESEJA SAIR?</h2>
+                <p>SE CONCLUIR ESSA AÇÃO VOCÊ PERDERÁ TODO O SEU PROGRESSO</p>
+                <div style="display:flex; gap:10px; justify-content:center; margin-top:10px;">
+                    <button id="confirmarSair" style="background-color:#dc3545;">SIM, VOLTAR</button>
+                    <button id="cancelarSair">CANCELAR</button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Interceptar botão voltar com confirmação
+            (function() {
+                const linkVoltar = document.getElementById('btn-voltar');
+                const popup = document.getElementById('popupSair');
+                const confirmar = document.getElementById('confirmarSair');
+                const cancelar = document.getElementById('cancelarSair');
+                if (linkVoltar) {
+                    const destino = linkVoltar.getAttribute('href');
+                    linkVoltar.addEventListener('click', function(ev) {
+                        ev.preventDefault();
+                        popup.style.display = 'flex';
+                        popup.setAttribute('aria-hidden', 'false');
+                    });
+                    confirmar.addEventListener('click', function() {
+                        window.location.href = destino;
+                    });
+                    cancelar.addEventListener('click', function() {
+                        popup.style.display = 'none';
+                        popup.setAttribute('aria-hidden', 'true');
+                    });
+                    popup.addEventListener('click', function(e) {
+                        if (e.target === popup) {
+                            cancelar.click();
+                        }
+                    });
+                    window.addEventListener('keydown', function(e) {
+                        if (e.key === 'Escape') {
+                            cancelar.click();
+                        }
+                    });
+                }
+            })();
+
+            // --- Legenda: abrir/fechar e preencher itens ---
+            (function() {
+                const btnLegenda = document.getElementById('btn-legenda');
+                const popupLegenda = document.getElementById('popupLegenda');
+                const lista = document.getElementById('lista-legenda');
+                const fechar = document.getElementById('fecharLegenda');
+
+                function abrirLegenda() {
+                    preencherLegenda();
+                    popupLegenda.style.display = 'flex';
+                    popupLegenda.setAttribute('aria-hidden', 'false');
+                }
+
+                function fecharLegenda() {
+                    popupLegenda.style.display = 'none';
+                    popupLegenda.setAttribute('aria-hidden', 'true');
+                }
+
+                function addItem(emoji, texto, iconUrl, color) {
+                    const li = document.createElement('li');
+                    const spanEmoji = document.createElement('span');
+                    spanEmoji.className = 'emoji';
+                    spanEmoji.textContent = emoji;
+                    if (!emoji) { spanEmoji.style.width = '0'; }
+                    if (iconUrl) {
+                        const img = document.createElement('img');
+                        img.className = 'icon';
+                        img.src = iconUrl;
+                        img.alt = '';
+                        li.appendChild(img);
+                    }
+                    const spanTxt = document.createElement('span');
+                    spanTxt.textContent = texto;
+                    if (color) { spanTxt.style.color = color; }
+                    li.appendChild(spanEmoji);
+                    li.appendChild(spanTxt);
+                    lista.appendChild(li);
+                }
+
+                function preencherLegenda() {
+                    lista.innerHTML = '';
+                    // Elementos fixos do tabuleiro
+                    addItem('🏁', 'INÍCIO DO PERCURSO');
+                    addItem('🎓', 'CHEGADA | FORMATURA');
+                    addItem('', 'CASAS VERMELHAS → EVENTOS NEGATIVOS', null, '#e74c3c');
+                    addItem('', 'CASAS AZUIS → EVENTOS POSITIVOS', null, '#3498db');
+
+                    // Personagens da partida: só adiciona ícones de evento dos que estão no tabuleiro
+                    const vistosPersonagens = new Set();
+                    (window.personagensSelecionados || []).forEach(p => {
+                        const pid = parseInt(p.idPersonagem, 10);
+                        if (!pid || vistosPersonagens.has(pid)) return;
+                        vistosPersonagens.add(pid);
+                        const nome = (p.nome || p.nomePersonagem || 'PERSONAGEM').toString().trim().toUpperCase();
+                        const isMulher = nome.includes('MULHER');
+                        const artigo = isMulher ? 'DA' : 'DO';
+                        const nomeAjustado = nome.replace(/^CEGO$/i, 'DEFICIENTE VISUAL');
+                        const texto = `EVENTO ${artigo} ${nomeAjustado}`;
+                        const iconPath = p.imagem ? `./imageTabuleiro/${p.imagem}` : null;
+                        addItem('', texto, iconPath);
+                    });
+                    // Jogadores atuais (emoji + nome)
+                    if (window.jogadores && Array.isArray(window.jogadores)) {
+                        const vistos = new Set();
+                        window.jogadores.forEach(j => {
+                            if (!vistos.has(j.idPersonagem)) {
+                                vistos.add(j.idPersonagem);
+                                const pComp = (window.personagensSelecionados || []).find(p => parseInt(p.idPersonagem,10) === parseInt(j.idPersonagem,10));
+                                let pNome = (pComp && (pComp.nome || pComp.nomePersonagem)) ? (pComp.nome || pComp.nomePersonagem) : 'Personagem';
+                                pNome = pNome.toString().toUpperCase().replace(/^CEGO$/i, 'DEFICIENTE VISUAL');
+                                addItem(j.emoji || '👤', pNome + ': ' + (j.nome || 'PARTICIPANTE'), '');
+                            }
+                        });
+                    }
+                }
+
+                // Abrir/fechar
+                btnLegenda.addEventListener('click', abrirLegenda);
+                fechar.addEventListener('click', fecharLegenda);
+                popupLegenda.addEventListener('click', (e) => {
+                    if (e.target === popupLegenda) fecharLegenda();
+                });
+                window.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') fecharLegenda();
+                });
+            })();
+        </script>
 
     </body>
 

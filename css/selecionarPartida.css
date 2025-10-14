@@ -1,0 +1,225 @@
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+    color: white;
+}
+
+.header h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+.partidas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.partida-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 3px solid transparent;
+}
+
+.partida-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    border-color: #667eea;
+}
+
+.partida-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.partida-nome {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.partida-data {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.partida-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 10px;
+    background: rgba(102, 126, 234, 0.1);
+    border-radius: 10px;
+}
+
+.stat-number {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #667eea;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: #6c757d;
+    font-weight: bold;
+}
+
+.partida-temas {
+    margin-bottom: 20px;
+}
+
+.temas-title {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.temas-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tema-badge {
+    background: #667eea;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.partida-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-partida {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-jogar {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+}
+
+.btn-jogar:hover {
+    background: linear-gradient(135deg, #218838, #1ea085);
+    color: white;
+    text-decoration: none;
+}
+
+.no-partidas {
+    text-align: center;
+    color: white;
+    padding: 60px 20px;
+}
+
+.no-partidas h3 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.no-partidas p {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+}
+
+.btn-criar-partida {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.btn-criar-partida:hover {
+    background: linear-gradient(135deg, #5a6fd8, #6a4190);
+    color: white;
+    text-decoration: none;
+    transform: translateY(-2px);
+}
+
+.back-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: rgba(52, 73, 94, 0.9);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease;
+    z-index: 9999;
+}
+
+.back-btn:hover {
+    background: rgba(52, 73, 94, 1);
+    color: white;
+    text-decoration: none;
+}
+
+#outrasPartidas {
+    display: none;
+}
+
+#toggleBtn {
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    font-weight: bold;
+    border-radius: 10px;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#toggleBtn:hover {
+    background: #667eea;
+    color: white;
+}

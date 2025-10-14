@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 08/10/2025 às 06:36
+-- Tempo de geração: 13/10/2025 às 20:30
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -37,18 +37,17 @@ CREATE TABLE `tbconfiguracaopartida` (
   `eventosCasas` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`eventosCasas`)),
   `dataCriacao` timestamp NOT NULL DEFAULT current_timestamp(),
   `dataModificacao` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `ativo` tinyint(1) DEFAULT 1
+  `ativo` tinyint(1) DEFAULT 1,
+  `codigoPartida` varchar(6) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `tbconfiguracaopartida`
 --
 
-INSERT INTO `tbconfiguracaopartida` (`idConfiguracao`, `nomeConfiguracao`, `personagens`, `eventosPersonagem`, `temasSelecionados`, `eventosSelecionados`, `eventosCasas`, `dataCriacao`, `dataModificacao`, `ativo`) VALUES
-(1, 'Partida_08-10-2025_03-54', '[{\"id\":\"3\",\"nome\":\"Mulher Negra\",\"emoji\":\"\\ud83d\\udc69\\ud83c\\udffd\\u200d\\ud83e\\uddb1\"},{\"id\":\"4\",\"nome\":\"Retirante\",\"emoji\":\"\\ud83e\\uddf3\"}]', '[{\"id\":\"2\",\"personagem\":\"1\"},{\"id\":\"7\",\"personagem\":\"2\"},{\"id\":\"3\",\"personagem\":\"1\"},{\"id\":\"6\",\"personagem\":\"2\"},{\"id\":\"10\",\"personagem\":\"3\"},{\"id\":\"11\",\"personagem\":\"3\"},{\"id\":\"14\",\"personagem\":\"4\"},{\"id\":\"15\",\"personagem\":\"4\"},{\"id\":\"18\",\"personagem\":\"5\"},{\"id\":\"19\",\"personagem\":\"5\"},{\"id\":\"22\",\"personagem\":\"6\"},{\"id\":\"23\",\"personagem\":\"6\"}]', '[]', '[\"1\",\"29\"]', '[{\"id\":\"1\",\"casa\":9,\"tipo\":\"geral\"},{\"id\":\"29\",\"casa\":5,\"tipo\":\"geral\"},{\"id\":\"2\",\"casa\":6,\"tipo\":\"personagem\",\"personagem\":\"1\"},{\"id\":\"7\",\"casa\":8,\"tipo\":\"personagem\",\"personagem\":\"2\"},{\"id\":\"3\",\"casa\":1,\"tipo\":\"personagem\",\"personagem\":\"1\"},{\"id\":\"6\",\"casa\":32,\"tipo\":\"personagem\",\"personagem\":\"2\"},{\"id\":\"10\",\"casa\":10,\"tipo\":\"personagem\",\"personagem\":\"3\"},{\"id\":\"11\",\"casa\":2,\"tipo\":\"personagem\",\"personagem\":\"3\"},{\"id\":\"14\",\"casa\":13,\"tipo\":\"personagem\",\"personagem\":\"4\"},{\"id\":\"15\",\"casa\":30,\"tipo\":\"personagem\",\"personagem\":\"4\"},{\"id\":\"18\",\"casa\":40,\"tipo\":\"personagem\",\"personagem\":\"5\"},{\"id\":\"19\",\"casa\":20,\"tipo\":\"personagem\",\"personagem\":\"5\"},{\"id\":\"22\",\"casa\":35,\"tipo\":\"personagem\",\"personagem\":\"6\"},{\"id\":\"23\",\"casa\":15,\"tipo\":\"personagem\",\"personagem\":\"6\"}]', '2025-10-08 01:54:49', '2025-10-08 02:28:57', 0),
-(2, 'Partida_08-10-2025_04-28', '[{\"id\":\"2\",\"nome\":\"Cego\",\"emoji\":\"\\ud83d\\udc68\\u200d\\ud83e\\uddaf\"},{\"id\":\"3\",\"nome\":\"Mulher Negra\",\"emoji\":\"\\ud83d\\udc69\\ud83c\\udffd\\u200d\\ud83e\\uddb1\"},{\"id\":\"4\",\"nome\":\"Retirante\",\"emoji\":\"\\ud83e\\uddf3\"},{\"id\":\"1\",\"nome\":\"Idoso\",\"emoji\":\"\\ud83d\\udc74\"}]', '[{\"id\":\"1\",\"personagem\":\"1\"},{\"id\":\"2\",\"personagem\":\"1\"},{\"id\":\"3\",\"personagem\":\"1\"},{\"id\":\"6\",\"personagem\":\"2\"},{\"id\":\"7\",\"personagem\":\"2\"},{\"id\":\"9\",\"personagem\":\"3\"},{\"id\":\"10\",\"personagem\":\"3\"},{\"id\":\"11\",\"personagem\":\"3\"},{\"id\":\"12\",\"personagem\":\"3\"},{\"id\":\"8\",\"personagem\":\"2\"},{\"id\":\"5\",\"personagem\":\"2\"},{\"id\":\"4\",\"personagem\":\"1\"},{\"id\":\"16\",\"personagem\":\"4\"},{\"id\":\"15\",\"personagem\":\"4\"},{\"id\":\"14\",\"personagem\":\"4\"},{\"id\":\"13\",\"personagem\":\"4\"},{\"id\":\"17\",\"personagem\":\"5\"},{\"id\":\"18\",\"personagem\":\"5\"},{\"id\":\"20\",\"personagem\":\"5\"},{\"id\":\"19\",\"personagem\":\"5\"},{\"id\":\"23\",\"personagem\":\"6\"},{\"id\":\"24\",\"personagem\":\"6\"},{\"id\":\"22\",\"personagem\":\"6\"},{\"id\":\"21\",\"personagem\":\"6\"}]', '[]', '[\"23\",\"4\"]', '[{\"id\":\"23\",\"casa\":35,\"tipo\":\"geral\"},{\"id\":\"4\",\"casa\":29,\"tipo\":\"geral\"},{\"id\":\"1\",\"casa\":23,\"tipo\":\"personagem\",\"personagem\":\"1\"},{\"id\":\"2\",\"casa\":40,\"tipo\":\"personagem\",\"personagem\":\"1\"},{\"id\":\"3\",\"casa\":18,\"tipo\":\"personagem\",\"personagem\":\"1\"},{\"id\":\"6\",\"casa\":20,\"tipo\":\"personagem\",\"personagem\":\"2\"},{\"id\":\"7\",\"casa\":5,\"tipo\":\"personagem\",\"personagem\":\"2\"},{\"id\":\"9\",\"casa\":37,\"tipo\":\"personagem\",\"personagem\":\"3\"},{\"id\":\"10\",\"casa\":4,\"tipo\":\"personagem\",\"personagem\":\"3\"},{\"id\":\"11\",\"casa\":7,\"tipo\":\"personagem\",\"personagem\":\"3\"},{\"id\":\"12\",\"casa\":31,\"tipo\":\"personagem\",\"personagem\":\"3\"},{\"id\":\"8\",\"casa\":6,\"tipo\":\"personagem\",\"personagem\":\"2\"},{\"id\":\"5\",\"casa\":13,\"tipo\":\"personagem\",\"personagem\":\"2\"},{\"id\":\"4\",\"casa\":21,\"tipo\":\"personagem\",\"personagem\":\"1\"},{\"id\":\"16\",\"casa\":39,\"tipo\":\"personagem\",\"personagem\":\"4\"},{\"id\":\"15\",\"casa\":15,\"tipo\":\"personagem\",\"personagem\":\"4\"},{\"id\":\"14\",\"casa\":22,\"tipo\":\"personagem\",\"personagem\":\"4\"},{\"id\":\"13\",\"casa\":2,\"tipo\":\"personagem\",\"personagem\":\"4\"},{\"id\":\"17\",\"casa\":14,\"tipo\":\"personagem\",\"personagem\":\"5\"},{\"id\":\"18\",\"casa\":16,\"tipo\":\"personagem\",\"personagem\":\"5\"},{\"id\":\"20\",\"casa\":1,\"tipo\":\"personagem\",\"personagem\":\"5\"},{\"id\":\"19\",\"casa\":28,\"tipo\":\"personagem\",\"personagem\":\"5\"},{\"id\":\"23\",\"casa\":11,\"tipo\":\"personagem\",\"personagem\":\"6\"},{\"id\":\"24\",\"casa\":12,\"tipo\":\"personagem\",\"personagem\":\"6\"},{\"id\":\"22\",\"casa\":9,\"tipo\":\"personagem\",\"personagem\":\"6\"},{\"id\":\"21\",\"casa\":17,\"tipo\":\"personagem\",\"personagem\":\"6\"}]', '2025-10-08 02:28:29', '2025-10-08 02:29:00', 0),
-(3, 'Jogo padrão com 4 personagens, sem eventos gerais.', '[{\"id\":\"1\",\"nome\":\"IDOSO\",\"emoji\":\"\\ud83d\\udc74\"},{\"id\":\"3\",\"nome\":\"MULHER NEGRA\",\"emoji\":\"\\ud83d\\udc69\\ud83c\\udffd\\u200d\\ud83e\\uddb1\"},{\"id\":\"6\",\"nome\":\"UMBANDISTA\",\"emoji\":\"\\ud83d\\udc73\\ud83c\\udffd\\u200d\\u2642\\ufe0f\"},{\"id\":\"4\",\"nome\":\"RETIRANTE\",\"emoji\":\"\\ud83e\\uddf3\"}]', '[{\"id\":\"1\",\"personagem\":\"1\"},{\"id\":\"2\",\"personagem\":\"1\"},{\"id\":\"3\",\"personagem\":\"1\"},{\"id\":\"4\",\"personagem\":\"1\"},{\"id\":\"9\",\"personagem\":\"3\"},{\"id\":\"10\",\"personagem\":\"3\"},{\"id\":\"11\",\"personagem\":\"3\"},{\"id\":\"12\",\"personagem\":\"3\"},{\"id\":\"21\",\"personagem\":\"6\"},{\"id\":\"22\",\"personagem\":\"6\"},{\"id\":\"23\",\"personagem\":\"6\"},{\"id\":\"24\",\"personagem\":\"6\"},{\"id\":\"13\",\"personagem\":\"4\"},{\"id\":\"14\",\"personagem\":\"4\"},{\"id\":\"15\",\"personagem\":\"4\"},{\"id\":\"16\",\"personagem\":\"4\"}]', '[]', '[]', '[{\"id\":\"1\",\"casa\":20,\"tipo\":\"personagem\",\"personagem\":\"1\"},{\"id\":\"2\",\"casa\":32,\"tipo\":\"personagem\",\"personagem\":\"1\"},{\"id\":\"3\",\"casa\":34,\"tipo\":\"personagem\",\"personagem\":\"1\"},{\"id\":\"4\",\"casa\":22,\"tipo\":\"personagem\",\"personagem\":\"1\"},{\"id\":\"9\",\"casa\":37,\"tipo\":\"personagem\",\"personagem\":\"3\"},{\"id\":\"10\",\"casa\":31,\"tipo\":\"personagem\",\"personagem\":\"3\"},{\"id\":\"11\",\"casa\":30,\"tipo\":\"personagem\",\"personagem\":\"3\"},{\"id\":\"12\",\"casa\":18,\"tipo\":\"personagem\",\"personagem\":\"3\"},{\"id\":\"21\",\"casa\":4,\"tipo\":\"personagem\",\"personagem\":\"6\"},{\"id\":\"22\",\"casa\":10,\"tipo\":\"personagem\",\"personagem\":\"6\"},{\"id\":\"23\",\"casa\":7,\"tipo\":\"personagem\",\"personagem\":\"6\"},{\"id\":\"24\",\"casa\":28,\"tipo\":\"personagem\",\"personagem\":\"6\"},{\"id\":\"13\",\"casa\":21,\"tipo\":\"personagem\",\"personagem\":\"4\"},{\"id\":\"14\",\"casa\":40,\"tipo\":\"personagem\",\"personagem\":\"4\"},{\"id\":\"15\",\"casa\":16,\"tipo\":\"personagem\",\"personagem\":\"4\"},{\"id\":\"16\",\"casa\":13,\"tipo\":\"personagem\",\"personagem\":\"4\"}]', '2025-10-08 03:46:28', '2025-10-08 03:46:28', 1),
-(4, 'teste', '[{\"id\":\"3\",\"nome\":\"MULHER NEGRA\",\"emoji\":\"\\ud83d\\udc69\\ud83c\\udffd\\u200d\\ud83e\\uddb1\"},{\"id\":\"1\",\"nome\":\"IDOSO\",\"emoji\":\"\\ud83d\\udc74\"}]', '[{\"id\":\"10\",\"personagem\":\"3\"},{\"id\":\"12\",\"personagem\":\"3\"},{\"id\":\"2\",\"personagem\":\"1\"},{\"id\":\"4\",\"personagem\":\"1\"}]', '[]', '[\"40\",\"3\",\"30\",\"35\",\"6\",\"5\",\"10\",\"17\",\"8\",\"37\",\"4\",\"23\",\"21\",\"33\",\"15\",\"38\",\"12\",\"9\",\"43\",\"11\",\"18\"]', '[{\"id\":\"40\",\"casa\":23,\"tipo\":\"geral\"},{\"id\":\"3\",\"casa\":35,\"tipo\":\"geral\"},{\"id\":\"30\",\"casa\":38,\"tipo\":\"geral\"},{\"id\":\"35\",\"casa\":3,\"tipo\":\"geral\"},{\"id\":\"6\",\"casa\":30,\"tipo\":\"geral\"},{\"id\":\"5\",\"casa\":19,\"tipo\":\"geral\"},{\"id\":\"10\",\"casa\":17,\"tipo\":\"geral\"},{\"id\":\"17\",\"casa\":7,\"tipo\":\"geral\"},{\"id\":\"8\",\"casa\":37,\"tipo\":\"geral\"},{\"id\":\"37\",\"casa\":14,\"tipo\":\"geral\"},{\"id\":\"4\",\"casa\":28,\"tipo\":\"geral\"},{\"id\":\"23\",\"casa\":9,\"tipo\":\"geral\"},{\"id\":\"21\",\"casa\":4,\"tipo\":\"geral\"},{\"id\":\"33\",\"casa\":10,\"tipo\":\"geral\"},{\"id\":\"15\",\"casa\":33,\"tipo\":\"geral\"},{\"id\":\"38\",\"casa\":24,\"tipo\":\"geral\"},{\"id\":\"12\",\"casa\":34,\"tipo\":\"geral\"},{\"id\":\"9\",\"casa\":1,\"tipo\":\"geral\"},{\"id\":\"43\",\"casa\":31,\"tipo\":\"geral\"},{\"id\":\"11\",\"casa\":12,\"tipo\":\"geral\"},{\"id\":\"18\",\"casa\":11,\"tipo\":\"geral\"},{\"id\":\"10\",\"casa\":40,\"tipo\":\"personagem\",\"personagem\":\"3\"},{\"id\":\"12\",\"casa\":26,\"tipo\":\"personagem\",\"personagem\":\"3\"},{\"id\":\"2\",\"casa\":8,\"tipo\":\"personagem\",\"personagem\":\"1\"},{\"id\":\"4\",\"casa\":15,\"tipo\":\"personagem\",\"personagem\":\"1\"}]', '2025-10-08 04:33:14', '2025-10-08 04:33:14', 1);
+INSERT INTO `tbconfiguracaopartida` (`idConfiguracao`, `nomeConfiguracao`, `personagens`, `eventosPersonagem`, `temasSelecionados`, `eventosSelecionados`, `eventosCasas`, `dataCriacao`, `dataModificacao`, `ativo`, `codigoPartida`) VALUES
+(5, 'Partida Oficial com 20 Eventos e 4 personagens', '[{\"id\":\"1\",\"nome\":\"IDOSO\",\"emoji\":\"\\ud83d\\udc74\"},{\"id\":\"3\",\"nome\":\"MULHER NEGRA\",\"emoji\":\"\\ud83d\\udc69\\ud83c\\udffd\\u200d\\ud83e\\uddb1\"},{\"id\":\"4\",\"nome\":\"RETIRANTE\",\"emoji\":\"\\ud83e\\uddf3\"},{\"id\":\"5\",\"nome\":\"MULHER TRANS\",\"emoji\":\"\\ud83c\\udf08\"}]', '[{\"id\":1,\"personagem\":\"1\"},{\"id\":2,\"personagem\":\"1\"},{\"id\":3,\"personagem\":\"1\"},{\"id\":4,\"personagem\":\"1\"},{\"id\":9,\"personagem\":\"3\"},{\"id\":10,\"personagem\":\"3\"},{\"id\":11,\"personagem\":\"3\"},{\"id\":12,\"personagem\":\"3\"},{\"id\":13,\"personagem\":\"4\"},{\"id\":14,\"personagem\":\"4\"},{\"id\":15,\"personagem\":\"4\"},{\"id\":16,\"personagem\":\"4\"},{\"id\":17,\"personagem\":\"5\"},{\"id\":18,\"personagem\":\"5\"},{\"id\":19,\"personagem\":\"5\"},{\"id\":20,\"personagem\":\"5\"}]', '[]', '[\"1\",\"2\",\"40\",\"3\",\"30\",\"35\",\"6\",\"5\",\"10\",\"17\",\"8\",\"37\",\"4\",\"23\",\"21\",\"15\",\"33\",\"18\",\"11\",\"43\"]', '[{\"id\":\"1\",\"casa\":1,\"tipo\":\"geral\"},{\"id\":\"2\",\"casa\":18,\"tipo\":\"geral\"},{\"id\":\"40\",\"casa\":15,\"tipo\":\"geral\"},{\"id\":\"3\",\"casa\":40,\"tipo\":\"geral\"},{\"id\":\"30\",\"casa\":17,\"tipo\":\"geral\"},{\"id\":\"35\",\"casa\":13,\"tipo\":\"geral\"},{\"id\":\"6\",\"casa\":23,\"tipo\":\"geral\"},{\"id\":\"5\",\"casa\":3,\"tipo\":\"geral\"},{\"id\":\"10\",\"casa\":11,\"tipo\":\"geral\"},{\"id\":\"17\",\"casa\":24,\"tipo\":\"geral\"},{\"id\":\"8\",\"casa\":35,\"tipo\":\"geral\"},{\"id\":\"37\",\"casa\":2,\"tipo\":\"geral\"},{\"id\":\"4\",\"casa\":8,\"tipo\":\"geral\"},{\"id\":\"23\",\"casa\":26,\"tipo\":\"geral\"},{\"id\":\"21\",\"casa\":12,\"tipo\":\"geral\"},{\"id\":\"15\",\"casa\":34,\"tipo\":\"geral\"},{\"id\":\"33\",\"casa\":14,\"tipo\":\"geral\"},{\"id\":\"18\",\"casa\":10,\"tipo\":\"geral\"},{\"id\":\"11\",\"casa\":21,\"tipo\":\"geral\"},{\"id\":\"43\",\"casa\":5,\"tipo\":\"geral\"},{\"id\":1,\"casa\":20,\"tipo\":\"personagem\",\"personagem\":\"1\"},{\"id\":2,\"casa\":16,\"tipo\":\"personagem\",\"personagem\":\"1\"},{\"id\":3,\"casa\":36,\"tipo\":\"personagem\",\"personagem\":\"1\"},{\"id\":4,\"casa\":6,\"tipo\":\"personagem\",\"personagem\":\"1\"},{\"id\":9,\"casa\":28,\"tipo\":\"personagem\",\"personagem\":\"3\"},{\"id\":10,\"casa\":9,\"tipo\":\"personagem\",\"personagem\":\"3\"},{\"id\":11,\"casa\":38,\"tipo\":\"personagem\",\"personagem\":\"3\"},{\"id\":12,\"casa\":33,\"tipo\":\"personagem\",\"personagem\":\"3\"},{\"id\":13,\"casa\":32,\"tipo\":\"personagem\",\"personagem\":\"4\"},{\"id\":14,\"casa\":37,\"tipo\":\"personagem\",\"personagem\":\"4\"},{\"id\":15,\"casa\":25,\"tipo\":\"personagem\",\"personagem\":\"4\"},{\"id\":16,\"casa\":27,\"tipo\":\"personagem\",\"personagem\":\"4\"},{\"id\":17,\"casa\":19,\"tipo\":\"personagem\",\"personagem\":\"5\"},{\"id\":18,\"casa\":22,\"tipo\":\"personagem\",\"personagem\":\"5\"},{\"id\":19,\"casa\":30,\"tipo\":\"personagem\",\"personagem\":\"5\"},{\"id\":20,\"casa\":31,\"tipo\":\"personagem\",\"personagem\":\"5\"}]', '2025-10-13 15:39:58', '2025-10-13 18:10:04', 1, 'K3F497'),
+(19, 'Partida com eventos bons', '[{\"id\":\"1\",\"nome\":\"IDOSO\",\"emoji\":\"\\ud83d\\udc74\"},{\"id\":\"2\",\"nome\":\"DEFICIENTE VISUAL\",\"emoji\":\"\\ud83d\\udc68\\u200d\\ud83e\\uddaf\"}]', '[{\"id\":1,\"personagem\":\"1\"},{\"id\":2,\"personagem\":\"1\"},{\"id\":3,\"personagem\":\"1\"},{\"id\":4,\"personagem\":\"1\"},{\"id\":5,\"personagem\":\"2\"},{\"id\":6,\"personagem\":\"2\"},{\"id\":7,\"personagem\":\"2\"},{\"id\":8,\"personagem\":\"2\"}]', '[]', '[\"3\",\"6\",\"8\",\"10\",\"4\",\"17\",\"5\",\"15\",\"21\",\"12\",\"18\",\"19\",\"22\",\"13\",\"7\",\"2\",\"16\",\"14\",\"1\",\"9\"]', '[{\"id\":\"3\",\"casa\":19,\"tipo\":\"geral\"},{\"id\":\"6\",\"casa\":28,\"tipo\":\"geral\"},{\"id\":\"8\",\"casa\":13,\"tipo\":\"geral\"},{\"id\":\"10\",\"casa\":37,\"tipo\":\"geral\"},{\"id\":\"4\",\"casa\":35,\"tipo\":\"geral\"},{\"id\":\"17\",\"casa\":11,\"tipo\":\"geral\"},{\"id\":\"5\",\"casa\":18,\"tipo\":\"geral\"},{\"id\":\"15\",\"casa\":6,\"tipo\":\"geral\"},{\"id\":\"21\",\"casa\":21,\"tipo\":\"geral\"},{\"id\":\"12\",\"casa\":26,\"tipo\":\"geral\"},{\"id\":\"18\",\"casa\":34,\"tipo\":\"geral\"},{\"id\":\"19\",\"casa\":12,\"tipo\":\"geral\"},{\"id\":\"22\",\"casa\":24,\"tipo\":\"geral\"},{\"id\":\"13\",\"casa\":38,\"tipo\":\"geral\"},{\"id\":\"7\",\"casa\":30,\"tipo\":\"geral\"},{\"id\":\"2\",\"casa\":29,\"tipo\":\"geral\"},{\"id\":\"16\",\"casa\":17,\"tipo\":\"geral\"},{\"id\":\"14\",\"casa\":1,\"tipo\":\"geral\"},{\"id\":\"1\",\"casa\":23,\"tipo\":\"geral\"},{\"id\":\"9\",\"casa\":10,\"tipo\":\"geral\"},{\"id\":1,\"casa\":2,\"tipo\":\"personagem\",\"personagem\":\"1\"},{\"id\":2,\"casa\":7,\"tipo\":\"personagem\",\"personagem\":\"1\"},{\"id\":3,\"casa\":20,\"tipo\":\"personagem\",\"personagem\":\"1\"},{\"id\":4,\"casa\":33,\"tipo\":\"personagem\",\"personagem\":\"1\"},{\"id\":5,\"casa\":4,\"tipo\":\"personagem\",\"personagem\":\"2\"},{\"id\":6,\"casa\":32,\"tipo\":\"personagem\",\"personagem\":\"2\"},{\"id\":7,\"casa\":15,\"tipo\":\"personagem\",\"personagem\":\"2\"},{\"id\":8,\"casa\":9,\"tipo\":\"personagem\",\"personagem\":\"2\"}]', '2025-10-13 18:22:08', '2025-10-13 18:22:08', 1, '5BQ97G');
 
 -- --------------------------------------------------------
 
@@ -72,50 +71,50 @@ CREATE TABLE `tbevento` (
 --
 
 INSERT INTO `tbevento` (`idEvento`, `nomeEvento`, `descricaoEvento`, `modificadorEvento`, `dificuldadeEvento`, `temaAula`, `impactoEvento`, `casaEvento`) VALUES
-(1, 'Visita técnica', 'Sua sala saiu para um evento onde vocês vão aprender sobre coias diferentes do habitual', 'anda mais 2 casas', 'facil', 'sus', 'bom', 2),
+(1, 'Visita técnica', 'Sua sala saiu para um evento onde vocês vão aprender sobre coias diferentes do habitual', 'anda mais 2 casas', 'facil', 'EDUCAÇÃO', 'bom', 2),
 (2, 'Promoção de materiais escolares', 'Você acabou se deparando com uma promoção de materiais escolares em um apapelaria e conseguiu comprar coisas novas para te ajudar a estudar!', 'avance 2 casas', 'facil', 'EDUCAÇÃO', 'bom', 2),
-(3, 'Ajuda do chefe', 'Seu chefe pagou seu almoço hoje e você não terá que gastar o pouco que você tem.', 'Avance 2 casas.', 'fácil', 'sus', 'bom', 2),
+(3, 'Ajuda do chefe', 'Seu chefe pagou seu almoço hoje e você não terá que gastar o pouco que você tem.', 'Avance 2 casas.', 'fácil', 'EMPREGO E TRABALHO', 'bom', 2),
 (4, 'Carona', 'Seu colega de trabalho/escola te deu uma carona hoje, e você não terá que gastar dinheiro com condução.', 'Avance 2 casas.', 'fácil', 'EDUCAÇÃO', 'bom', 2),
-(5, 'Aniversário', 'Hoje é seu aniversário e você recebeu uma mini festa surpresa (bolo e salgados) de alguns amigos seus.', 'Avance 2 casas.', 'fácil', 'sus', 'bom', 2),
-(6, 'Atendimento rápido', 'Você estava no médico e por sorte seu atendimento foi rápido.', 'Avance 2 casas.', 'fácil', 'sus', 'bom', 2),
-(7, 'Materiais', 'Seu vizinho ia jogar fora os materiais dele do ano passado, e você como estava precisando, pediu a ele, e ele te deu.', 'Avance 2 casas.', 'fácil', 'sus', 'bom', 2),
-(8, 'Bolsa Família/Pé de Meia', 'Você sacou o seu Bolsa Família/Pé de Meia.', 'Avance 4 casas.', 'médio', 'sus', 'bom', 4),
-(9, 'Cesta básica', 'Você recebeu uma cesta básica de um familiar seu.', 'Avance 4 casas.', 'médio', 'sus', 'bom', 4),
-(10, 'Aumento', 'Seu chefe te deu um aumento de 20% no salário.', 'Avance 4 casas.', 'médio', 'sus', 'bom', 4),
-(11, 'Dinheiro na rua', 'Você achou uma nota de 100 reais na rua do centro.', 'Avance 4 casas.', 'médio', 'sus', 'bom', 4),
-(12, 'Comoção', 'Um amigo seu ficou comovido ao ver você sofrendo preconceitos e resolveu te ajudar a passar por isso.', 'Avance 4 casas.', 'médio', 'sus', 'bom', 4),
-(13, 'Promoção', 'O seu chefe te deu uma boa promoção, com um bom aumento incluído.', 'Avance 6 casas.', 'difícil', 'sus', 'bom', 6),
-(14, 'Roupas novas', 'Ganhou roupas novas em um bazar social e não precisará gastar com isso por um bom tempo.', 'Avance 6 casas.', 'difícil', 'sus', 'bom', 6),
-(15, 'Celular novo', 'Seu melhor amigo estava pra trocar de celular e te deu o antigo dele.', 'Avance 6 casas.', 'difícil', 'sus', 'bom', 6),
-(16, 'Quitação de dívidas', 'Um familiar seu quitou boa parte de suas dívidas como forma de apoio e agradecimento.', 'Avance 6 casas.', 'difícil', 'sus', 'bom', 6),
-(17, 'Bicicleta', 'Você ganhou uma bicicleta de presente de um amigo seu, e agora pode se locomover sem gastar com condução.', 'Avance 6 casas.', 'difícil', 'sus', 'bom', 6),
+(5, 'Aniversário', 'Hoje é seu aniversário e você recebeu uma mini festa surpresa (bolo e salgados) de alguns amigos seus.', 'Avance 2 casas.', 'fácil', 'SOCIAL', 'bom', 2),
+(6, 'Atendimento rápido', 'Você estava no médico e por sorte seu atendimento foi rápido.', 'Avance 2 casas.', 'fácil', 'SAÚDE', 'bom', 2),
+(7, 'Materiais', 'Seu vizinho ia jogar fora os materiais dele do ano passado, e você como estava precisando, pediu a ele, e ele te deu.', 'Avance 2 casas.', 'fácil', 'EDUCAÇÃO', 'bom', 2),
+(8, 'Bolsa Família/Pé de Meia', 'Você sacou o seu Bolsa Família/Pé de Meia.', 'Avance 4 casas.', 'médio', 'BENEFÍCIO', 'bom', 4),
+(9, 'Cesta básica', 'Você recebeu uma cesta básica de um familiar seu.', 'Avance 4 casas.', 'médio', 'BENEFÍCIO', 'bom', 4),
+(10, 'Aumento', 'Seu chefe te deu um aumento de 20% no salário.', 'Avance 4 casas.', 'médio', 'EMPREGO E TRABALHO', 'bom', 4),
+(11, 'Dinheiro na rua', 'Você achou uma nota de 100 reais na rua do centro.', 'Avance 4 casas.', 'médio', 'SORTE/AZAR', 'bom', 4),
+(12, 'Comoção', 'Um amigo seu ficou comovido ao ver você sofrendo preconceitos e resolveu te ajudar a passar por isso.', 'Avance 4 casas.', 'médio', 'SOCIAL', 'bom', 4),
+(13, 'Promoção', 'O seu chefe te deu uma boa promoção, com um bom aumento incluído.', 'Avance 6 casas.', 'difícil', 'EMPREGO E TRABALHO', 'bom', 6),
+(14, 'Roupas novas', 'Ganhou roupas novas em um bazar social e não precisará gastar com isso por um bom tempo.', 'Avance 6 casas.', 'difícil', 'SORTE/AZAR', 'bom', 6),
+(15, 'Celular novo', 'Seu melhor amigo estava pra trocar de celular e te deu o antigo dele.', 'Avance 6 casas.', 'difícil', 'SOCIAL', 'bom', 6),
+(16, 'Quitação de dívidas', 'Um familiar seu quitou boa parte de suas dívidas como forma de apoio e agradecimento.', 'Avance 6 casas.', 'difícil', 'SOCIAL', 'bom', 6),
+(17, 'Bicicleta', 'Você ganhou uma bicicleta de presente de um amigo seu, e agora pode se locomover sem gastar com condução.', 'Avance 6 casas.', 'difícil', 'SOCIAL', 'bom', 6),
 (18, 'Emprego', 'Conseguiu um emprego em uma cidade de classe alta em outra cidade com moradia e alimentação incluídos.', 'Avance 8 casas.', 'extremo', 'EMPREGO E TRABALHO', 'bom', 8),
-(19, 'Ganhou um processo', 'Ganhou um processo por danos morais e recebeu uma indenização muito alta.', 'Avance 8 casas.', 'extremo', 'sus', 'bom', 8),
-(20, 'Estudo Completo', 'No dia do seu aniversário, um familiar decidiu pagar todos os seus estudos até o fim da faculdade.', 'Avance 8 casas.', 'extremo', 'sus', 'bom', 8),
+(19, 'Ganhou um processo', 'Ganhou um processo por danos morais e recebeu uma indenização muito alta.', 'Avance 8 casas.', 'extremo', 'JURÍDICO', 'bom', 8),
+(20, 'Estudo Completo', 'No dia do seu aniversário, um familiar decidiu pagar todos os seus estudos até o fim da faculdade.', 'Avance 8 casas.', 'extremo', 'SOCIAL', 'bom', 8),
 (21, 'Casa popular', 'Foi sorteado para receber uma casa popular mobiliada, pronta para morar.', 'Avance 8 casas.', 'extremo', 'MORADIA', 'bom', 8),
-(22, 'Ganhou na loteria', 'Você ganhou na loteria!!!', 'Avance 8 casas.', 'extremo', 'sus', 'bom', 8),
-(23, 'Cachorro fugiu', 'Seu cachorro fugiu e você precisou procurar.', 'Volte 2 casas.', 'fácil', 'sus', 'ruim', -2),
+(22, 'Ganhou na loteria', 'Você ganhou na loteria!!!', 'Avance 8 casas.', 'extremo', 'SORTE/AZAR', 'bom', 8),
+(23, 'Cachorro fugiu', 'Seu cachorro fugiu e você precisou procurar.', 'Volte 2 casas.', 'fácil', 'SORTE/AZAR', 'ruim', -2),
 (24, 'Perdeu o ônibus', 'Não pegou o ônibus por que ficou sem dinheiro pra passagem.', 'Volte 2 casas.', 'fácil', 'TRANSPORTE PÚBLICO', 'ruim', -2),
-(25, 'Perdeu as chaves', 'Perdeu as chaves pois saiu com pressa.', 'Volte 2 casas.', 'fácil', 'sus', 'ruim', -2),
-(26, 'Ficou doente', 'Ficou doente pois não seguiu as normas de higiene básica.', 'Volte 2 casas.', 'fácil', 'sus', 'ruim', -2),
+(25, 'Perdeu as chaves', 'Perdeu as chaves pois saiu com pressa.', 'Volte 2 casas.', 'fácil', 'SORTE/AZAR', 'ruim', -2),
+(26, 'Ficou doente', 'Ficou doente pois não seguiu as normas de higiene básica.', 'Volte 2 casas.', 'fácil', 'SAÚDE', 'ruim', -2),
 (27, 'Falta de energia', 'O seu despertador não tocou pois a energia da sua casa acabou e o celular descarregou.', 'Volte 2 casas.', 'fácil', 'MORADIA', 'ruim', -2),
 (28, 'Trabalho da escola', 'Você teve que voltar pra casa e terminar um trabalho da escola, faltando ao trabalho.', 'Volte 4 casas.', 'médio', 'MORADIA', 'ruim', -4),
 (29, 'Recusado no emprego', 'Você foi recusado em uma entrevista de emprego.', 'Volte 4 casas.', 'médio', 'EMPREGO E TRABALHO', 'ruim', -4),
 (30, 'Ameaças na escola', 'Recebeu ameaças na escola e precisou faltar alguns dias.', 'Volte 4 casas.', 'médio', 'EDUCAÇÃO', 'ruim', -4),
-(31, 'Ficou endividado', 'Você ficou endividado e agora precisa juntar dinheiro.', 'Volte 4 casas.', 'médio', 'sus', 'ruim', -4),
-(32, 'Empréstimo não devolvido', 'Você emprestou dinheiro e não recebeu de volta.', 'Volte 4 casas.', 'médio', 'sus', 'ruim', -4),
-(33, 'Celular quebrou', 'Você esbarrou em alguém, o celular caiu no chão e quebrou.', 'Volte 6 casas.', 'difícil', 'sus', 'ruim', -6),
-(34, 'Recuperação', 'Você reprovou em uma matéria e ficou de recuperação.', 'Volte 6 casas.', 'difícil', 'sus', 'ruim', -6),
-(35, 'Atraso de dívida', 'Você atrasou a conta de luz e ficou alguns dias sem energia.', 'Volte 6 casas.', 'difícil', 'sus', 'ruim', -6),
+(31, 'Ficou endividado', 'Você ficou endividado e agora precisa juntar dinheiro.', 'Volte 4 casas.', 'médio', 'JURÍDICO', 'ruim', -4),
+(32, 'Empréstimo não devolvido', 'Você emprestou dinheiro e não recebeu de volta.', 'Volte 4 casas.', 'médio', 'SOCIAL', 'ruim', -4),
+(33, 'Celular quebrou', 'Você esbarrou em alguém, o celular caiu no chão e quebrou.', 'Volte 6 casas.', 'difícil', 'SORTE/AZAR', 'ruim', -6),
+(34, 'Recuperação', 'Você reprovou em uma matéria e ficou de recuperação.', 'Volte 6 casas.', 'difícil', 'EDUCAÇÃO', 'ruim', -6),
+(35, 'Atraso de dívida', 'Você atrasou a conta de luz e ficou alguns dias sem energia.', 'Volte 6 casas.', 'difícil', 'JURÍDICO', 'ruim', -6),
 (36, 'Hora extra', 'Teve que fazer hora extra no trabalho e perdeu a prova na escola.', 'Volte 6 casas.', 'difícil', 'EDUCAÇÃO', 'ruim', -6),
 (37, 'Carteira roubada', 'Sua carteira foi roubada no ônibus com documentos e dinheiro.', 'Volte 6 casas.', 'difícil', 'TRANSPORTE PÚBLICO', 'ruim', -6),
-(38, 'Demissão', 'Seu chefe te demitiu injustamente por causa de um problema causado por outro funcionário.', 'Volte 8 casas.', 'extremo', 'sus', 'ruim', -8),
+(38, 'Demissão', 'Seu chefe te demitiu injustamente por causa de um problema causado por outro funcionário.', 'Volte 8 casas.', 'extremo', 'EMPREGO E TRABALHO', 'ruim', -8),
 (39, 'Incêndio', 'Houve um incêndio na sua casa por causa da fiação elétrica antiga.', 'Volte 8 casas.', 'extremo', 'MORADIA', 'ruim', -8),
 (40, 'Acidente', 'Você sofreu um acidente gravíssimo no trabalho e foi hospitalizado.', 'Volte 8 casas.', 'extremo', 'EMPREGO E TRABALHO', 'ruim', -8),
-(41, 'Preconceito Forte', 'Enquanto andava na rua, você sofreu preconceito pesado, com danos físicos e mentais.', 'Volte 8 casas.', 'extremo', 'sus', 'ruim', -8),
+(41, 'Preconceito Forte', 'Enquanto andava na rua, você sofreu preconceito pesado, com danos físicos e mentais.', 'Volte 8 casas.', 'extremo', 'SOCIAL', 'ruim', -8),
 (42, 'Enchente', 'Sua casa em área de risco foi alagada e você perdeu a maioria dos seus pertences.', 'Volte 8 casas.', 'extremo', 'MORADIA', 'ruim', -8),
-(43, 'Despertador não tocou', 'O seu despertador acabou não tocando e você se atrasou para a aula', 'Voltar 2 casas', 'facil', 'sus', 'ruim', -2),
-(44, 'Falta de luz', 'Você esava no meio de uma sessão de estudos e a luz caiu completamente!', 'volte 2 casas', 'fácil', 'sus', 'ruim', -2);
+(43, 'Despertador não tocou', 'O seu despertador acabou não tocando e você se atrasou para a aula', 'Voltar 2 casas', 'facil', 'SORTE/AZAR', 'ruim', -2),
+(44, 'Falta de luz', 'Você esava no meio de uma sessão de estudos e a luz caiu completamente!', 'volte 2 casas', 'fácil', 'SORTE/AZAR', 'ruim', -2);
 
 -- --------------------------------------------------------
 
@@ -181,7 +180,7 @@ CREATE TABLE `tbpersonagem` (
 
 INSERT INTO `tbpersonagem` (`idPersonagem`, `nomePersonagem`, `descricaoPersonagem`, `emojiPersonagem`) VALUES
 (1, 'Idoso', 'Uma pessoa com muita experiência de vida, mas com limitações físicas.', '👴'),
-(2, 'Cego', 'A vida te deu um desafio a mais, mas você não abaixou sua cabeça', '👨‍🦯'),
+(2, 'DEFICIÊNTE VISUAL', 'A vida te deu um desafio a mais, mas você não abaixou sua cabeça', '👨‍🦯'),
 (3, 'Mulher Negra', 'Uma mulher que tem orgulho da sua cor, alguém que quer derrubar o preconceito.', '👩🏽‍🦱'),
 (4, 'Retirante', 'Um viajante humilde que deixou sua terra natal em busca de novas oportunidades.', '🧑‍🌾'),
 (5, 'Mulher Trans', 'Uma mulher que teve a coragem de ser quem realmente é.', '🧔‍♀️'),
@@ -215,7 +214,8 @@ INSERT INTO `tbusuario` (`idUsuario`, `nomeUsuario`, `emailUsuario`, `senhaUsuar
 -- Índices de tabela `tbconfiguracaopartida`
 --
 ALTER TABLE `tbconfiguracaopartida`
-  ADD PRIMARY KEY (`idConfiguracao`);
+  ADD PRIMARY KEY (`idConfiguracao`),
+  ADD UNIQUE KEY `codigoPartida` (`codigoPartida`);
 
 --
 -- Índices de tabela `tbevento`
@@ -249,13 +249,13 @@ ALTER TABLE `tbusuario`
 -- AUTO_INCREMENT de tabela `tbconfiguracaopartida`
 --
 ALTER TABLE `tbconfiguracaopartida`
-  MODIFY `idConfiguracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idConfiguracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de tabela `tbevento`
 --
 ALTER TABLE `tbevento`
-  MODIFY `idEvento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `idEvento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT de tabela `tbeventopersonagem`

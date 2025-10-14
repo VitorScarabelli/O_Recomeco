@@ -10,8 +10,8 @@
     <img src="./KitComposiçãoLogin/svg/CéuTardio.svg" alt="" class="background">
 
     <div class="left">
-        <a href="../index/index.php"><img src="./KitComposiçãoLogin/svg/Botões/BackButton.svg" alt="" width="70px" height="70px"></a>
-        <a href="../index/index.php"><img src="./KitComposiçãoLogin/svg/Botões/HomeButton.svg" alt="" width="70px" height="70px"></a>
+        <a href="../index.php"><img src="./KitComposiçãoLogin/svg/Botões/BackButton.svg" alt="" width="70px" height="70px"></a>
+        <a href="../index.php"><img src="./KitComposiçãoLogin/svg/Botões/HomeButton.svg" alt="" width="70px" height="70px"></a>
     </div>
 
     <!-- <div class="right">
@@ -48,7 +48,7 @@
              <a href="../cadastro/index/index.php" class="link-cadastro">Criar uma</a> -->
 
             <p class="text-cadastro" style="font-size: 25px; text-transform: uppercase;">
-                Você necessita se logar pra ter acesso ao painel administrativo
+                VOCÊ NECESSITA SE LOGAR PRA TER ACESSO AO PAINEL ADMINISTRATIVO
             </p>
         </div>
     </div>

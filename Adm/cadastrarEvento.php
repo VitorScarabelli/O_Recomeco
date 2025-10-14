@@ -9,164 +9,7 @@ include('../includes/verificar_login.php'); ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastrar Evento - Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            font-family: 'Arial', sans-serif;
-        }
-
-        .admin-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .admin-header {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            text-align: center;
-        }
-
-        .admin-title {
-            color: #2c3e50;
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .admin-subtitle {
-            color: #7f8c8d;
-            font-size: 1.2rem;
-        }
-
-        .form-section {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        .form-label {
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 8px;
-        }
-
-        .form-control,
-        .form-select {
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            padding: 12px 15px;
-            font-size: 1rem;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .form-control:focus,
-        .form-select:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
-        }
-
-        .btn-submit {
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 25px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            transition: transform 0.3s ease;
-            width: 100%;
-        }
-
-        .btn-submit:hover {
-            transform: translateY(-2px);
-        }
-
-        .back-btn {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background: rgba(52, 73, 94, 0.9);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background 0.3s ease;
-        }
-
-        .back-btn:hover {
-            background: rgba(52, 73, 94, 1);
-            color: white;
-            text-decoration: none;
-        }
-
-        .alert {
-            border-radius: 10px;
-            border: none;
-            padding: 15px 20px;
-            margin-bottom: 20px;
-        }
-
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            border-left: 4px solid #28a745;
-        }
-
-        .alert-danger {
-            background-color: #f8d7da;
-            color: #721c24;
-            border-left: 4px solid #dc3545;
-        }
-
-        .form-row {
-            display: flex;
-            gap: 20px;
-        }
-
-        .form-row .form-group {
-            flex: 1;
-        }
-
-        .help-text {
-            font-size: 0.9rem;
-            color: #6c757d;
-            margin-top: 5px;
-        }
-
-        .preview-section {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
-            border: 2px dashed #dee2e6;
-        }
-
-        .preview-title {
-            color: #495057;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .preview-item {
-            background: white;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-left: 4px solid #667eea;
-        }
-    </style>
+    <link rel="stylesheet" href="./css/cadastrarEvento.css">
 </head>
 
 <body>
@@ -180,6 +23,7 @@ include('../includes/verificar_login.php'); ?>
 
         <div class="form-section">
             <?php
+            $modalSucesso = false;
             if ($_POST) {
                 $nomeEvento   = $_POST['nomeEvento'] ?? '';
                 $descricaoEvento = $_POST['descricaoEvento'] ?? '';
@@ -215,8 +59,8 @@ include('../includes/verificar_login.php'); ?>
                     try {
                         $stmt = $pdo->prepare("INSERT INTO tbevento (nomeEvento, descricaoEvento, casaEvento, temaAula) VALUES (?, ?, ?, ?)");
                         $stmt->execute([$nomeEvento, $descricaoEvento, $casaEvento, $temaAula]);
-
-                        echo '<div class="alert alert-success">✅ EVENTO CADASTRADO COM SUCESSO!</div>';
+                        // Marcar para mostrar modal de sucesso
+                        $modalSucesso = true;
 
                         // Limpar campos após sucesso
                         $nomeEvento = $descricaoEvento = '';
@@ -224,7 +68,7 @@ include('../includes/verificar_login.php'); ?>
                         $temaAula = '';
                         $novoTema = '';
                     } catch (PDOException $e) {
-                        echo '<div class="alert alert-danger">❌ Erro ao cadastrar evento: ' . $e->getMessage() . '</div>';
+                        echo '<div class="alert alert-danger">❌ ERRO AO CADASTRAR EVENTO: ' . $e->getMessage() . '</div>';
                     }
                 } else {
                     echo '<div class="alert alert-danger">❌ ' . implode('<br>', $errors) . '</div>';
@@ -303,9 +147,46 @@ include('../includes/verificar_login.php'); ?>
                 </div>
             </div>
         </div>
+
+        <br><br><br><br>
+
+        <!-- Paginação entre páginas -->
+        <div class="pagination-section">
+            <div class="pagination-container">
+                <div class="pagination-nav">
+                    <a href="index.php" class="pagination-btn">‹‹ INÍCIO</a>
+                    <a href="index.php" class="pagination-btn">1</a>
+                    <a href="cadastrarEvento.php" class="pagination-btn active">2</a>
+                    <a href="gerenciarEventos.php" class="pagination-btn">3</a>
+                    <a href="configurarPartida.php" class="pagination-btn">4</a>
+                    <a href="configurarPartida.php" class="pagination-btn">FINAL ››</a>
+                </div>
+            </div>
+        </div>
+
+        <div id="modalSucesso" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); align-items:center; justify-content:center;">
+            <div class="conteudoModal" style="background:white; padding:20px; border-radius:8px; max-width:90%; text-align:center;">
+                <h2 class="modalText">✅ EVENTO CRIADO COM SUCESSO!</h2>
+                <button class="modal-btn btn btn-primary" onclick="fecharModal()">FECHAR</button>
+            </div>
+        </div>
+
     </div>
 
-    <script>
+        <script>
+        function fecharModal() {
+            const modal = document.getElementById('modalSucesso');
+            if (modal) modal.style.display = 'none';
+        }
+
+        // Se foi cadastrado com sucesso, exibe o modal (injetado pelo PHP)
+        <?php if (!empty($modalSucesso)): ?>
+            document.addEventListener('DOMContentLoaded', function() {
+                const modal = document.getElementById('modalSucesso');
+                if (modal) modal.style.display = 'flex';
+            });
+        <?php endif; ?>
+
         const temaAula = document.getElementById('temaAula');
         const novoTemaDiv = document.getElementById('novoTemaDiv');
         const novoTemaInput = document.getElementById('novoTema');

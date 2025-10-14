@@ -9,267 +9,7 @@ include('../includes/verificar_login.php'); ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciar Eventos - Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            font-family: 'Arial', sans-serif;
-        }
-
-        .admin-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .admin-header {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            text-align: center;
-        }
-
-        .admin-title {
-            color: #2c3e50;
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .admin-subtitle {
-            color: #7f8c8d;
-            font-size: 1.2rem;
-        }
-
-        .events-section {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            margin-bottom: 30px;
-        }
-
-        .events-table {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .table thead th {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 15px;
-            font-weight: bold;
-        }
-
-        .table tbody td {
-            padding: 15px;
-            vertical-align: middle;
-            border-bottom: 1px solid #eee;
-        }
-
-        .table tbody tr:hover {
-            background-color: #f8f9fa;
-        }
-
-        .badge-tipo {
-            font-size: 0.8rem;
-            padding: 5px 10px;
-            border-radius: 15px;
-        }
-
-        .badge-positivo {
-            background-color: #28a745;
-            color: white;
-        }
-
-        .badge-negativo {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .badge-tema {
-            font-size: 0.8rem;
-            padding: 5px 10px;
-            border-radius: 15px;
-            background-color: #6c757d;
-            color: white;
-            font-weight: bold;
-        }
-
-        .btn-action {
-            margin: 2px;
-            padding: 5px 10px;
-            font-size: 0.8rem;
-        }
-
-        .btn-edit {
-            background-color: #17a2b8;
-            border-color: #17a2b8;
-            color: white;
-        }
-
-        .btn-delete {
-            background-color: #dc3545;
-            border-color: #dc3545;
-            color: white;
-        }
-
-        .btn-edit:hover {
-            background-color: #138496;
-            border-color: #117a8b;
-            color: white;
-        }
-
-        .btn-delete:hover {
-            background-color: #c82333;
-            border-color: #bd2130;
-            color: white;
-        }
-
-        .back-btn {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background: rgba(52, 73, 94, 0.9);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background 0.3s ease;
-            z-index: 9999;
-        }
-
-        .back-btn:hover {
-            background: rgba(52, 73, 94, 1);
-            color: white;
-            text-decoration: none;
-        }
-
-        .search-suggestions {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: white;
-            border: 1px solid #ddd;
-            border-top: none;
-            border-radius: 0 0 5px 5px;
-            max-height: 200px;
-            overflow-y: auto;
-            z-index: 1000;
-            display: none;
-        }
-
-        .suggestion-item {
-            padding: 10px;
-            cursor: pointer;
-            border-bottom: 1px solid #eee;
-        }
-
-        .suggestion-item:hover {
-            background-color: #f8f9fa;
-        }
-
-        .suggestion-item:last-child {
-            border-bottom: none;
-        }
-
-        .form-group {
-            position: relative;
-        }
-
-        .add-event-btn {
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: transform 0.3s ease;
-            display: inline-block;
-            margin-bottom: 20px;
-        }
-
-        .add-event-btn:hover {
-            transform: translateY(-2px);
-            color: white;
-            text-decoration: none;
-        }
-
-        .search-section {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .search-form {
-            display: flex;
-            gap: 15px;
-            align-items: end;
-            flex-wrap: wrap;
-        }
-
-        .search-form .form-group {
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .search-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-weight: bold;
-        }
-
-        .clear-btn {
-            background: #6c757d;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-weight: bold;
-        }
-
-        .alert {
-            border-radius: 10px;
-            border: none;
-            padding: 15px 20px;
-            margin-bottom: 20px;
-        }
-
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            border-left: 4px solid #28a745;
-        }
-
-        .table td,
-        .table th {
-            word-wrap: break-word;
-            white-space: normal;
-            /* Permite quebra de linha */
-            max-width: 180px;
-            /* Ajusta conforme o tamanho da sua tabela */
-        }
-
-        .table td:nth-child(5) {
-            word-wrap: break-word;
-            white-space: normal;
-            max-width: 180px;
-        }
-    </style>
+    <link rel="stylesheet" href="./css/gerenciarEventos.css">
 </head>
 
 <body>
@@ -306,14 +46,14 @@ include('../includes/verificar_login.php'); ?>
 
         <div class="events-section">
             <?php if (isset($_GET['success'])): ?>
-                <div class="alert alert-success">✅ Evento atualizado com sucesso!</div>
+                <div class="alert alert-success">✅ EVENTO ATUALIZADO COM SUCESSO!</div>
             <?php endif; ?>
 
             <?php if (isset($_GET['deleted'])): ?>
-                <div class="alert alert-success">✅ Evento excluído com sucesso!</div>
+                <div class="alert alert-success">✅ EVENTO EXCLUÍDO COM SUCESSO!</div>
             <?php endif; ?>
 
-            <a href="cadastrarEvento.php" class="add-event-btn">➕ Adicionar Novo Evento</a>
+            <a href="cadastrarEvento.php" class="add-event-btn">➕ ADICIONAR NOVO EVENTO</a>
 
             <div class="events-table">
                 <table class="table table-hover">
@@ -364,13 +104,28 @@ include('../includes/verificar_login.php'); ?>
                             echo "<td><strong>" . ($casas > 0 ? '+' : '') . $casas . "</strong></td>";
                             echo "<td>";
                             echo "<a href='editarEvento.php?id={$row['idEvento']}' class='btn btn-action btn-edit'>✏️ EDITAR</a>";
-                            echo "<a href='excluirEvento.php?id={$row['idEvento']}' class='btn btn-action btn-delete' onclick='return confirm(\"Tem certeza que deseja excluir este evento?\")'>🗑️ EXCLUIR</a>";
+                            echo "<a href='excluirEvento.php?id={$row['idEvento']}' class='btn btn-action btn-delete' onclick='return confirm(\"TEM CERTEZA QUE DESEJA EXCLUIR ESTE EVENTO?\")'>🗑️ EXCLUIR</a>";
                             echo "</td>";
                             echo "</tr>";
                         }
                         ?>
                     </tbody>
                 </table>
+            </div>
+        </div>
+        <br><br><br><br>
+
+         <!-- Paginação entre páginas -->
+        <div class="pagination-section">
+            <div class="pagination-container">
+                <div class="pagination-nav">
+                    <a href="index.php" class="pagination-btn">‹‹ INÍCIO</a>
+                    <a href="index.php" class="pagination-btn">1</a>
+                    <a href="cadastrarEvento.php" class="pagination-btn">2</a>
+                    <a href="gerenciarEventos.php" class="pagination-btn active">3</a>
+                    <a href="configurarPartida.php" class="pagination-btn">4</a>
+                    <a href="configurarPartida.php" class="pagination-btn">FINAL ››</a>
+                </div>
             </div>
         </div>
     </div>

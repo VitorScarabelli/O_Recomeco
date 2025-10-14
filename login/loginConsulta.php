@@ -30,7 +30,7 @@
     if($email == $emailBanco && $senha == $senhaBanco){
         $_SESSION['autorizacao'] = true;
         $_SESSION['autorizacaoAdm'] = true;
-        header("Location: ../index/index.php");
+        header("Location: ../index.php");
     } else {
         $_SESSION['autorizacao'] = false;
         unset($_SESSION['autorizacao']);

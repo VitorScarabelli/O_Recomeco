@@ -1,0 +1,520 @@
+body {
+    font-family: Arial;
+    text-align: center;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-image: url('./imageTabuleiro/MapaTabuleiro.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* Botão Voltar */
+#btn-voltar {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    color: white;
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 1rem;
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    border: none;
+    cursor: pointer;
+}
+
+#btn-voltar:hover {
+    background: linear-gradient(135deg, #c82333 0%, #a71e2a 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+#btn-voltar:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(220, 53, 69, 0.3);
+}
+
+.clickParaJogar {
+    font-size: 2.5vmin;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 1vmin;
+    font-weight: bold;
+    color: #2c3e50;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #2849dc 0%, #762bc1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    padding: 15px 25px;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border: 2px solid rgba(102, 126, 234, 0.688);
+    animation: pulse 2s infinite;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: 'Arial', sans-serif;
+}
+
+@keyframes pulse {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.05);
+        box-shadow: 0 12px 35px rgba(65, 81, 150, 0.562);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.392);
+    }
+}
+
+.tabuleiro {
+    display: grid;
+    grid-template-columns: repeat(16, 9vmin);
+    grid-template-rows: repeat(12, 9vmin);
+    height: 5%;
+    gap: 0.5vmin;
+    padding: 1vmin;
+    box-sizing: border-box;
+    margin-top: 1.2%;
+}
+
+.casa {
+    background: #E2DFE9;
+    border-radius: 10%;
+    box-shadow:
+        0 4px 0 rgba(122, 105, 136, 1),
+        inset 0 -6px 20px rgba(101, 92, 127, 0.25);
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    font-size: 2.5vmin;
+    overflow: visible;
+}
+
+.tabuleiro>div:not(:nth-child(-n+16)):not(:nth-child(16n)):not(:nth-last-child(-n+16)):not(:nth-child(16n+1)) {
+    background: transparent;
+    box-shadow: none;
+}
+
+.ativo {
+    background: #fff28fff !important;
+    z-index: 40;
+}
+
+.evento {
+    background: #4f001cff !important;
+}
+
+.evento-bom {
+    background-color: #5b8debff !important;
+}
+
+.evento-ruim {
+    background-color: #ea8080ff !important;
+}
+
+/* Eventos específicos de personagem com imagem de fundo sutil */
+.evento-personagem {
+    position: relative;
+    background-blend-mode: normal !important; /* 🔹 não mistura a cor com a imagem */
+    background-color: transparent !important; /* 🔹 deixa a cor de fundo neutra */
+    transition: all 0.3s ease;
+}
+
+
+/* Hover apenas na casa, não no tooltip */
+.evento-personagem:hover:not(:hover .tooltip) {
+    transform: scale(1.02);
+}
+
+/* Garante que a imagem de fundo não suma com personagem */
+.evento-personagem.ativo {
+    background-blend-mode: multiply !important;
+    background-image: inherit !important;
+    background-size: 60% !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+}
+
+/* Garante que a imagem permaneça mesmo com bonecos */
+.evento-personagem:hover {
+    background-image: inherit !important;
+    background-size: 60% !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+}
+
+/* Mantém a cor de fundo visível */
+.evento-personagem.evento-bom {
+    background-color: #5b8debff !important;
+}
+
+.evento-personagem.evento-ruim {
+    background-color: #ea8080ff !important;
+}
+
+/* Indicador visual adicional para baixa visão */
+.evento-personagem::after {
+    content: attr(data-personagem);
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    font-size: 1.2vmin;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 1px 3px;
+    border-radius: 3px;
+    font-weight: bold;
+    z-index: 10;
+}
+
+.boneco {
+    font-size: 4vmin;
+    position: absolute;
+    z-index: 50;
+}
+
+.boneco1 {
+    top: 0;
+    left: 0;
+}
+
+.boneco2 {
+    top: 0;
+    right: 0;
+}
+
+.boneco3 {
+    bottom: 0;
+    left: 0;
+}
+
+.boneco4 {
+    bottom: 0;
+    right: 0;
+}
+
+/* === NOVO DADO 3D COM BOLINHAS === */
+#dice-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    perspective: 1000px;
+    width: 120px;
+    height: 120px;
+    cursor: pointer;
+    z-index: 15;
+    filter: drop-shadow(0px 8px 9.6px rgba(101, 92, 127, 0.5));
+}
+
+#dice {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 1s ease-out;
+}
+
+.face {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background: #E2DFE9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 0 -6px 20px rgba(101, 92, 127, 0.5);
+}
+
+.front {
+    transform: rotateY(0deg) translateZ(60px);
+}
+
+.back {
+    transform: rotateY(180deg) translateZ(60px) rotateX(180deg) rotateY(180deg);
+}
+
+.right {
+    transform: rotateY(90deg) translateZ(60px);
+}
+
+.left {
+    transform: rotateY(-90deg) translateZ(60px);
+}
+
+.top {
+    transform: rotateX(90deg) translateZ(60px);
+}
+
+.bottom {
+    transform: rotateX(-90deg) translateZ(60px);
+}
+
+/* pontos do dado */
+.dot {
+    width: 18px;
+    height: 18px;
+    background: #34323A;
+    border-radius: 50%;
+    position: absolute;
+}
+
+/* bolinha do lado 1 fica vermelha */
+.face.front .dot {
+    background: #bf2532ff;
+}
+
+.top-left {
+    top: 20px;
+    left: 20px;
+}
+
+.top-right {
+    top: 20px;
+    right: 20px;
+}
+
+.bottom-left {
+    bottom: 20px;
+    left: 20px;
+}
+
+.bottom-right {
+    bottom: 20px;
+    right: 20px;
+}
+
+.center {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.middle-left {
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+}
+
+.middle-right {
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+/* Tooltip */
+.tooltip {
+    display: none;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 2.2vmin;
+    z-index: 100;
+    pointer-events: none;
+    white-space: normal;
+    opacity: 1 !important;
+    max-width: 50vmin;
+    min-width: 22vmin;
+    text-align: left;
+    line-height: 1.4;
+    text-transform: uppercase;
+    /* 🔹 texto sempre em CAPSLOCK */
+}
+
+
+.tooltip.cima {
+    bottom: 100%;
+    margin-bottom: 6px;
+}
+
+.tooltip.baixo {
+    top: 100%;
+    margin-top: 6px;
+}
+
+.casa:hover .tooltip {
+    display: block;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+}
+
+.popup-conteudo {
+    background-color: #fff;
+    padding: 20px 30px;
+    border-radius: 12px;
+    width: 300px;
+    max-width: 90%;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.popup-conteudo h2 {
+    margin-bottom: 10px;
+}
+
+.popup-conteudo button {
+    margin-top: 15px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    background-color: #422aaeff;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.popup-conteudo button:hover {
+    background-color: #2f1a8a;
+}
+
+#historico-container {
+    position: fixed;
+    /* fixa na tela */
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    /* não bloqueia clique no tabuleiro */
+}
+
+.historico {
+    position: absolute;
+    top: 10px;
+    width: 12%;
+    max-height: 40vh;
+    overflow-y: auto;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    font-size: 0.9rem;
+    text-align: left;
+    pointer-events: auto;
+    text-transform: uppercase;
+    /* 🔹 agora tudo no histórico fica em CAPSLOCK */
+}
+
+/* fixa o título dentro da caixinha */
+.titulo-historico {
+    position: sticky;
+    top: 0;
+    background: inherit;
+    padding: 5px 0;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+    z-index: 1;
+    text-transform: uppercase;
+    /* 🔹 títulos também em CAPSLOCK */
+}
+
+#historico-negativo {
+    left: 10px;
+}
+
+#historico-positivo {
+    right: 10px;
+}
+
+.casa-inicio,
+.casa-final {
+    font-size: 4vmin;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 0;
+    /* garante que bonecos apareçam por cima */
+}
+
+#popupVitoria .popup-conteudo p {
+    text-transform: uppercase;
+}
+
+#popupDescricao {
+    text-transform: uppercase;
+}
+
+#popupModificador {
+    text-transform: uppercase;
+}
+
+.casa {
+    position: relative;
+    z-index: 1;
+    /* base */
+}
+
+.casa:hover {
+    z-index: 200;
+    /* traz a casa pro topo quando passa o mouse */
+}
+
+.tooltip {
+    z-index: 300 !important;
+    /* garante que a tooltip fica acima de tudo */
+}
+
+#btn-legenda {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.65);
+    color: #ff2b2b; /* vermelho do ❓ */
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 2px solid rgba(255,255,255,0.2);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    z-index: 1001;
+    user-select: none;
+    text-decoration: none;
+}
+
+#btn-legenda:hover { filter: brightness(1.05); }
+
+/* Conteúdo da legenda */
+#popupLegenda .popup-conteudo { width: 360px; max-width: 92%; text-align: left; }
+#popupLegenda h2 { margin-top: 0; margin-bottom: 10px; text-align: center; }
+#lista-legenda { list-style: none; padding: 0; margin: 0; }
+#lista-legenda li { display: flex; align-items: center; gap: 10px; padding: 8px 6px; font-size: 1rem; }
+#lista-legenda .emoji { font-size: 1.4rem; width: 28px; text-align: center; }
+#fecharLegenda { display: block; width: 100%; margin-top: 14px; }
+
