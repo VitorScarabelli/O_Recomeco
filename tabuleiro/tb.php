@@ -637,11 +637,7 @@
                         }, 300);
                     });
                 }
-                // Narra posição final após o movimento
-                try {
-                    const casaFinal = Math.max(1, Math.min(caminho.length, jogador.posicao + 1));
-                    narrador.speak(`${jogador.nome} está agora na casa ${casaFinal}.`);
-                } catch (e) {}
+                // Intencionalmente não narrar a casa final do jogador
             }
 
 
