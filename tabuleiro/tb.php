@@ -791,6 +791,8 @@
                             clearTimeout(t);
                             hoverTimers.delete(tile);
                         }
+                        // Interrompe a narração quando o mouse sai da casa do evento
+                        try { narrador.cancel(); } catch (e) {}
                     });
                 });
             })();
