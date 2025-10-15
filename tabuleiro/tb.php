@@ -405,7 +405,6 @@
                     utter.rate = typeof opts.rate === 'number' ? opts.rate : 1.0;
                     utter.pitch = typeof opts.pitch === 'number' ? opts.pitch : 1.0;
                     utter.volume = typeof opts.volume === 'number' ? opts.volume : 1.0;
-                    try { window.speechSynthesis.cancel(); } catch (e) {}
                     window.speechSynthesis.speak(utter);
                 }
 
@@ -757,6 +756,44 @@
             tooltipRelampago.classList.add(linhaRelampago > linhas / 2 ? "cima" : "baixo");
             tooltipRelampago.innerText = "EVENTO RELÂMPAGO\n⚡ VOCÊ TEVE QUE LARGAR A ESCOLA POR UM TEMPO. VOLTE AO INÍCIO!\nCasas: -" + (caminho.length - 1);
             casaRelampago.appendChild(tooltipRelampago);
+
+            // Narração ao pairar sobre casas com evento (lê o tooltip após pequena pausa)
+            (function setupHoverNarrationForEventTiles() {
+                const tiles = Array.from(document.querySelectorAll('.casa'))
+                    .filter(el => el.querySelector('.tooltip'));
+                const hoverTimers = new WeakMap();
+
+                function getTooltipSpeechText(tile) {
+                    const tt = tile.querySelector('.tooltip');
+                    if (!tt) return '';
+                    return (tt.innerText || '')
+                        .replace(/[\r\n]+/g, '. ')
+                        .replace(/\s+/g, ' ')
+                        .trim();
+                }
+
+                tiles.forEach(tile => {
+                    tile.addEventListener('mouseenter', () => {
+                        const existing = hoverTimers.get(tile);
+                        if (existing) clearTimeout(existing);
+                        const id = setTimeout(() => {
+                            try {
+                                if (!tile.matches(':hover')) return;
+                                const text = getTooltipSpeechText(tile);
+                                if (text) narrador.speak(text);
+                            } catch (e) {}
+                        }, 450);
+                        hoverTimers.set(tile, id);
+                    });
+                    tile.addEventListener('mouseleave', () => {
+                        const t = hoverTimers.get(tile);
+                        if (t) {
+                            clearTimeout(t);
+                            hoverTimers.delete(tile);
+                        }
+                    });
+                });
+            })();
 
             // Função principal após rolar o dado
             async function jogarDadoAnimado(dado) {
