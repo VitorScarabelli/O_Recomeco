@@ -3,24 +3,22 @@ include('../includes/verificar_login.php');
 include('../banco/conexao.php');
 
 $personagens = $_GET['personagens'] ?? '';
-$personagensIds = explode(',', $personagens);
-
-$personagensInfo = [
-    1 => ['nome' => 'IDOSO', 'emoji' => '👴'],
-    2 => ['nome' => 'CEGO', 'emoji' => '👨‍🦯'],
-    3 => ['nome' => 'MULHER NEGRA', 'emoji' => '👩🏽‍🦱'],
-    4 => ['nome' => 'RETIRANTE', 'emoji' => '🧳'],
-    5 => ['nome' => 'MULHER TRANS', 'emoji' => '🌈'],
-    6 => ['nome' => 'UMBANDISTA', 'emoji' => '👳🏽‍♂️']
-];
+$personagensIds = array_filter(array_map('intval', explode(',', $personagens)));
 
 foreach ($personagensIds as $id) {
     if (empty($id)) continue;
     
     $id = intval($id);
-    if (!isset($personagensInfo[$id])) continue;
-    
-    $personagem = $personagensInfo[$id];
+    if ($id <= 0) continue;
+    // Buscar personagem no banco
+    $stmt = $pdo->prepare("SELECT nomePersonagem, emojiPersonagem FROM tbpersonagem WHERE idPersonagem = ?");
+    $stmt->execute([$id]);
+    $personagemRow = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$personagemRow) continue;
+    $personagem = [
+        'nome' => strtoupper($personagemRow['nomePersonagem'] ?? 'PERSONAGEM'),
+        'emoji' => $personagemRow['emojiPersonagem'] ?: '👤'
+    ];
     
     echo "<div class='personagem-eventos-group'>";
     echo "<h4 class='personagem-titulo'>{$personagem['emoji']} {$personagem['nome']}</h4>";
@@ -42,6 +40,9 @@ foreach ($personagensIds as $id) {
             echo "<div class='evento-personagem-casas {$tipo}'>" . ($evento['casas'] > 0 ? '+' : '') . $evento['casas'] . "</div>";
             echo "</div>";
             echo "<div class='evento-personagem-descricao'>" . strtoupper(substr($evento['descricaoEvento'], 0, 80)) . (strlen($evento['descricaoEvento']) > 80 ? '...' : '') . "</div>";
+            echo "<div style=\"margin-top:10px; display:flex; justify-content:flex-end;\">";
+            echo "<a class='btn-edit-evento-personagem' href='editarEventoPersonagem.php?id=" . intval($evento['idEvento']) . "' title='Editar evento' style='text-decoration:none;'>✏️ Editar</a>";
+            echo "</div>";
             echo "</div>";
         }
         echo "</div>";

@@ -122,7 +122,16 @@ function atribuirCasasAleatorias($eventos, $eventosPersonagem) {
     return $eventosComCasas;
 }
 
-$eventosPersonagem = gerarEventosPersonagemAutomaticos($personagens, $pdo);
+// Se o usuário selecionou manualmente eventos de personagem, usa-os; caso contrário, gera automático
+if (is_array($configuracao['eventosPersonagem'] ?? null) && count($configuracao['eventosPersonagem']) > 0) {
+    $eventosPersonagem = [];
+    foreach ($configuracao['eventosPersonagem'] as $ev) {
+        if (!isset($ev['id']) || !isset($ev['personagem'])) continue;
+        $eventosPersonagem[] = [ 'id' => $ev['id'], 'personagem' => $ev['personagem'] ];
+    }
+} else {
+    $eventosPersonagem = gerarEventosPersonagemAutomaticos($personagens, $pdo);
+}
 $eventosCasas = atribuirCasasAleatorias($eventos, $eventosPersonagem);
 
 // Salvar no banco de dados

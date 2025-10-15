@@ -56,52 +56,46 @@ $_SESSION['configuracao_partida'] = [
                 <br><br>
 
                 <h2 class="section-title">👥 SELECIONAR PERSONAGENS</h2>
+                <div class="events-buttons" style="margin-bottom:10px;">
+                    <a href="criarPersonagem.php" class="btn-evento-count">➕ NOVO PERSONAGEM</a>
+                </div>
                 <div class="alert alert-info">
                     <strong>💡 DICA:</strong> CLIQUE NOS PERSONAGENS PARA ESCOLHER ENTRE 2 E 4 PERSONAGENS, CADA UM TEM SEUS EVENTOS ESPECÍFICOS QUE SERÃO SER INCLUÍDOS NA PARTIDA AUTOMATICAMENTE.
                 </div>
 
 
                 <div class="personagens-grid">
-                    <div class="personagem-card" data-id="1" data-nome="IDOSO" data-emoji="👴">
-                        <div class="personagem-img">👴</div>
-                        <div class="personagem-nome">IDOSO</div>
-                        <div class="personagem-desc">UMA PESSOA COM MUITA EXPERIÊNCIA DE VIDA, MAS COM LIMITAÇÕES FÍSICAS.</div>
-                    </div>
-
-                    <div class="personagem-card" data-id="2" data-nome="DEFICIENTE VISUAL" data-emoji="👨‍🦯">
-                        <div class="personagem-img">👨‍🦯</div>
-                        <div class="personagem-nome">DEFICIENTE VISUAL</div>
-                        <div class="personagem-desc">VOCÊ ENFRENTA DESAFIOS VISUAIS COM AUTONOMIA E DETERMINAÇÃO.</div>
-                    </div>
-
-                    <div class="personagem-card" data-id="3" data-nome="MULHER NEGRA" data-emoji="👩🏽‍🦱">
-                        <div class="personagem-img">👩🏽‍🦱</div>
-                        <div class="personagem-nome">MULHER NEGRA</div>
-                        <div class="personagem-desc">UMA MULHER QUE TEM ORGULHO DA SUA COR, ALGUÉM QUE QUER DERRUBAR O PRECONCEITO.</div>
-                    </div>
-
-                    <div class="personagem-card" data-id="4" data-nome="RETIRANTE" data-emoji="🧳">
-                        <div class="personagem-img">🧳</div>
-                        <div class="personagem-nome">RETIRANTE</div>
-                        <div class="personagem-desc">UM VIAJANTE HUMILDE QUE DEIXOU SUA TERRA NATAL EM BUSCA DE NOVAS OPORTUNIDADES.</div>
-                    </div>
-
-                    <div class="personagem-card" data-id="5" data-nome="MULHER TRANS" data-emoji="🌈">
-                        <div class="personagem-img">🌈</div>
-                        <div class="personagem-nome">MULHER TRANS</div>
-                        <div class="personagem-desc">UMA MULHER QUE TEVE A CORAGEM DE SER QUEM REALMENTE É.</div>
-                    </div>
-
-                    <div class="personagem-card" data-id="6" data-nome="UMBANDISTA" data-emoji="👳🏽‍♂️">
-                        <div class="personagem-img">👳🏽‍♂️</div>
-                        <div class="personagem-nome">UMBANDISTA</div>
-                        <div class="personagem-desc">ALGUÉM QUE SEGUE A RELIGIÃO DE UMBANDA, BUSCANDO SEMPRE O EQUILÍBRIO E A PAZ.</div>
-                    </div>
+                    <?php
+                    $stmt = $pdo->query("SELECT idPersonagem, nomePersonagem, descricaoPersonagem, emojiPersonagem FROM tbpersonagem ORDER BY idPersonagem ASC");
+                    while ($p = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                        $pid = (int)$p['idPersonagem'];
+                        $pnome = strtoupper($p['nomePersonagem']);
+                        $pdesc = $p['descricaoPersonagem'] ?: '';
+                        $pemoji = $p['emojiPersonagem'] ?: '👤';
+                        echo "<div class='personagem-card' data-id='{$pid}' data-nome='" . htmlspecialchars($pnome, ENT_QUOTES) . "' data-emoji='" . htmlspecialchars($pemoji, ENT_QUOTES) . "'>";
+                        echo "<div class='personagem-img'>" . htmlspecialchars($pemoji) . "</div>";
+                        echo "<div class='personagem-nome'>" . htmlspecialchars($pnome) . "</div>";
+                        echo "<div class='personagem-desc'>" . htmlspecialchars($pdesc) . "</div>";
+                        echo "<div style='margin-top:10px; display:flex; justify-content:flex-end;'>";
+                        echo "<a href='editarPersonagem.php?id={$pid}' class='btn-evento-count' style='text-decoration:none;'>✏️ EDITAR</a>";
+                        echo "</div>";
+                        echo "</div>";
+                    }
+                    ?>
                 </div>
 
                 <div class="selected-count">
                     PERSONAGENS SELECIONADOS: <span id="count-personagens">0</span> / 4
                 </div>
+            </div>
+
+            <div class="personagem-eventos-section">
+                <h2 class="section-title">🧩 EVENTOS DOS PERSONAGENS SELECIONADOS</h2>
+                <div class="alert alert-info">
+                    <strong>💡 DICA:</strong> AO SELECIONAR UM PERSONAGEM, OS EVENTOS ESPECÍFICOS DELE APARECERÃO ABAIXO. CLIQUE PARA SELECIONAR APENAS OS QUE VÃO PARA A PARTIDA. USE O BOTÃO ✏️ PARA EDITAR O EVENTO.
+                </div>
+                <div id="eventos-personagem-container" class="eventos-personagem-container"></div>
+                <div class="selected-count">EVENTOS DE PERSONAGENS SELECIONADOS: <span id="count-eventos-personagem">0</span></div>
             </div>
 
             <div class="eventos-section">
@@ -167,6 +161,7 @@ $_SESSION['configuracao_partida'] = [
             <input type="hidden" name="personagens" id="hidden-personagens" value='<?php echo json_encode($personagens); ?>'>
             <input type="hidden" name="temas" id="hidden-temas" value='<?php echo json_encode($temasSelecionados); ?>'>
             <input type="hidden" name="eventos" id="hidden-eventos" value='<?php echo json_encode($eventosSelecionados); ?>'>
+            <input type="hidden" name="eventosPersonagem" id="hidden-eventos-personagem" value='[]'>
             <input type="hidden" name="idConfiguracao" value="<?php echo htmlspecialchars($idConfiguracao); ?>">
 
 
@@ -176,25 +171,13 @@ $_SESSION['configuracao_partida'] = [
 
         </form>
 
-        <br><br><br><br>
-        <!-- Paginação entre páginas -->
-        <div class="pagination-section">
-            <div class="pagination-container">
-                <div class="pagination-nav">
-                    <a href="index.php" class="pagination-btn">‹‹ INÍCIO</a>
-                    <a href="index.php" class="pagination-btn">1</a>
-                    <a href="cadastrarEvento.php" class="pagination-btn">2</a>
-                    <a href="gerenciarEventos.php" class="pagination-btn">3</a>
-                    <a href="configurarPartida.php" class="pagination-btn active">4</a>
-                    <a href="configurarPartida.php" class="pagination-btn disabled">FINAL ››</a>
-                </div>
-            </div>
-        </div>
+        
     </div>
 
     <script>
         let personagensSelecionados = [];
         let eventosSelecionados = [];
+        let eventosPersonagemSelecionados = [];
         let temasSelecionados = [];
 
         // Seleção de personagens
@@ -222,6 +205,7 @@ $_SESSION['configuracao_partida'] = [
                 }
 
                 atualizarContadores();
+                carregarEventosPersonagem();
             });
         });
 
@@ -288,11 +272,13 @@ $_SESSION['configuracao_partida'] = [
         function atualizarContadores() {
             document.getElementById('count-personagens').textContent = personagensSelecionados.length;
             document.getElementById('count-eventos').textContent = eventosSelecionados.length;
+            document.getElementById('count-eventos-personagem').textContent = eventosPersonagemSelecionados.length;
 
             // Atualizar campos hidden
             document.getElementById('hidden-personagens').value = JSON.stringify(personagensSelecionados);
             document.getElementById('hidden-temas').value = JSON.stringify(temasSelecionados);
             document.getElementById('hidden-eventos').value = JSON.stringify(eventosSelecionados);
+            document.getElementById('hidden-eventos-personagem').value = JSON.stringify(eventosPersonagemSelecionados);
 
             // Habilitar/desabilitar botão
             const btnConfigurar = document.getElementById('btn-configurar');
@@ -305,6 +291,45 @@ $_SESSION['configuracao_partida'] = [
 
         // Inicializar contadores
         atualizarContadores();
+
+        function carregarEventosPersonagem() {
+            const container = document.getElementById('eventos-personagem-container');
+            const ids = personagensSelecionados.map(p => p.id).join(',');
+            if (!ids) {
+                container.innerHTML = '';
+                eventosPersonagemSelecionados = [];
+                atualizarContadores();
+                return;
+            }
+
+            fetch(`buscarEventosPersonagem.php?personagens=${encodeURIComponent(ids)}`)
+                .then(res => res.text())
+                .then(html => {
+                    container.innerHTML = html;
+                    // Wire up selection on each per-character event card
+                    container.querySelectorAll('.evento-personagem-card').forEach(card => {
+                        card.addEventListener('click', function(e) {
+                            if (e.target.closest('.btn-edit-evento-personagem')) {
+                                return; // do not toggle when clicking edit
+                            }
+                            const id = this.dataset.id;
+                            const personagem = this.dataset.personagem;
+                            const key = `${personagem}:${id}`;
+                            if (this.classList.contains('selecionado')) {
+                                this.classList.remove('selecionado');
+                                eventosPersonagemSelecionados = eventosPersonagemSelecionados.filter(ev => `${ev.personagem}:${ev.id}` !== key);
+                            } else {
+                                eventosPersonagemSelecionados.push({ id, personagem });
+                                this.classList.add('selecionado');
+                            }
+                            atualizarContadores();
+                        });
+                    });
+                })
+                .catch(() => {
+                    container.innerHTML = '<div class="alert alert-danger">Falha ao carregar eventos dos personagens selecionados.</div>';
+                });
+        }
 
         // Autocomplete para tema na configuração
         document.getElementById('buscar-tema').addEventListener('input', function() {

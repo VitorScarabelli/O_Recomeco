@@ -42,7 +42,7 @@
                 'imagem' => $img
             ];
         }, $personagensSelecionados);
-        
+
         error_log("Usando configuração salva: " . print_r($personagensCompletos, true));
     } else {
         // Fallback para método antigo
@@ -65,7 +65,9 @@
             ];
             $iconMap = [];
             try {
-                $ids = array_map(function ($p) { return intval($p['idPersonagem']); }, $personagensSelecionados);
+                $ids = array_map(function ($p) {
+                    return intval($p['idPersonagem']);
+                }, $personagensSelecionados);
                 $ids = array_values(array_filter($ids));
                 if (!empty($ids)) {
                     $placeholders = implode(',', array_fill(0, count($ids), '?'));
@@ -118,7 +120,7 @@
 
     // --- Eventos ---
     $eventos = [];
-    
+
     if ($eventosCasas) {
         // Usar eventos com casas pré-atribuídas da configuração salva
         foreach ($eventosCasas as $eventoCasa) {
@@ -127,7 +129,7 @@
                 $stmt = $pdo->prepare("SELECT * FROM tbevento WHERE idEvento = ?");
                 $stmt->execute([$eventoCasa['id']]);
                 $evento = $stmt->fetch(PDO::FETCH_ASSOC);
-                
+
                 if ($evento) {
                     $eventos[] = [
                         'nome' => $evento['nomeEvento'],
@@ -141,7 +143,7 @@
                 $stmt = $pdo->prepare("SELECT * FROM tbeventopersonagem WHERE idEvento = ?");
                 $stmt->execute([$eventoCasa['id']]);
                 $evento = $stmt->fetch(PDO::FETCH_ASSOC);
-                
+
                 if ($evento) {
                     // Encontrar o personagem correspondente
                     $personagem = null;
@@ -151,7 +153,7 @@
                             break;
                         }
                     }
-                    
+
                     if ($personagem) {
                         $eventos[] = [
                             'nome' => $evento['nomeEvento'],
@@ -171,7 +173,7 @@
         $modoAleatorio = isset($_POST['modoAleatorio']);
         $filtros = $_POST['filtros'] ?? [];
         $eventosSelecionados = $_POST['eventos'] ?? [];
-        
+
         // --- Casas válidas no tabuleiro (1 até 47) ---
         $casasDisponiveis = range(1, 46);
         shuffle($casasDisponiveis);
@@ -243,11 +245,39 @@
         <link rel="stylesheet" href="style.css">
         <style>
             /* Ajustes específicos da legenda */
-            #popupLegenda .popup-conteudo { width: 560px; max-width: 95%; }
-            #lista-legenda { list-style: none; padding: 0; margin: 0; }
-            #lista-legenda li { display: flex; align-items: center; gap: 10px; padding: 8px 6px; font-size: 1.05rem; }
-            #lista-legenda .emoji { font-size: 1.6rem; width: 32px; text-align: center; }
-            #lista-legenda .icon { width: 28px; height: 28px; border-radius: 6px; object-fit: contain; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
+            #popupLegenda .popup-conteudo {
+                width: 560px;
+                max-width: 95%;
+            }
+
+            #lista-legenda {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            #lista-legenda li {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 8px 6px;
+                font-size: 1.05rem;
+            }
+
+            #lista-legenda .emoji {
+                font-size: 1.6rem;
+                width: 32px;
+                text-align: center;
+            }
+
+            #lista-legenda .icon {
+                width: 28px;
+                height: 28px;
+                border-radius: 6px;
+                object-fit: contain;
+                background: #fff;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+            }
         </style>
     </head>
 
@@ -357,8 +387,8 @@
                 }
                 // Sobrescrever nomes por mapa de sessão (nomes_alunos: { idPersonagem: nomeAluno })
                 <?php
-                    $nomesMapa = isset($_SESSION['nomes_alunos']) && is_array($_SESSION['nomes_alunos']) ? $_SESSION['nomes_alunos'] : [];
-                    echo 'const nomesAlunos = ' . json_encode($nomesMapa, JSON_UNESCAPED_UNICODE) . ';';
+                $nomesMapa = isset($_SESSION['nomes_alunos']) && is_array($_SESSION['nomes_alunos']) ? $_SESSION['nomes_alunos'] : [];
+                echo 'const nomesAlunos = ' . json_encode($nomesMapa, JSON_UNESCAPED_UNICODE) . ';';
                 ?>
                 if (nomesAlunos && typeof nomesAlunos === 'object') {
                     for (const key in nomesAlunos) {
@@ -494,7 +524,7 @@
                                     jogador.ordemChegada = jogadores.filter(j => j.terminou).length;
                                 }
                                 mostrarPopupVitoria(jogador); // 🏆 mostra a vitória
-                                
+
                                 // Verificar se todos terminaram
                                 setTimeout(() => {
                                     const todosTerminaram = jogadores.every(j => j.terminou);
@@ -613,7 +643,7 @@
             casaRelampago.style.backgroundSize = '60%';
             casaRelampago.style.backgroundRepeat = 'no-repeat';
             casaRelampago.style.backgroundPosition = 'center';
-            
+
             const tooltipRelampago = document.createElement("span");
             tooltipRelampago.classList.add("tooltip");
             const linhaRelampago = Math.floor(penultimaCasa / colunas);
@@ -657,11 +687,11 @@
                             descricao: "⚡ VOLTE AO INÍCIO!",
                             casas: -(caminho.length - 1)
                         };
-                        
+
                         await new Promise(resolve => {
                             mostrarPopup(eventoRelampago, resolve);
                         });
-                        
+
                         await moverJogador(jogadorAtual, eventoRelampago.casas);
                         adicionarHistorico(jogadorAtual, eventoRelampago, jogadorAtual.posicao, 0);
                         eventosAtivados++;
@@ -792,10 +822,10 @@
                 mensagem.innerText = "TODOS OS JOGADORES COMPLETARAM SUA JORNADA ACADÊMICA!";
 
                 lista.innerHTML = "";
-                
+
                 // Ordenar jogadores por ordem de chegada
                 const jogadoresOrdenados = [...jogadores].sort((a, b) => (a.ordemChegada || 999) - (b.ordemChegada || 999));
-                
+
                 jogadoresOrdenados.forEach((j, index) => {
                     const item = document.createElement("LI");
                     const posicao = index + 1;
@@ -911,7 +941,9 @@
                     const spanEmoji = document.createElement('span');
                     spanEmoji.className = 'emoji';
                     spanEmoji.textContent = emoji;
-                    if (!emoji) { spanEmoji.style.width = '0'; }
+                    if (!emoji) {
+                        spanEmoji.style.width = '0';
+                    }
                     if (iconUrl) {
                         const img = document.createElement('img');
                         img.className = 'icon';
@@ -921,7 +953,9 @@
                     }
                     const spanTxt = document.createElement('span');
                     spanTxt.textContent = texto;
-                    if (color) { spanTxt.style.color = color; }
+                    if (color) {
+                        spanTxt.style.color = color;
+                    }
                     li.appendChild(spanEmoji);
                     li.appendChild(spanTxt);
                     lista.appendChild(li);
@@ -955,7 +989,7 @@
                         window.jogadores.forEach(j => {
                             if (!vistos.has(j.idPersonagem)) {
                                 vistos.add(j.idPersonagem);
-                                const pComp = (window.personagensSelecionados || []).find(p => parseInt(p.idPersonagem,10) === parseInt(j.idPersonagem,10));
+                                const pComp = (window.personagensSelecionados || []).find(p => parseInt(p.idPersonagem, 10) === parseInt(j.idPersonagem, 10));
                                 let pNome = (pComp && (pComp.nome || pComp.nomePersonagem)) ? (pComp.nome || pComp.nomePersonagem) : 'Personagem';
                                 pNome = pNome.toString().toUpperCase().replace(/^CEGO$/i, 'DEFICIENTE VISUAL');
                                 addItem(j.emoji || '👤', pNome + ': ' + (j.nome || 'PARTICIPANTE'), '');
@@ -975,6 +1009,7 @@
                 });
             })();
         </script>
+
 
     </body>
 
