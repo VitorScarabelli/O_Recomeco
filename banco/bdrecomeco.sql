@@ -171,20 +171,21 @@ CREATE TABLE `tbpersonagem` (
   `idPersonagem` int(11) NOT NULL,
   `nomePersonagem` varchar(50) NOT NULL,
   `descricaoPersonagem` text DEFAULT NULL,
-  `emojiPersonagem` varchar(10) DEFAULT NULL
+  `emojiPersonagem` varchar(10) DEFAULT NULL,
+  `iconePersonagem` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `tbpersonagem`
 --
 
-INSERT INTO `tbpersonagem` (`idPersonagem`, `nomePersonagem`, `descricaoPersonagem`, `emojiPersonagem`) VALUES
-(1, 'Idoso', 'Uma pessoa com muita experiência de vida, mas com limitações físicas.', '👴'),
-(2, 'DEFICIÊNTE VISUAL', 'A vida te deu um desafio a mais, mas você não abaixou sua cabeça', '👨‍🦯'),
-(3, 'Mulher Negra', 'Uma mulher que tem orgulho da sua cor, alguém que quer derrubar o preconceito.', '👩🏽‍🦱'),
-(4, 'Retirante', 'Um viajante humilde que deixou sua terra natal em busca de novas oportunidades.', '🧑‍🌾'),
-(5, 'Mulher Trans', 'Uma mulher que teve a coragem de ser quem realmente é.', '🧔‍♀️'),
-(6, 'Umbandista', 'Alguém que segue a religião de Umbanda, buscando sempre o equilíbrio e a paz no caminho de seus orixás.', '👳🏽‍♂️');
+INSERT INTO `tbpersonagem` (`idPersonagem`, `nomePersonagem`, `descricaoPersonagem`, `emojiPersonagem`, `iconePersonagem`) VALUES
+(1, 'Idoso', 'Uma pessoa com muita experiência de vida, mas com limitações físicas.', '👴', 'idosoicone.jpg'),
+(2, 'DEFICIÊNTE VISUAL', 'A vida te deu um desafio a mais, mas você não abaixou sua cabeça', '👨‍🦯', 'cegoicone.jpg'),
+(3, 'Mulher Negra', 'Uma mulher que tem orgulho da sua cor, alguém que quer derrubar o preconceito.', '👩🏽‍🦱', 'negraicone.png'),
+(4, 'Retirante', 'Um viajante humilde que deixou sua terra natal em busca de novas oportunidades.', '🧑‍🌾', 'retiranteicone.png'),
+(5, 'Mulher Trans', 'Uma mulher que teve a coragem de ser quem realmente é.', '🧔‍♀️', 'transicone.png'),
+(6, 'Umbandista', 'Alguém que segue a religião de Umbanda, buscando sempre o equilíbrio e a paz no caminho de seus orixás.', '👳🏽‍♂️', 'umbandaicone.png');
 
 -- --------------------------------------------------------
 

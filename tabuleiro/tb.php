@@ -7,23 +7,39 @@
         $configuracao = $_SESSION['configuracao_partida'];
         $personagensSelecionados = $configuracao['personagens'];
         $eventosCasas = $configuracao['eventosCasas'];
-        
-        // Usar configuração salva
-        $personagensCompletos = array_map(function ($p) {
-            $imagensPersonagens = [
-                1 => 'idosoicone.jpg',
-                2 => 'cegoicone.jpg',
-                3 => 'negraicone.png',
-                4 => 'retiranteicone.png',
-                5 => 'transicone.png',
-                6 => 'umbandaicone.png'
-            ];
 
+        // Mapa de fallback (ícones padrão) e mapa a partir do banco
+        $fallbackIcons = [
+            1 => 'idosoicone.jpg',
+            2 => 'cegoicone.jpg',
+            3 => 'negraicone.png',
+            4 => 'retiranteicone.png',
+            5 => 'transicone.png',
+            6 => 'umbandaicone.png'
+        ];
+        $iconMap = [];
+        try {
+            $stmtIcons = $pdo->query("SELECT idPersonagem, iconePersonagem FROM tbpersonagem");
+            while ($row = $stmtIcons->fetch(PDO::FETCH_ASSOC)) {
+                $idP = intval($row['idPersonagem']);
+                $file = trim($row['iconePersonagem'] ?? '');
+                if ($idP && $file !== '') {
+                    $iconMap[$idP] = $file;
+                }
+            }
+        } catch (Throwable $e) {
+            // Se a coluna não existir, seguimos com os fallbacks
+        }
+
+        // Usar configuração salva
+        $personagensCompletos = array_map(function ($p) use ($iconMap, $fallbackIcons) {
+            $id = intval($p['idPersonagem'] ?? $p['id'] ?? 0);
+            $img = $iconMap[$id] ?? ($fallbackIcons[$id] ?? 'miniidoso.png');
             return [
-                'idPersonagem' => intval($p['idPersonagem'] ?? $p['id'] ?? 0),
+                'idPersonagem' => $id,
                 'nome' => $p['nomePersonagem'] ?? $p['nome'] ?? 'Personagem',
                 'emoji' => $p['emoji'] ?? '👤',
-                'imagem' => $imagensPersonagens[intval($p['idPersonagem'] ?? $p['id'] ?? 0)] ?? 'miniidoso.png'
+                'imagem' => $img
             ];
         }, $personagensSelecionados);
         
@@ -38,22 +54,43 @@
 
         // Verifica se há personagens selecionados, senão usa fallback
         if (!empty($personagensSelecionados) && is_array($personagensSelecionados)) {
-            $personagensCompletos = array_map(function ($p) {
-                // Mapeia ID do personagem para imagem
-                $imagensPersonagens = [
-                    1 => 'idosoicone.jpg',      // Idoso
-                    2 => 'cegoicone.jpg',       // Cego
-                    3 => 'negraicone.png',      // Mulher Negra
-                    4 => 'retiranteicone.png',  // Retirante
-                    5 => 'transicone.png',      // Mulher Trans
-                    6 => 'umbandaicone.png'     // Umbandista
-                ];
+            // Carrega ícones do banco com fallback
+            $fallbackIcons = [
+                1 => 'idosoicone.jpg',
+                2 => 'cegoicone.jpg',
+                3 => 'negraicone.png',
+                4 => 'retiranteicone.png',
+                5 => 'transicone.png',
+                6 => 'umbandaicone.png'
+            ];
+            $iconMap = [];
+            try {
+                $ids = array_map(function ($p) { return intval($p['idPersonagem']); }, $personagensSelecionados);
+                $ids = array_values(array_filter($ids));
+                if (!empty($ids)) {
+                    $placeholders = implode(',', array_fill(0, count($ids), '?'));
+                    $stmtIcons = $pdo->prepare("SELECT idPersonagem, iconePersonagem FROM tbpersonagem WHERE idPersonagem IN ($placeholders)");
+                    $stmtIcons->execute($ids);
+                    while ($row = $stmtIcons->fetch(PDO::FETCH_ASSOC)) {
+                        $idP = intval($row['idPersonagem']);
+                        $file = trim($row['iconePersonagem'] ?? '');
+                        if ($idP && $file !== '') {
+                            $iconMap[$idP] = $file;
+                        }
+                    }
+                }
+            } catch (Throwable $e) {
+                // Se a coluna não existir, seguimos com os fallbacks
+            }
 
+            $personagensCompletos = array_map(function ($p) use ($iconMap, $fallbackIcons) {
+                $id = intval($p['idPersonagem']);
+                $img = $iconMap[$id] ?? ($fallbackIcons[$id] ?? 'miniidoso.png');
                 return [
-                    'idPersonagem' => intval($p['idPersonagem']),
+                    'idPersonagem' => $id,
                     'nome' => $p['nomePersonagem'],
                     'emoji' => $p['emoji'],
-                    'imagem' => $imagensPersonagens[intval($p['idPersonagem'])] ?? 'miniidoso.png'
+                    'imagem' => $img
                 ];
             }, $personagensSelecionados);
 

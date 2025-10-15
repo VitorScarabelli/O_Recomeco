@@ -14,6 +14,7 @@ include('../includes/verificar_login.php'); ?>
 
 <body>
     <a href="index.php" class="back-btn">← VOLTAR</a>
+    <a href="cadastrarPersonagem.php" class="btn btn-secondary" style="position:fixed; top:16px; right:16px;">➕ Novo Personagem</a>
 
     <div class="admin-container">
         <div class="admin-header">
