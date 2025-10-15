@@ -896,7 +896,7 @@
             <ul id="lista-negativa"></ul>
         </div>
 
-        <div id="historico-positivo" class="historico">
+        <div id="historico-positivo" class="historico" class="positivo">
             <h3 class="titulo-historico">EVENTOS POSITIVOS</h3>
             <ul id="lista-positiva"></ul>
         </div>
