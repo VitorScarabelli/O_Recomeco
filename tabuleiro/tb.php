@@ -338,6 +338,9 @@
         <!-- Botão Legenda (❓) -->
         <button id="btn-legenda" title="Abrir legenda" aria-label="Abrir legenda">❓</button>
 
+        <!-- Botão Narração (toggle) -->
+        <button id="btn-narracao" title="Desativar narração" aria-label="Narração ativa" aria-pressed="true">🔊</button>
+
         <!-- Modal/Popup da Legenda -->
         <div id="popupLegenda" class="popup" aria-hidden="true" role="dialog" aria-labelledby="tituloLegenda">
             <div class="popup-conteudo">
@@ -348,6 +351,83 @@
         </div>
 
         <script>
+            // === Narração (Web Speech API) ===
+            const narrador = (() => {
+                let enabled = true;
+                let selectedVoice = null;
+                const preferredLangs = ["pt-BR", "pt_PT", "pt" ];
+
+                function loadPref() {
+                    try {
+                        const v = localStorage.getItem('narracaoAtiva');
+                        if (v === '0') enabled = false;
+                        if (v === '1') enabled = true;
+                    } catch (e) {}
+                }
+
+                function savePref() {
+                    try { localStorage.setItem('narracaoAtiva', enabled ? '1' : '0'); } catch (e) {}
+                }
+
+                function chooseVoice() {
+                    if (!('speechSynthesis' in window)) return null;
+                    const voices = window.speechSynthesis.getVoices() || [];
+                    if (!voices.length) return null;
+                    // Prioriza pt-BR
+                    for (const lang of preferredLangs) {
+                        const v = voices.find(v => (v.lang || '').toLowerCase().startsWith(lang.toLowerCase()));
+                        if (v) return v;
+                    }
+                    return voices.find(v => (v.lang || '').toLowerCase().startsWith('pt')) || voices[0] || null;
+                }
+
+                function init() {
+                    loadPref();
+                    if (!('speechSynthesis' in window)) return;
+                    selectedVoice = chooseVoice();
+                    // Alguns navegadores carregam vozes de forma assíncrona
+                    window.speechSynthesis.onvoiceschanged = () => {
+                        selectedVoice = chooseVoice() || selectedVoice;
+                    };
+                }
+
+                function cancel() {
+                    if (!('speechSynthesis' in window)) return;
+                    window.speechSynthesis.cancel();
+                }
+
+                function speak(text, opts = {}) {
+                    if (!text || !enabled) return;
+                    if (!('speechSynthesis' in window)) return;
+                    const utter = new SpeechSynthesisUtterance(text.toString());
+                    utter.lang = (selectedVoice && selectedVoice.lang) || 'pt-BR';
+                    utter.voice = selectedVoice || null;
+                    utter.rate = typeof opts.rate === 'number' ? opts.rate : 1.0;
+                    utter.pitch = typeof opts.pitch === 'number' ? opts.pitch : 1.0;
+                    utter.volume = typeof opts.volume === 'number' ? opts.volume : 1.0;
+                    try { window.speechSynthesis.cancel(); } catch (e) {}
+                    window.speechSynthesis.speak(utter);
+                }
+
+                function setEnabled(val) {
+                    enabled = !!val;
+                    savePref();
+                    if (!enabled) cancel();
+                }
+
+                function toggle() { setEnabled(!enabled); }
+
+                return {
+                    init,
+                    speak,
+                    cancel,
+                    setEnabled,
+                    toggle,
+                    get enabled() { return enabled; }
+                };
+            })();
+
+            narrador.init();
             const linhas = 10;
             const colunas = 16;
             const tabuleiro = document.getElementById("tabuleiro");
@@ -500,8 +580,15 @@
                 document.getElementById("popupModificador").innerText = "Casas: " + (evento.casas > 0 ? '+' + evento.casas : evento.casas);
                 const popup = document.getElementById("popupEvento");
                 popup.style.display = "flex";
+                // Narração do popup
+                try {
+                    const desloc = (evento.casas === 0 || evento.casas === undefined) ? 'Sem deslocamento' : (evento.casas > 0 ? `Avance ${evento.casas} ${(evento.casas===1)?'casa':'casas'}` : `Volte ${Math.abs(evento.casas)} ${(Math.abs(evento.casas)===1)?'casa':'casas'}`);
+                    const texto = `Evento: ${evento.nome}. ${evento.descricao}. ${desloc}.`;
+                    narrador.speak(texto);
+                } catch (e) {}
                 const btn = popup.querySelector("button");
                 btn.onclick = () => {
+                    narrador.cancel();
                     popup.style.display = "none";
                     callback();
                 }
@@ -511,6 +598,16 @@
             async function moverJogador(jogador, casas) {
                 const passos = Math.abs(casas);
                 const direcao = casas >= 0 ? 1 : -1;
+
+                // Narra início do movimento
+                try {
+                    if (passos > 0) {
+                        const fraseMov = direcao === 1
+                            ? `${jogador.nome} avançará ${passos} ${(passos===1)?'casa':'casas'}.`
+                            : `${jogador.nome} voltará ${passos} ${(passos===1)?'casa':'casas'}.`;
+                        narrador.speak(fraseMov);
+                    }
+                } catch (e) {}
 
                 for (let i = 0; i < passos; i++) {
                     await new Promise(resolve => {
@@ -541,6 +638,11 @@
                         }, 300);
                     });
                 }
+                // Narra posição final após o movimento
+                try {
+                    const casaFinal = Math.max(1, Math.min(caminho.length, jogador.posicao + 1));
+                    narrador.speak(`${jogador.nome} está agora na casa ${casaFinal}.`);
+                } catch (e) {}
             }
 
 
@@ -596,6 +698,11 @@
 
                 setTimeout(async () => {
                     document.getElementById("resultado").innerText = "Saiu: " + dado;
+                    try {
+                        const jogadorAtual = jogadores[turno];
+                        const quem = jogadorAtual ? `${jogadorAtual.nome}` : 'Jogador';
+                        narrador.speak(`${quem}, saiu ${dado} no dado.`);
+                    } catch (e) {}
                     await jogarDadoAnimado(dado);
                     rolling = false;
                 }, 1000);
@@ -737,7 +844,9 @@
                     return;
                 }
 
-                document.getElementById("infoTurno").innerText = "É A VEZ DO(A) " + jogadores[turno].nome + "!";
+                const textoTurno = "É A VEZ DO(A) " + jogadores[turno].nome + "!";
+                document.getElementById("infoTurno").innerText = textoTurno;
+                try { narrador.speak(`É a vez de ${jogadores[turno].nome}.`); } catch (e) {}
                 desenharBonecos();
             }
         </script>
@@ -804,12 +913,17 @@
                 }
 
                 popup.style.display = "flex";
+                try {
+                    const texto = `${titulo.innerText}. ${mensagem.innerText}`;
+                    narrador.speak(texto);
+                } catch (e) {}
             }
 
 
 
             function fecharPopupVitoria() {
                 document.getElementById("popupVitoria").style.display = "none";
+                try { narrador.cancel(); } catch (e) {}
             }
 
             function mostrarPopupFinal() {
@@ -835,6 +949,7 @@
                 });
 
                 popup.style.display = "flex";
+                try { narrador.speak(`${titulo.innerText}. ${mensagem.innerText}`); } catch (e) {}
             }
 
             function fecharPopupFinal() {
@@ -897,13 +1012,20 @@
                         ev.preventDefault();
                         popup.style.display = 'flex';
                         popup.setAttribute('aria-hidden', 'false');
+                        try {
+                            const titulo = document.getElementById('tituloSair');
+                            const msg = 'SE CONCLUIR ESSA AÇÃO VOCÊ PERDERÁ TODO O SEU PROGRESSO';
+                            narrador.speak(`${titulo ? titulo.innerText : 'Tem certeza que deseja sair?'} ${msg}.`);
+                        } catch (e) {}
                     });
                     confirmar.addEventListener('click', function() {
+                        try { narrador.cancel(); } catch (e) {}
                         window.location.href = destino;
                     });
                     cancelar.addEventListener('click', function() {
                         popup.style.display = 'none';
                         popup.setAttribute('aria-hidden', 'true');
+                        try { narrador.cancel(); } catch (e) {}
                     });
                     popup.addEventListener('click', function(e) {
                         if (e.target === popup) {
@@ -1006,6 +1128,28 @@
                 });
                 window.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape') fecharLegenda();
+                });
+            })();
+        </script>
+
+        <script>
+            // Toggle do botão de narração
+            (function() {
+                const btn = document.getElementById('btn-narracao');
+                if (!btn) return;
+                // Estado inicial
+                const ativo = (function(){ try { return localStorage.getItem('narracaoAtiva') !== '0'; } catch(e) { return true; } })();
+                narrador.setEnabled(ativo);
+                btn.setAttribute('aria-pressed', ativo ? 'true' : 'false');
+                btn.title = ativo ? 'Desativar narração' : 'Ativar narração';
+                btn.textContent = ativo ? '🔊' : '🔇';
+
+                btn.addEventListener('click', function() {
+                    const novo = !(btn.getAttribute('aria-pressed') === 'true');
+                    narrador.setEnabled(novo);
+                    btn.setAttribute('aria-pressed', novo ? 'true' : 'false');
+                    btn.title = novo ? 'Desativar narração' : 'Ativar narração';
+                    btn.textContent = novo ? '🔊' : '🔇';
                 });
             })();
         </script>
