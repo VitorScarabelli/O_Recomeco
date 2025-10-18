@@ -43,14 +43,14 @@
         <?php if (isset($_SESSION['autorizacaoAdm']) == true): ?>
           <a href="./Adm/index.php">
             <div class="conteinerBotoesPequenos" >
-              <img src="./index/assets/caderno.png" alt="JOGAR">
+              <img src="./index/assets/caderno.png" alt="ENTRAR ADM">
               <span>PAINEL ADM</span>
             </div>
           </a>
         <?php else: ?>
           <a href="./login/login.php">
             <div class="conteinerBotoesPequenos">
-              <img src="./index/assets/caderno.png" alt="JOGAR">
+            <img src="./index/assets/caderno.png" alt="ENTRAR ADM">
               <span>ENTRAR ADM</span>
             </div>
           </a>

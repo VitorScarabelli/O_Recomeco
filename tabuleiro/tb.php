@@ -355,7 +355,7 @@
             const narrador = (() => {
                 let enabled = true;
                 let selectedVoice = null;
-                const preferredLangs = ["pt-BR", "pt_PT", "pt" ];
+                const preferredLangs = ["pt-BR", "pt_PT", "pt"];
 
                 function loadPref() {
                     try {
@@ -366,7 +366,9 @@
                 }
 
                 function savePref() {
-                    try { localStorage.setItem('narracaoAtiva', enabled ? '1' : '0'); } catch (e) {}
+                    try {
+                        localStorage.setItem('narracaoAtiva', enabled ? '1' : '0');
+                    } catch (e) {}
                 }
 
                 function chooseVoice() {
@@ -414,7 +416,9 @@
                     if (!enabled) cancel();
                 }
 
-                function toggle() { setEnabled(!enabled); }
+                function toggle() {
+                    setEnabled(!enabled);
+                }
 
                 return {
                     init,
@@ -422,7 +426,9 @@
                     cancel,
                     setEnabled,
                     toggle,
-                    get enabled() { return enabled; }
+                    get enabled() {
+                        return enabled;
+                    }
                 };
             })();
 
@@ -601,9 +607,9 @@
                 // Narra início do movimento
                 try {
                     if (passos > 0) {
-                        const fraseMov = direcao === 1
-                            ? `${jogador.nome} avançará ${passos} ${(passos===1)?'casa':'casas'}.`
-                            : `${jogador.nome} voltará ${passos} ${(passos===1)?'casa':'casas'}.`;
+                        const fraseMov = direcao === 1 ?
+                            `${jogador.nome} avançará ${passos} ${(passos===1)?'casa':'casas'}.` :
+                            `${jogador.nome} voltará ${passos} ${(passos===1)?'casa':'casas'}.`;
                         narrador.speak(fraseMov);
                     }
                 } catch (e) {}
@@ -788,7 +794,9 @@
                             hoverTimers.delete(tile);
                         }
                         // Interrompe a narração quando o mouse sai da casa do evento
-                        try { narrador.cancel(); } catch (e) {}
+                        try {
+                            narrador.cancel();
+                        } catch (e) {}
                     });
                 });
             })();
@@ -881,7 +889,9 @@
 
                 const textoTurno = "É A VEZ DO(A) " + jogadores[turno].nome + "!";
                 document.getElementById("infoTurno").innerText = textoTurno;
-                try { narrador.speak(`É a vez de ${jogadores[turno].nome}.`); } catch (e) {}
+                try {
+                    narrador.speak(`É a vez de ${jogadores[turno].nome}.`);
+                } catch (e) {}
                 desenharBonecos();
             }
         </script>
@@ -958,7 +968,9 @@
 
             function fecharPopupVitoria() {
                 document.getElementById("popupVitoria").style.display = "none";
-                try { narrador.cancel(); } catch (e) {}
+                try {
+                    narrador.cancel();
+                } catch (e) {}
             }
 
             function mostrarPopupFinal() {
@@ -984,7 +996,9 @@
                 });
 
                 popup.style.display = "flex";
-                try { narrador.speak(`${titulo.innerText}. ${mensagem.innerText}`); } catch (e) {}
+                try {
+                    narrador.speak(`${titulo.innerText}. ${mensagem.innerText}`);
+                } catch (e) {}
             }
 
             function fecharPopupFinal() {
@@ -1054,13 +1068,17 @@
                         } catch (e) {}
                     });
                     confirmar.addEventListener('click', function() {
-                        try { narrador.cancel(); } catch (e) {}
+                        try {
+                            narrador.cancel();
+                        } catch (e) {}
                         window.location.href = destino;
                     });
                     cancelar.addEventListener('click', function() {
                         popup.style.display = 'none';
                         popup.setAttribute('aria-hidden', 'true');
-                        try { narrador.cancel(); } catch (e) {}
+                        try {
+                            narrador.cancel();
+                        } catch (e) {}
                     });
                     popup.addEventListener('click', function(e) {
                         if (e.target === popup) {
@@ -1173,7 +1191,13 @@
                 const btn = document.getElementById('btn-narracao');
                 if (!btn) return;
                 // Estado inicial
-                const ativo = (function(){ try { return localStorage.getItem('narracaoAtiva') !== '0'; } catch(e) { return true; } })();
+                const ativo = (function() {
+                    try {
+                        return localStorage.getItem('narracaoAtiva') !== '0';
+                    } catch (e) {
+                        return true;
+                    }
+                })();
                 narrador.setEnabled(ativo);
                 btn.setAttribute('aria-pressed', ativo ? 'true' : 'false');
                 btn.title = ativo ? 'Desativar narração' : 'Ativar narração';
