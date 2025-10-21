@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/login.css">
-    <title>Login</title>
+    <title>Entrar</title>
 </head>
 <body>
     <img src="./KitComposiçãoLogin/svg/CéuTardio.svg" alt="" class="background">
@@ -21,7 +21,7 @@
 
     <div class="container">
         <img src="./KitComposiçãoLogin/svg/LivroLogin.svg" alt="" class="img-livro">
-        <h1 class="titulo">LOGIN</h1>
+        <h1 class="titulo">ENTRAR</h1>
 
         <form action="loginConsulta.php" method="post" class="formulario">
             <label for="usuario" class="email">NOME DE USUARIO:</label>

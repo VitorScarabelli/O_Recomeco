@@ -28,19 +28,19 @@ if ($_POST) {
     $errors = [];
     
     if (empty($nomeEvento)) {
-        $errors[] = "Nome do evento é obrigatório";
+        $errors[] = "NOME DO EVENTO É OBRIGATÓRIO";
     }
     
      if (empty($descricaoEvento)) {
-         $errors[] = "Descrição do evento é obrigatória";
+         $errors[] = "DESCRIÇÃO DO EVENTO É OBRIGATÓRIA";
      }
      
      if (empty($temaAula)) {
-         $errors[] = "Tema da aula é obrigatório";
+         $errors[] = "TEMA DA AULA É OBRIGATÓRIO";
      }
     
     if (!is_numeric($casaEvento)) {
-        $errors[] = "Número de casas deve ser um valor numérico";
+        $errors[] = "NÚMERO DE CASAS DEVE SER UM VALOR NUMÉRICO";
     }
     
     if (empty($errors)) {
@@ -51,7 +51,7 @@ if ($_POST) {
             header('Location: gerenciarEventos.php?success=1');
             exit;
         } catch (PDOException $e) {
-            $error = "Erro ao atualizar evento: " . $e->getMessage();
+            $error = "ERRO AO ATUALIZAR EVENTO: " . $e->getMessage();
         }
     } else {
         $error = implode('<br>', $errors);
@@ -69,12 +69,12 @@ if ($_POST) {
     <link rel="stylesheet" href="./css/editarEvento.css">
 </head>
 <body>
-    <a href="gerenciarEventos.php" class="back-btn">← Voltar</a>
+    <a href="gerenciarEventos.php" class="back-btn">← VOLTAR</a>
     
     <div class="admin-container">
         <div class="admin-header">
-            <h1 class="admin-title">✏️ Editar Evento</h1>
-            <p class="admin-subtitle">Modifique os dados do evento</p>
+            <h1 class="admin-title">✏️ EDITAR EVENTO</h1>
+            <p class="admin-subtitle">MODIFIQUE OS DADOS DO EVENTO</p>
         </div>
         
         <div class="form-section">
@@ -84,18 +84,18 @@ if ($_POST) {
             
             <form method="POST">
                 <div class="form-group">
-                    <label for="nomeEvento" class="form-label">Nome do Evento *</label>
+                    <label for="nomeEvento" class="form-label">NOME DO EVENTO *</label>
                     <input type="text" class="form-control" id="nomeEvento" name="nomeEvento" 
                            value="<?php echo htmlspecialchars($evento['nomeEvento']); ?>" 
-                           placeholder="Ex: Acesso ao SUS" required>
-                    <div class="help-text">Nome curto e descritivo do evento</div>
+                           placeholder="Ex: ACESSO AO SUS" required>
+                    <div class="help-text">NOME CURTO E DESCRITIVO DO EVENTO</div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="descricaoEvento" class="form-label">Descrição do Evento *</label>
+                    <label for="descricaoEvento" class="form-label">DESCRIÇÃO DO EVENTO *</label>
                     <textarea class="form-control" id="descricaoEvento" name="descricaoEvento" 
-                              rows="4" placeholder="Descreva o que acontece no evento..." required><?php echo htmlspecialchars($evento['descricaoEvento']); ?></textarea>
-                    <div class="help-text">Descrição detalhada do que acontece quando o evento é ativado</div>
+                              rows="4" placeholder="DESCREVA O QUE ACONTECE NO EVENTO..." required><?php echo htmlspecialchars($evento['descricaoEvento']); ?></textarea>
+                    <div class="help-text">DESCRIÇÃO DETALHADA DO QUE ACONTECE QUANDO O EVENTO É ATIVADO</div>
                 </div>
                 
                 <div class="form-group">
@@ -115,32 +115,16 @@ if ($_POST) {
                  </div>
                 
                  <button type="button" class="btn-confirm" onclick="confirmarAlteracoes()">✅ CONFIRMAR ALTERAÇÕES</button>
-                 <button type="submit" class="btn-submit" id="btn-salvar" style="display: none;">💾 SALVAR ALTERAÇÕES</button>
             </form>
             
             <div class="preview-section">
-                <h4 class="preview-title">📋 Preview do Evento</h4>
+                <h4 class="preview-title">📋 PREVIEW DO EVENTO</h4>
                  <div class="preview-item">
                      <strong>NOME:</strong> <span id="preview-nome"><?php echo htmlspecialchars($evento['nomeEvento']); ?></span><br>
                      <strong>DESCRIÇÃO:</strong> <span id="preview-descricao"><?php echo htmlspecialchars($evento['descricaoEvento']); ?></span><br>
                      <strong>CASAS:</strong> <span id="preview-casas"><?php echo $evento['casaEvento'] > 0 ? '+' . $evento['casaEvento'] : $evento['casaEvento']; ?></span><br>
                      <strong>TEMA DA AULA:</strong> <span id="preview-tema"><?php echo htmlspecialchars($evento['temaAula'] ?? 'Não definido'); ?></span>
                  </div>
-            </div>
-        </div>
-        <br><br><br><br>
-
-        <!-- Paginação entre páginas -->
-        <div class="pagination-section">
-            <div class="pagination-container">
-                <div class="pagination-nav">
-                    <a href="index.php" class="pagination-btn">‹‹ INÍCIO</a>
-                    <a href="index.php" class="pagination-btn">1</a>
-                    <a href="cadastrarEvento.php" class="pagination-btn">2</a>
-                    <a href="gerenciarEventos.php" class="pagination-btn active">3</a>
-                    <a href="configurarPartida.php" class="pagination-btn">4</a>
-                    <a href="configurarPartida.php" class="pagination-btn">FINAL ››</a>
-                </div>
             </div>
         </div>
     </div>

@@ -1,0 +1,123 @@
+@font-face {
+    font-family: 'FontTitle';
+    src: url('../../login/KitComposiçãoLogin/FontesUtilizadas/FonteTitulo/Quache-HeavyExExp_PERSONAL.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    overflow: hidden;
+    font-family: sans-serif;
+    position: relative;
+    background-image: url('../../index/assets/Anoitecer.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    min-height: 100vh;
+    font-family: 'Arial', sans-serif;
+}
+
+.back-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: rgba(52, 73, 94, 0.9);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease;
+    z-index: 9999;
+}
+
+.back-btn:hover {
+    background: rgba(52, 73, 94, 1);
+    color: white;
+    text-decoration: none;
+}
+
+.logout-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(231, 76, 60, 0.9);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.logout-btn:hover {
+    background: rgba(231, 76, 60, 1);
+    color: white;
+    text-decoration: none;
+}
+
+.admin-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.admin-header {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.admin-title {
+    font-family: 'FontTitle', sans-serif;
+
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-size: xx-large;
+}
+
+.admin-subtitle {
+    color: #7f8c8d;
+    font-size: 1.2rem;
+}
+
+
+
+.cards-hub {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.hub-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .15);
+    text-decoration: none;
+    color: #2c3e50;
+    transition: transform .2s ease, box-shadow .2s ease;
+    display: block;
+}
+
+.hub-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 36px rgba(0, 0, 0, .2);
+    text-decoration: none;
+}
+
+.hub-title {
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-bottom: 6px;
+}
+
+.hub-desc {
+    color: #6c757d;
+    margin: 0;
+}

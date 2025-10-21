@@ -13,8 +13,7 @@ include('../includes/verificar_login.php'); ?>
 </head>
 
 <body>
-    <a href="index.php" class="back-btn">← VOLTAR</a>
-    <a href="cadastrarPersonagem.php" class="btn btn-secondary" style="position:fixed; top:16px; right:16px;">➕ Novo Personagem</a>
+    <a href="configurarPartida.php" class="back-btn">← VOLTAR</a>
 
     <div class="admin-container">
         <div class="admin-header">
@@ -83,7 +82,7 @@ include('../includes/verificar_login.php'); ?>
                     <label for="nomeEvento" class="form-label">NOME DO EVENTO *</label>
                     <input type="text" class="form-control" id="nomeEvento" name="nomeEvento"
                         value="<?php echo htmlspecialchars($nomeEvento ?? ''); ?>"
-                        placeholder="EX.: ACESSO AO SUS" required>
+                        placeholder="EX.: ACESSO AO SUS"required>
                     <div class="help-text">NOME CURTO E DESCRITIVO DO EVENTO</div>
                 </div>
 
@@ -145,22 +144,6 @@ include('../includes/verificar_login.php'); ?>
                     <strong>DESCRIÇÃO:</strong> <span id="preview-descricao">-</span><br>
                     <strong>CASAS:</strong> <span id="preview-casas">-</span><br>
                     <strong>TEMA DA AULA:</strong> <span id="preview-tema">-</span>
-                </div>
-            </div>
-        </div>
-
-        <br><br><br><br>
-
-        <!-- Paginação entre páginas -->
-        <div class="pagination-section">
-            <div class="pagination-container">
-                <div class="pagination-nav">
-                    <a href="index.php" class="pagination-btn">‹‹ INÍCIO</a>
-                    <a href="index.php" class="pagination-btn">1</a>
-                    <a href="cadastrarEvento.php" class="pagination-btn active">2</a>
-                    <a href="gerenciarEventos.php" class="pagination-btn">3</a>
-                    <a href="configurarPartida.php" class="pagination-btn">4</a>
-                    <a href="configurarPartida.php" class="pagination-btn">FINAL ››</a>
                 </div>
             </div>
         </div>

@@ -167,3 +167,90 @@ body {
     margin-bottom: 10px;
     border-left: 4px solid #667eea;
 }
+
+.modalSucesso {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    z-index: 1000;
+}
+
+.modalSucesso .conteudoModal {
+    background-color: #FFD98B;
+    padding: 3vh;
+    border-radius: 1vh;
+    text-align: center;
+    box-shadow: 0 0 2vh rgba(0, 0, 0, 0.33);
+    font-family: 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: #C19334;
+    min-width: 30vh;
+}
+
+.modalSucesso .conteudoModal .modalText {
+    margin-bottom: 2vh;
+    font-size: 3vh;
+    color: #C19334;
+}
+
+.modalSucesso .conteudoModal .modal-btn {
+    padding: 1vh 2vh;
+    border: solid 0.4vh #C19334;
+    border-radius: 1vh;
+    background-color: transparent;
+    color: #C19334;
+    font-size: 2.5vh;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.modalSucesso .conteudoModal .modal-btn:hover {
+    background-color: #C19334;
+    color: #FFF2D6;
+    border: none;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.card-box {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, .12);
+}
+
+.muted {
+    color: #6c757d;
+    font-size: .9rem;
+    text-transform: uppercase;
+}
+
+.evt-item {
+    border: 1px dashed #ced4da;
+    padding: 12px;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.bom{
+    color: green;
+    font-weight: bold;
+}
+
+.ruim{
+    color: red;
+    font-weight: bold;
+}

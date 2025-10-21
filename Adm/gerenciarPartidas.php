@@ -30,13 +30,8 @@ $partidas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciar Partidas - Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./css/index.css">
-    <style>
-        .hub-links { margin: 16px 0 24px; display: flex; gap: 10px; flex-wrap: wrap; }
-        .hub-links a { text-decoration: none; }
-        .btn-primary{ background-color: #007bff; color: white; padding: 10px 16px; border-radius: 4px; margin-left: 40%;}
-    </style>
-    </head>
+    <link rel="stylesheet" href="./css/gerenciarPartida.css">
+</head>
 
 <body>
     <a href="index.php" class="back-btn">← VOLTAR</a>
@@ -48,7 +43,7 @@ $partidas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <h1 class="admin-title">🎮 GERENCIAR PARTIDAS</h1>
             <p class="admin-subtitle">GERENCIE TODAS AS CONFIGURAÇÕES DE PARTIDAS SALVAS</p>
             <div class="hub-links">
-                <a href="configurarPartida.php" class="btn btn-primary">➕ CRIAR NOVA PARTIDA</a>
+                <a href="configurarPartida.php" class="btn-criar-partida">➕ CRIAR NOVA PARTIDA</a>
             </div>
         </div>
 

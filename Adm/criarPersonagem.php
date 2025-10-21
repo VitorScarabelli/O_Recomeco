@@ -130,49 +130,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Novo Personagem - Admin</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="./css/cadastrarEvento.css">
-        <style>
-            .grid-2 {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
-            }
-
-            .grid-3 {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                gap: 12px;
-            }
-
-            .card-box {
-                background: rgba(255, 255, 255, 0.95);
-                border-radius: 12px;
-                padding: 16px;
-                box-shadow: 0 6px 20px rgba(0, 0, 0, .12);
-            }
-
-            .muted {
-                color: #6c757d;
-                font-size: .9rem;
-                text-transform: uppercase;
-            }
-
-            .evt-item {
-                border: 1px dashed #ced4da;
-                padding: 12px;
-                border-radius: 8px;
-                background: #fff;
-            }
-        </style>
+        <link rel="stylesheet" href="./css/criarPersonagem.css">
     </head>
 
     <body>
-        <a href="configurarPartida.php" class="back-btn">← Voltar</a>
+        <a href="configurarPartida.php" class="back-btn">← VOLTAR</a>
 
         <div class="admin-container">
             <div class="admin-header">
-                <h1 class="admin-title">➕ Novo Personagem</h1>
-                <p class="admin-subtitle">Cadastre um personagem com pelo menos 2 eventos bons e 2 ruins</p>
+                <h1 class="admin-title">➕ NOVO PERSONAGEM</h1>
+                <p class="admin-subtitle">CADASTRE UM PERSONAGEM COM 2 EVENTOS BONS E 2 RUINS</p>
             </div>
 
             <?php if (!empty($errors)): ?>
@@ -186,44 +153,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <form method="POST" enctype="multipart/form-data">
                 <div class="card-box">
                     <div class="mb-3">
-                        <label class="form-label">Nome *</label>
+                        <label class="form-label">NOME *</label>
                         <input type="text" class="form-control" name="nome" placeholder="Ex: ENFERMEIRA" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Descrição *</label>
+                        <label class="form-label">DESCRIÇÃO *</label>
                         <textarea class="form-control" name="descricao" rows="3" placeholder="Descreva brevemente o personagem" required></textarea>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Emoji (token) *</label>
+                        <label class="form-label">EMOJI (TOKEN) *</label>
                         <input type="text" class="form-control" name="emoji" placeholder="Ex: 👩‍⚕️" maxlength="10" required>
                         <div class="muted">
-                            <p>USE SOMENTE EMOJIS, PARA ABRIR A TABELA DE EMOJIS DO COMPUTADOR APERTE O BOTÃO WINDOWS + "."</p>
+                            <p>USE SOMENTE EMOJIS, PARA ABRIR A TABELA DE EMOJIS DO COMPUTADOR APERTE A TECLA WINDOWS + "."</p>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" text-transform: uppercase;>Ícone do personagem (PNG/JPG) *</label>
+                        <label class="form-label" text-transform: uppercase;>ÍCONE DO PERSONAGEM (PNG/JPG) *</label>
                         <input type="file" class="form-control" name="icone" accept="image/png, image/jpeg" required>
-                        <div class="muted">A imagem será salva em <code>tabuleiro/imageTabuleiro/</code> e será usada como imagem do evento no tabuleiro.</div>
+                        <div class="muted">A IMAGEM SERÁ USADA COMO IMAGEM DO EVENTO NO TABULEIRO.</div>
                     </div>
                 </div>
 
                 <br>
 
                 <div class="card-box">
-                    <h5>Eventos bons (mínimo 2)</h5>
+                    <h5 class="bom">EVENTOS BONS</h5>
                     <div class="grid-2">
                         <?php for ($i = 0; $i < 2; $i++): ?>
                             <div class="evt-item">
                                 <div class="mb-2">
-                                    <label class="form-label">Nome *</label>
+                                    <label class="form-label">NOME *</label>
                                     <input type="text" class="form-control" name="eventos_bons[<?php echo $i; ?>][nome]" required>
                                 </div>
                                 <div class="mb-2">
-                                    <label class="form-label">Descrição *</label>
+                                    <label class="form-label">DESCRIÇÃO *</label>
                                     <textarea class="form-control" rows="2" name="eventos_bons[<?php echo $i; ?>][descricao]" required></textarea>
                                 </div>
                                 <div class="mb-2">
-                                    <label class="form-label">Casas positivas *</label>
+                                    <label class="form-label">CASAS POSITIVAS *</label>
                                     <input type="number" class="form-control" name="eventos_bons[<?php echo $i; ?>][casas]" min="1" value="2" required>
                                 </div>
                             </div>
@@ -234,22 +201,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <br>
 
                 <div class="card-box">
-                    <h5>Eventos ruins (mínimo 2)</h5>
+                    <h5 class="ruim">EVENTOS RUINS</h5>
                     <div class="grid-2">
                         <?php for ($i = 0; $i < 2; $i++): ?>
                             <div class="evt-item">
                                 <div class="mb-2">
-                                    <label class="form-label">Nome *</label>
+                                    <label class="form-label">NOME *</label>
                                     <input type="text" class="form-control" name="eventos_ruins[<?php echo $i; ?>][nome]" required>
                                 </div>
                                 <div class="mb-2">
-                                    <label class="form-label">Descrição *</label>
+                                    <label class="form-label">DESCRIÇÃO *</label>
                                     <textarea class="form-control" rows="2" name="eventos_ruins[<?php echo $i; ?>][descricao]" required></textarea>
                                 </div>
                                 <div class="mb-2">
-                                    <label class="form-label">Casas negativas *</label>
+                                    <label class="form-label">CASAS NEGATIVAS *</label>
                                     <input type="number" class="form-control" name="eventos_ruins[<?php echo $i; ?>][casas]" min="1" value="2" required>
-                                    <div class="muted">Será salvo como negativo automaticamente</div>
+                                    <div class="muted">OS EVENTOS SERÃO SALVOS COMO NEGATIVOS AUTOMATICAMENTE</div>
                                 </div>
                             </div>
                         <?php endfor; ?>
@@ -258,7 +225,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <br>
 
-                <button type="submit" class="btn btn-success">💾 Salvar personagem</button>
+                <button type="submit" class="btn-confirm">💾 CADASTRAR PERSONAGEM</button>
             </form>
         </div>
 

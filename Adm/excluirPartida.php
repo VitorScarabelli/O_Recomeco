@@ -111,8 +111,7 @@ if ($_POST && isset($_POST['confirmar'])) {
                         <div class="personagem-item">
                             <div class="personagem-emoji"><?php echo $personagem['emoji']; ?></div>
                             <div class="personagem-nome"><?php 
-                                $nome = strtoupper($personagem['nome']);
-                                $nome = preg_replace('/^CEGO$/i', 'DEFICIENTE VISUAL', $nome);
+                                $nome = ($personagem['nome']);
                                 echo $nome; 
                             ?></div>
                         </div>
@@ -130,21 +129,6 @@ if ($_POST && isset($_POST['confirmar'])) {
             <a href="index.php" class="btn-cancel">
                 ❌ CANCELAR
             </a>
-        </div>
-        <br><br><br><br>
-
-        <!-- Paginação entre páginas -->
-        <div class="pagination-section">
-            <div class="pagination-container">
-                <div class="pagination-nav">
-                    <a href="index.php" class="pagination-btn disabled">‹‹ INÍCIO</a>
-                    <a href="index.php" class="pagination-btn active">1</a>
-                    <a href="cadastrarEvento.php" class="pagination-btn">2</a>
-                    <a href="gerenciarEventos.php" class="pagination-btn">3</a>
-                    <a href="configurarPartida.php" class="pagination-btn">4</a>
-                    <a href="configurarPartida.php" class="pagination-btn">FINAL ››</a>
-                </div>
-            </div>
         </div>
     </div>
     

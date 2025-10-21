@@ -49,7 +49,7 @@ $_SESSION['configuracao_partida'] = [
                         <label for="tituloConfiguracao" class="form-label">NOME DA PARTIDA:</label>
                         <input type="text" class="form-control" id="tituloConfiguracao" name="tituloConfiguracao"
                             placeholder="Ex: PARTIDA SUS - AULA 1" required>
-                        <div class="help-text">DIGITE UM NOME DESCRITIVO PARA ESTA CONFIGURAÇÃO</div>
+                        <div class="help-text" style="margin-top: 10px;">DIGITE UM NOME DESCRITIVO PARA ESTA CONFIGURAÇÃO</div>
                     </div>
                 </div>
 
@@ -57,7 +57,7 @@ $_SESSION['configuracao_partida'] = [
 
                 <h2 class="section-title">👥 SELECIONAR PERSONAGENS</h2>
                 <div class="events-buttons" style="margin-bottom:10px;">
-                    <a href="criarPersonagem.php" class="btn-evento-count">➕ NOVO PERSONAGEM</a>
+                    <a href="criarPersonagem.php" class="btn-evento-count-novo">➕ NOVO PERSONAGEM</a>
                 </div>
                 <div class="alert alert-info">
                     <strong>💡 DICA:</strong> CLIQUE NOS PERSONAGENS PARA ESCOLHER ENTRE 2 E 4 PERSONAGENS, CADA UM TEM SEUS EVENTOS ESPECÍFICOS QUE SERÃO SER INCLUÍDOS NA PARTIDA AUTOMATICAMENTE.
@@ -85,12 +85,11 @@ $_SESSION['configuracao_partida'] = [
                 </div>
 
                 <div class="selected-count">
-                    PERSONAGENS SELECIONADOS: <span id="count-personagens">0</span> / 4
+                    ESCOLHA DE 2 A 4 PERSONAGENS - PERSONAGENS SELECIONADOS: <span id="count-personagens">0</span> / 4
                 </div>
-            </div>
 
-            <div class="personagem-eventos-section">
-                <h2 class="section-title">🧩 EVENTOS DOS PERSONAGENS SELECIONADOS</h2>
+                <!-- Eventos dos personagens -->
+                <h2 class="section-title" style="margin-top: 5%;">🧩 EVENTOS DOS PERSONAGENS SELECIONADOS</h2>
                 <div class="alert alert-info">
                     <strong>💡 DICA:</strong> AO SELECIONAR UM PERSONAGEM, OS EVENTOS ESPECÍFICOS DELE APARECERÃO ABAIXO. CLIQUE PARA SELECIONAR APENAS OS QUE VÃO PARA A PARTIDA. USE O BOTÃO ✏️ PARA EDITAR O EVENTO.
                 </div>
@@ -98,42 +97,48 @@ $_SESSION['configuracao_partida'] = [
                 <div class="selected-count">EVENTOS DE PERSONAGENS SELECIONADOS: <span id="count-eventos-personagem">0</span></div>
             </div>
 
+            <!-- <div class="personagem-eventos-section">
+                 <h2 class="section-title">🧩 EVENTOS DOS PERSONAGENS SELECIONADOS</h2>
+                <div class="alert alert-info">
+                    <strong>💡 DICA:</strong> AO SELECIONAR UM PERSONAGEM, OS EVENTOS ESPECÍFICOS DELE APARECERÃO ABAIXO. CLIQUE PARA SELECIONAR APENAS OS QUE VÃO PARA A PARTIDA. USE O BOTÃO ✏️ PARA EDITAR O EVENTO.
+                </div>
+                <div id="eventos-personagem-container" class="eventos-personagem-container"></div>
+                <div class="selected-count">EVENTOS DE PERSONAGENS SELECIONADOS: <span id="count-eventos-personagem">0</span></div>
+            </div> -->
+
             <div class="eventos-section">
                 <h2 class="section-title">🎲 SELECIONAR EVENTOS</h2>
+
+                <div class="events-buttons">
+                    <a href="cadastrarEvento.php" class="btn-evento-count-novo">➕ NOVO EVENTO</a>
+                    <a href="gerenciarEventos.php" class="btn-evento-count-novo">GERENCIAR EVENTOS</a>
+                </div>
+
                 <div class="alert alert-info">
-                    <strong>💡 DICA:</strong> SELECIONE OS TIPOS DE EVENTOS QUE DESEJA INCLUIR NA PARTIDA. OS EVENTOS DOS PERSONAGENS SELECIONADOS SERÃO INCLUÍDOS AUTOMATICAMENTE.
+                    <strong>💡 DICA:</strong> SELECIONE OS TIPOS DE EVENTOS QUE DESEJA INCLUIR NA PARTIDA. SELECIONE ATÉ 20 EVENTOS.
                 </div>
 
-                <div class="filtros-temas-section">
-                    <h3 class="subsection-title">📚 FILTRAR POR TEMA DA AULA</h3>
-                    <div class="alert alert-info">
-                        <strong>💡 DICA:</strong> DIGITE O TEMA OU SELECIONE OS CHECKBOXES PARA FILTRAR OS EVENTOS. CLIQUE NO EVENTO PARA SELECIONÁ-LO.
-                    </div>
-
-                    <div class="form-group">
-                        <label for="buscar-tema" class="form-label">BUSCAR TEMA:</label>
-                        <input type="text" class="form-control" id="buscar-tema"
-                            placeholder="Digite o tema da aula..." autocomplete="off">
-                        <div id="tema-suggestions" class="search-suggestions"></div>
-                    </div>
-
-                    <div class="temas-disponiveis">
-                        <?php
-                        // Buscar todos os temas únicos
-                        $stmt = $pdo->query("SELECT DISTINCT temaAula FROM tbevento WHERE temaAula IS NOT NULL AND temaAula != '' ORDER BY temaAula");
-                        $temas = $stmt->fetchAll(PDO::FETCH_COLUMN);
-
-                        foreach ($temas as $tema) {
-                            echo "<label class='filtro-checkbox'>";
-                            echo "<input type='checkbox' name='temas[]' value='" . htmlspecialchars($tema) . "'>";
-                            echo "<span>" . htmlspecialchars($tema) . "</span>";
-                            echo "</label>";
-                        }
-                        ?>
-                    </div>
+                <h3 class="subsection-title" style="margin-top: 5%;">📚 FILTRAR POR TEMA DA AULA</h3>
+                <div class="alert alert-info">
+                    <strong>💡 DICA:</strong>SELECIONE OS TEMAS PARA FILTRAR OS EVENTOS E FACILITAR A BUSCA. CLIQUE NO EVENTO PARA SELECIONÁ-LO.
                 </div>
 
-                <div class="eventos-grid" id="eventos-grid">
+                <div class="temas-disponiveis">
+                    <?php
+                    // Buscar todos os temas únicos
+                    $stmt = $pdo->query("SELECT DISTINCT temaAula FROM tbevento WHERE temaAula IS NOT NULL AND temaAula != '' ORDER BY temaAula");
+                    $temas = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+                    foreach ($temas as $tema) {
+                        echo "<label class='filtro-checkbox'>";
+                        echo "<input type='checkbox' name='temas[]' value='" . htmlspecialchars($tema) . "'>";
+                        echo "<span>" . htmlspecialchars($tema) . "</span>";
+                        echo "</label>";
+                    }
+                    ?>
+                </div>
+
+                <div class="eventos-grid" id="eventos-grid" style="margin-top: 5%;">
                     <?php
                     $stmt = $pdo->query("SELECT * FROM tbevento ORDER BY nomeEvento");
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -153,9 +158,8 @@ $_SESSION['configuracao_partida'] = [
                     ?>
                 </div>
 
-                <div class="selected-count">
-                    EVENTOS SELECIONADOS: <span id="count-eventos">0</span> / 20
-                </div>
+                <div class="selected-count">VOCÊ PODE SELECIONAR ATÉ 20 EVENTOS - <span id="count-eventos">0</span> / 20</div>
+
             </div>
 
             <input type="hidden" name="personagens" id="hidden-personagens" value='<?php echo json_encode($personagens); ?>'>
@@ -171,7 +175,7 @@ $_SESSION['configuracao_partida'] = [
 
         </form>
 
-        
+
     </div>
 
     <script>
@@ -319,7 +323,10 @@ $_SESSION['configuracao_partida'] = [
                                 this.classList.remove('selecionado');
                                 eventosPersonagemSelecionados = eventosPersonagemSelecionados.filter(ev => `${ev.personagem}:${ev.id}` !== key);
                             } else {
-                                eventosPersonagemSelecionados.push({ id, personagem });
+                                eventosPersonagemSelecionados.push({
+                                    id,
+                                    personagem
+                                });
                                 this.classList.add('selecionado');
                             }
                             atualizarContadores();

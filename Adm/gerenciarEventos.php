@@ -13,7 +13,7 @@ include('../includes/verificar_login.php'); ?>
 </head>
 
 <body>
-    <a href="index.php" class="back-btn">← VOLTAR</a>
+    <a href="configurarPartida.php" class="back-btn">← VOLTAR</a>
 
     <div class="admin-container">
         <div class="admin-header">
@@ -111,21 +111,6 @@ include('../includes/verificar_login.php'); ?>
                         ?>
                     </tbody>
                 </table>
-            </div>
-        </div>
-        <br><br><br><br>
-
-         <!-- Paginação entre páginas -->
-        <div class="pagination-section">
-            <div class="pagination-container">
-                <div class="pagination-nav">
-                    <a href="index.php" class="pagination-btn">‹‹ INÍCIO</a>
-                    <a href="index.php" class="pagination-btn">1</a>
-                    <a href="cadastrarEvento.php" class="pagination-btn">2</a>
-                    <a href="gerenciarEventos.php" class="pagination-btn active">3</a>
-                    <a href="configurarPartida.php" class="pagination-btn">4</a>
-                    <a href="configurarPartida.php" class="pagination-btn">FINAL ››</a>
-                </div>
             </div>
         </div>
     </div>

@@ -55,11 +55,11 @@ if ($_POST) {
     <link rel="stylesheet" href="./css/editarEvento.css">
 </head>
 <body>
-    <a href="configurarPartida.php" class="back-btn">← Voltar</a>
+    <a href="editarPersonagem.php" class="back-btn">← VOLTAR</a>
     <div class="admin-container">
         <div class="admin-header">
-            <h1 class="admin-title">✏️ Editar Evento de Personagem</h1>
-            <p class="admin-subtitle">Modifique os dados do evento específico do personagem</p>
+            <h1 class="admin-title">✏️ EDITAR EVENTO DE PERSONAGEM</h1>
+            <p class="admin-subtitle">MODIFIQUE OS DADOS DO EVENTO ESPECÍFICO DO PERSONAGEM</p>
         </div>
 
         <div class="form-section">
@@ -69,21 +69,21 @@ if ($_POST) {
 
             <form method="POST">
                 <div class="form-group">
-                    <label for="nomeEvento" class="form-label">Nome do Evento *</label>
+                    <label for="nomeEvento" class="form-label">NOME DO EVENTO *</label>
                     <input type="text" class="form-control" id="nomeEvento" name="nomeEvento" 
                            value="<?php echo htmlspecialchars($evento['nomeEvento']); ?>" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="descricaoEvento" class="form-label">Descrição do Evento *</label>
+                    <label for="descricaoEvento" class="form-label">DESCRIÇÃO DO EVENTO *</label>
                     <textarea class="form-control" id="descricaoEvento" name="descricaoEvento" rows="4" required><?php echo htmlspecialchars($evento['descricaoEvento']); ?></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label for="casas" class="form-label">Número de Casas *</label>
+                    <label for="casas" class="form-label">NÚMERO DE CASAS *</label>
                     <input type="number" class="form-control" id="casas" name="casas" value="<?php echo intval($evento['casas']); ?>" required>
                 </div>
-                <button type="submit" class="btn-submit">💾 SALVAR ALTERAÇÕES</button>
+                <button type="submit" class="btn-confirm">💾 ATUALIZAR</button>
             </form>
         </div>
     </div>

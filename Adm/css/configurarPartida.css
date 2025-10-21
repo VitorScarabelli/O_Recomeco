@@ -1,5 +1,17 @@
+@font-face {
+    font-family: 'FontTitle';
+    src: url('../../login/KitComposiçãoLogin/FontesUtilizadas/FonteTitulo/Quache-HeavyExExp_PERSONAL.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: sans-serif;
+    position: relative;
+    background-image: url('../../index/assets/Anoitecer.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
     min-height: 100vh;
     font-family: 'Arial', sans-serif;
 }
@@ -21,9 +33,9 @@ body {
 
 .admin-title {
     color: #2c3e50;
-    font-size: 2.5rem;
-    font-weight: bold;
+    font-family: 'FontTitle';
     margin-bottom: 10px;
+    font-size: xx-large;
 }
 
 .admin-subtitle {
@@ -45,6 +57,7 @@ body {
     font-weight: bold;
     margin-bottom: 25px;
     text-align: center;
+    
 }
 
 .personagens-grid {
@@ -122,8 +135,8 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 10px 20px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 5px 20px;
+    background: linear-gradient(135deg, #1168e1 0%, #0b428e 100%);
     color: white;
     border-radius: 25px;
     cursor: pointer;
@@ -132,6 +145,7 @@ body {
 
 .filtro-checkbox:hover {
     transform: translateY(-2px);
+    background: linear-gradient(135deg, #0e4ba0 0%, #072a5b 100%);
 }
 
 .filtro-checkbox input[type="checkbox"] {
@@ -204,33 +218,6 @@ body {
     margin-bottom: 15px;
 }
 
-.evento-dificuldade {
-    font-size: 0.8rem;
-    padding: 3px 8px;
-    border-radius: 10px;
-    font-weight: bold;
-}
-
-.dificuldade-facil {
-    background: #d4edda;
-    color: #155724;
-}
-
-.dificuldade-medio {
-    background: #fff3cd;
-    color: #856404;
-}
-
-.dificuldade-dificil {
-    background: #f8d7da;
-    color: #721c24;
-}
-
-.dificuldade-extremo {
-    background: #f5c6cb;
-    color: #721c24;
-}
-
 .back-btn {
     position: fixed;
     top: 20px;
@@ -250,64 +237,6 @@ body {
     background: rgba(52, 73, 94, 1);
     color: white;
     text-decoration: none;
-}
-
-.pagination-section {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: rgba(85, 85, 85, 0.29);
-    border-radius: 15px 15px 0 0;
-    padding: 20px;
-    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(6px);
-    z-index: 1000;
-}
-
-.pagination-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.pagination-nav {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.pagination-btn {
-    background: white;
-    border: 1px solid #ddd;
-    color: #333;
-    padding: 8px 12px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-.pagination-btn:hover {
-    background: #007bff;
-    color: #333;
-    text-decoration: none;
-    border-color: #007bff;
-}
-
-.pagination-btn.active {
-    background: #dc3545;
-    color: white;
-    border-color: #dc3545;
-}
-
-.pagination-btn.disabled {
-    background: #f8f9fa;
-    color: #6c757d;
-    cursor: not-allowed;
 }
 
 .btn-configurar {
@@ -347,6 +276,7 @@ body {
     border-radius: 10px;
     padding: 15px;
     margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 .subsection-title {
@@ -387,7 +317,7 @@ body {
     background: #e9ecef;
     color: #495057;
     border: 2px solid #dee2e6;
-    padding: 10px 20px;
+    padding: 8px 13px;
     border-radius: 20px;
     font-weight: bold;
     cursor: pointer;
@@ -395,15 +325,40 @@ body {
 }
 
 .btn-evento-count:hover {
-    background: #667eea;
+    background: #e19a35;
     color: white;
-    border-color: #667eea;
+    border-color: #ce8217;
 }
 
 .btn-evento-count.active {
     background: #28a745;
     color: white;
     border-color: #28a745;
+}
+
+.events-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.btn-evento-count-novo{
+    background: linear-gradient(135deg, #5e0e90, #af69cd);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.btn-evento-count-novo:hover {
+    background: linear-gradient(135deg, #3d095d, #744587);
+    color: white;
+    text-decoration: none;
+    transform: translateY(-2px);
 }
 
 .filtros-temas-section {

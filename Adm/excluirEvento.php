@@ -95,21 +95,6 @@ if ($_POST && isset($_POST['confirmar'])) {
                 ❌ CANCELAR
             </a>
         </div>
-        <br><br><br><br>
-
-        <!-- Paginação entre páginas -->
-        <div class="pagination-section">
-            <div class="pagination-container">
-                <div class="pagination-nav">
-                    <a href="index.php" class="pagination-btn">‹‹ INÍCIO</a>
-                    <a href="index.php" class="pagination-btn">1</a>
-                    <a href="cadastrarEvento.php" class="pagination-btn">2</a>
-                    <a href="gerenciarEventos.php" class="pagination-btn active">3</a>
-                    <a href="configurarPartida.php" class="pagination-btn">4</a>
-                    <a href="configurarPartida.php" class="pagination-btn">FINAL ››</a>
-                </div>
-            </div>
-        </div>
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
